@@ -1,12 +1,11 @@
 "use client";
-import Image from "next/image";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+
 import { Button } from "@headlessui/react";
-export default async function Admin() {
+
+export default function Admin() {
   const handleAdd = async () => {
     try {
-      const r = await fetch("/api/Product/Add", {
+      const r = await fetch("/api/Product/add", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -14,35 +13,40 @@ export default async function Admin() {
         body: JSON.stringify({
           Titel: "Miel",
           Desc: "bon quality",
-          Prix: 30,
+          Prix: 30.0,
         }),
       });
-      console.log("Product added:", r);
+      console.log("Product added:", await r.json());
     } catch (err) {
       console.error("Error adding product:", err);
     }
   };
 
-  const handelDelete = async () => {
-    console.log("here");
-    const r = await prisma.admin
-      .create({
-        data: {
-          User: "mossaabsdj",
-          Password: "sdj123",
-        },
-      })
-      .catch((e) => {
-        throw e;
+  const handleDelete = async () => {
+    try {
+      const r = await fetch("/api/Product/add", {
+        method: "POST",
       });
+      console.log("Admin created:", await r.json());
+    } catch (err) {
+      console.error("Error creating admin:", err);
+    }
   };
-  const handelModify = () => {};
+
   return (
     <>
       <Button
         style={{ background: "black", width: 200, height: 200 }}
         onClick={handleAdd}
-      ></Button>
+      >
+        Add Product
+      </Button>
+      <Button
+        style={{ background: "red", width: 200, height: 200 }}
+        onClick={handleDelete}
+      >
+        Add Admin
+      </Button>
     </>
   );
 }

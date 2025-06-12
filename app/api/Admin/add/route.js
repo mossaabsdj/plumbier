@@ -1,15 +1,14 @@
-import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 export async function POST() {
   try {
-    const r = await prisma.product.create({
+    const r = await prisma.admin.create({
       data: {
-        Title: "miel",
-        Desc: "bon quality",
-        Prix: 10.0,
+        User: "mossaabsdj",
+        Password: "sdj123",
       },
     });
     return NextResponse.json(r);

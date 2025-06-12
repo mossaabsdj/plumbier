@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,33 +8,16 @@ datasource db {
 }
 
 model Product {
-  id                Int    @id @default(autoincrement())
-  Title               String
-  Desc               String 
-  Prix             Float
+  id     Int     @id @default(autoincrement())
+  Title  String
+  Desc   String
+  Prix   Float    // Changed from String to Float
 
-  @@map("product")
 }
+
 model Admin {
-  id                Int    @id @default(autoincrement())
-  User               String  @unique
-  Password           String 
+  id       Int    @id @default(autoincrement())
+  User     String @unique
+  Password String
 
-  @@map("Admin")
 }
-
-
-
-// Example entries for your variables:
-// key: "COMPANY_NAME", value: "Your Company"
-// key: "LOGO_ALT", value: ""
-// key: "LOGO_SRC", value: "https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-// key: "LOGIN_TEXT", value: "Log in"
-// key: "LOGIN_ARROW", value: "→"
-// key: "ANNOUNCEMENT", value: "Announcing our next round of funding. "
-// key: "ANNOUNCEMENT_LINK", value: "Read more"
-// key: "ANNOUNCEMENT_ARROW", value: "→"
-// key: "HERO_TITLE", value: "Data to enrich your online business"
-// key: "HERO_DESC", value: "..."
-// key: "GET_STARTED", value: "Get started"
-// key: "LEARN_MORE", value: "Learn more"
