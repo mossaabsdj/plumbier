@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Header from "@/app/header/page";
+import Header from "@/app/component/navbar/page";
 import Footer from "@/app/Footer/page";
 
 import Image from "next/image";
