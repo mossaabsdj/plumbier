@@ -41,11 +41,11 @@ export const AcmeLogo = () => {
   return (
     <div className="flex items-center gap-02 ">
       <Image
-        src="/images/logo.jpg"
+        src="/images/logo.png"
         width={42}
         height={42}
         alt="ACME Logo"
-        className="rounded-lg shadow-md"
+        className="  bg-black rounded-lg    shadow-2xs shadow-black"
       />
     </div>
   );

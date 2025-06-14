@@ -3,6 +3,7 @@ import { useState } from "react";
 import Header from "@/app/component/navbar/page";
 import Footer from "@/app/Footer/page";
 import FirstPAge from "@/app/FirstPage/page";
+import ProductList from "@/app/ProductsList/page";
 import Image from "next/image";
 import {
   NavigationMenu,
@@ -16,6 +17,7 @@ export default function Home() {
     <>
       <Header />
       <FirstPAge />
+      <ProductList />
       <Footer />
     </>
   );
