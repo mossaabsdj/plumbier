@@ -1,0 +1,22 @@
+"use client";
+import { useState } from "react";
+import { AppSidebar } from "@/app/component/sidebar/page";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import ProductPage from "@/app/component/admin/products/page";
+
+export default function Home({}) {
+  const [pagesVisibility, setPagesVisibility] = useState({
+    Products: true,
+  });
+  return (
+    <>
+      <SidebarProvider>
+        <AppSidebar setpagesVisibility={setPagesVisibility} />
+        <main>
+          <SidebarTrigger />
+        </main>
+        {pagesVisibility.Products && <ProductPage />}
+      </SidebarProvider>
+    </>
+  );
+}

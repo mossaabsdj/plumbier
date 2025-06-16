@@ -21,18 +21,11 @@ import { format } from "date-fns";
 import { CalendarIcon, ArrowDown, ArrowUp } from "lucide-react";
 import defaultdata from "@/app/Texts/content.json";
 
-const Page = ({
-  object,
-  data,
-  AddModel,
-
-  ViewModel,
-  StatsModel,
-}) => {
+const Page = ({ object, data, AddModel, ViewModel }) => {
   const [open, setOpen] = useState(false);
   const [openViewModel, setOpenViewModel] = useState(false);
   const [openStatsModel, setOpenStatsModel] = useState(false);
-  const [selectedClient, setSelectedClient] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDate, setSelectedDate] = useState();
@@ -61,7 +54,7 @@ const Page = ({
     setOpen(true);
   };
   const handleView = (row) => {
-    setSelectedClient(row); // Pass the row object to the modal
+    setSelectedProduct(row); // Pass the row object to the modal
 
     setOpenViewModel(true);
   };
@@ -71,7 +64,16 @@ const Page = ({
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
 
-    const matchesDate = !selectedDate || new Date(row.Date) >= selectedDate;
+    const rowDate = new Date(row.Date);
+    const selected = selectedDate ? new Date(selectedDate) : null;
+
+    if (selected) {
+      // Normalize both dates to midnight for accurate day-level comparison
+      selected.setHours(0, 0, 0, 0);
+      rowDate.setHours(0, 0, 0, 0);
+    }
+
+    const matchesDate = !selected || rowDate.getTime() === selected.getTime();
 
     return matchesSearch && matchesDate;
   });
@@ -90,22 +92,22 @@ const Page = ({
   }
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <div className="p-6 max-w-8xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">{data.title}</h1>
 
-      <div className="flex gap-4 items-center mb-4">
+      <div className="grid grid-cols-2 gap-3 mb-6 w-full max-w-90">
         <Input
           placeholder={data.table.SearchPlaceHolder}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
+          className="w-full sm:max-w-sm max-w-[200px]"
         />
 
         <Popover>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
-              className="w-[200px] justify-start text-left font-normal"
+              className="max-w-[160px] justify-start text-left font-normal"
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
               {selectedDate ? (
@@ -127,16 +129,15 @@ const Page = ({
 
         <Button
           onClick={handleAdd}
-          className="bg-green-600 hover:bg-green-700 text-white"
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 max-w-[120px]"
         >
           + {Labels.Add}
         </Button>
 
         <Button
-          onClick={() => {
-            setOpenStatsModel(true);
-          }}
+          onClick={handleStats}
           variant="secondary"
+          className="px-4 py-2 max-w-[120px]"
         >
           📊 {Labels.Stats}
         </Button>
@@ -185,9 +186,7 @@ const Page = ({
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => {
-                    handleView(row);
-                  }}
+                  onClick={() => handleView(row)}
                 >
                   {Labels.View}
                 </Button>
@@ -202,16 +201,12 @@ const Page = ({
           No results found.
         </p>
       )}
-      <AddModel data={data} open={open} onClose={() => setOpen(false)} />
+
+      <AddModel open={open} onClose={() => setOpen(false)} data={data} />
       <ViewModel
         open={openViewModel}
         onClose={() => setOpenViewModel(false)}
-        client={selectedClient}
-      />
-      <StatsModel
-        open={openStatsModel}
-        setOpen={setOpenStatsModel}
-        onClose={() => setOpenStatsModel(false)}
+        product={selectedProduct}
       />
     </div>
   );

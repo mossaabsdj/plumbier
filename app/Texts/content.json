@@ -1,0 +1,206 @@
+{
+  "SliderMenu": [
+    {
+      "title": "Products",
+      "icon": "Products.png",
+      "url": "Products"
+    },
+    {
+      "title": "Restaurant",
+      "icon": "Restaurant.png",
+      "url": "Restaurant"
+    },
+    { "title": "Bungalow", "icon": "Products.png", "url": "Products" }
+  ],
+  "Paiments": {
+    "title": "Paiments",
+    "AddModel": {
+      "fields": [
+        {
+          "accessor": "FullName",
+          "label": "Full Name",
+          "type": "text"
+        },
+        {
+          "accessor": "CodeBar",
+          "label": "Code Bar",
+          "type": "text"
+        },
+        {
+          "accessor": "Num",
+          "label": "Phone Number",
+          "type": "text"
+        },
+        {
+          "accessor": "Address",
+          "label": "Address",
+          "type": "text"
+        },
+        {
+          "accessor": "DateNaissance",
+          "label": "Date de Naissance",
+          "type": "date"
+        },
+        {
+          "accessor": "Balance",
+          "label": "Balance",
+          "type": "text"
+        },
+        {
+          "accessor": "CurrentOffer",
+          "label": "Offre actuelle",
+          "type": "text"
+        }
+      ],
+      "searchTrainer": "Search Trainer",
+      "searchPlaceholder": "Enter name or code bar",
+      "trainerDetails": "Trainer Details",
+      "notFound": "Trainer not found.",
+      "customAmount": "Montant personnalisé",
+      "customAmountPlaceholder": "Entrer le montant",
+      "selectedOffer": "Offre sélectionnée",
+      "customAmountLabel": "Montant personnalisé",
+      "endOfferLabel": "Fin"
+    },
+    "table": {
+      "columns": [
+        { "accessor": "FullName", "label": "Full Name", "sortable": true },
+        { "accessor": "Amount", "label": "Amount", "sortable": true },
+        { "accessor": "Date", "label": "Date", "sortable": true },
+        { "accessor": "Employee", "label": "Employee", "sortable": false },
+        { "accessor": "Type", "label": "Type", "sortable": false }
+      ],
+      "SearchPlaceHolder": "Search Paiments..."
+    }
+  },
+  "Sessions": {
+    "title": "Sessions"
+  },
+  "Sales": {
+    "title": "Sales"
+  },
+  "Caisse": {
+    "title": "Caisse"
+  },
+  "Employees": {
+    "title": "Employees"
+  },
+  "Product": {
+    "title": "Products",
+    "table": {
+      "columns": [
+        { "accessor": "id", "label": "id", "sortable": true },
+        { "accessor": "title", "label": "Name", "sortable": true },
+        { "accessor": "desc", "label": "desc", "sortable": false },
+        { "accessor": "prix", "label": "Prix", "sortable": true },
+        { "accessor": "emballage", "label": "embalage", "sortable": false },
+        { "accessor": "farm", "label": "Farm", "sortable": true },
+        { "accessor": "image", "label": "image", "sortable": false },
+
+        { "accessor": "Date", "label": "createdAt", "sortable": true }
+      ],
+
+      "SearchPlaceHolder": "Search Product..."
+    },
+    "AddClient": {
+      "FirstFields": [
+        {
+          "accessor": "title",
+          "label": "Name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "accessor": "desc",
+          "label": "desc",
+          "type": "text",
+          "required": true
+        },
+        {
+          "accessor": "prix",
+          "label": "Prix",
+          "type": "float",
+          "required": true
+        },
+        {
+          "accessor": "emballage",
+          "label": "embalage",
+          "type": "text",
+          "required": true
+        },
+        {
+          "accessor": "farm",
+          "label": "Farm",
+          "type": "select",
+          "required": true,
+          "options": ["agro", "ana", "cult"]
+        },
+        {
+          "accessor": "image",
+          "label": "image",
+          "type": "image",
+          "required": true
+        }
+      ],
+      "AddButton": "Add Product",
+      "Title": "Add Product"
+    },
+    "ViewModel": {
+      "title": "View Product",
+      "DontDisplayField": "seances"
+    },
+    "StatsModel": {
+      "title": "Stats",
+      "totalClientsTitle": "Total Clients",
+
+      "plan": {
+        "title": "Nouveaux Clients par Mois"
+      }
+    }
+  },
+
+  "Labels": {
+    "Add": "Add",
+    "Update": "Update",
+    "Delete": "Delete",
+    "View": "View",
+    "Edit": "Edit",
+    "Save": "Save",
+    "Valider": "Valider",
+    "Cancel": "Cancel",
+    "Close": "Close",
+    "Stats": "Stats",
+    "Export": "Export",
+    "Import": "Import",
+    "Refresh": "Refresh",
+    "Print": "Print",
+    "Submit": "Submit",
+    "Reset": "Reset",
+    "Filter": "Filter",
+    "Search": "Search",
+    "Download": "Download",
+    "pickdata": "Pick date",
+    "CodeBar": "Barcode",
+    "Generate": " Generate",
+    "Next": "Next",
+    "View": "View",
+    "Actions": "Actions",
+    "ClickToPrint": "Click to print",
+    "MAD": "DA",
+
+    "mounts": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ]
+  }
+}

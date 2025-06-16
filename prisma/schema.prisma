@@ -13,14 +13,16 @@ model Product {
   desc       String      @default("")
   prix       Float       @default(0)
   emballage  String      @default("")
+  farmId     Int?        // Optional if some products are not linked to a farm
+  farm       Farm?       @relation(fields: [farmId], references: [id])
+  image      String      @default("") // ✅ New field for the image path or URL
 
   commandes  Commande[]  // 👈 relation
-  createdAt  DateTime    @default(now())
+  Date  DateTime    @default(now())
 }
 model Commande {
   id         Int      @id @default(autoincrement())
-  product    Product  @relation(fields: [productId], references: [id])
-  productId  Int
+  
 
   emballage  String
   nom        String
@@ -29,14 +31,52 @@ model Commande {
   adresse    String
   mail       String
   num        String
+  product    Product?  @relation(fields: [productId], references: [id])
+  productId  Int?
+  // New relations
+  bungalowId   Int?      // Optional, if the order is from a bungalow
+  bungalow     Bungalow? @relation(fields: [bungalowId], references: [id])
 
-  createdAt  DateTime @default(now())
+  restaurantId Int?        // Optional, if the order is from a restaurant
+  restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
+
+  Date  DateTime @default(now())
 }
 
+model Farm {
+  id          Int           @id @default(autoincrement())
+  name        String
+  createdAt   DateTime      @default(now())
+
+  Product Product[]
+
+  Bungalow Bungalow[]
+
+  Restaurant Restaurant[]
+}
 
 model Admin {
   id       Int    @id @default(autoincrement())
   User     String @unique
   Password String
 
+}
+model Bungalow {
+  id        Int         @id @default(autoincrement())
+  name      String
+  location  String
+  farmId    Int
+  image      String      @default("") // ✅ New field for the image path or URL
+  farm      Farm        @relation(fields: [farmId], references: [id])
+  commandes Commande[]  // relation to orders
+}
+
+model Restaurant {
+  id        Int         @id @default(autoincrement())
+  name      String
+  address   String
+  farmId    Int
+  image      String      @default("") // ✅ New field for the image path or URL
+  farm      Farm        @relation(fields: [farmId], references: [id])
+  commandes Commande[]  // relation to orders
 }
