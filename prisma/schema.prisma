@@ -22,8 +22,6 @@ model Product {
 }
 model Commande {
   id         Int      @id @default(autoincrement())
-  
-
   emballage  String
   nom        String
   prenom     String
@@ -31,15 +29,8 @@ model Commande {
   adresse    String
   mail       String
   num        String
-  product    Product?  @relation(fields: [productId], references: [id])
-  productId  Int?
-  // New relations
-  bungalowId   Int?      // Optional, if the order is from a bungalow
-  bungalow     Bungalow? @relation(fields: [bungalowId], references: [id])
-
-  restaurantId Int?        // Optional, if the order is from a restaurant
-  restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
-
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  Int
   Date  DateTime @default(now())
 }
 
@@ -50,9 +41,7 @@ model Farm {
 
   Product Product[]
 
-  Bungalow Bungalow[]
 
-  Restaurant Restaurant[]
 }
 
 model Admin {
@@ -61,22 +50,5 @@ model Admin {
   Password String
 
 }
-model Bungalow {
-  id        Int         @id @default(autoincrement())
-  name      String
-  location  String
-  farmId    Int
-  image      String      @default("") // ✅ New field for the image path or URL
-  farm      Farm        @relation(fields: [farmId], references: [id])
-  commandes Commande[]  // relation to orders
-}
 
-model Restaurant {
-  id        Int         @id @default(autoincrement())
-  name      String
-  address   String
-  farmId    Int
-  image      String      @default("") // ✅ New field for the image path or URL
-  farm      Farm        @relation(fields: [farmId], references: [id])
-  commandes Commande[]  // relation to orders
-}
+

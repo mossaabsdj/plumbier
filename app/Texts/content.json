@@ -6,11 +6,10 @@
       "url": "Products"
     },
     {
-      "title": "Restaurant",
-      "icon": "Restaurant.png",
-      "url": "Restaurant"
-    },
-    { "title": "Bungalow", "icon": "Products.png", "url": "Products" }
+      "title": "Commandes",
+      "icon": "Commandes.png",
+      "url": "Commandes"
+    }
   ],
   "Paiments": {
     "title": "Paiments",
@@ -89,7 +88,6 @@
     "title": "Products",
     "table": {
       "columns": [
-        { "accessor": "id", "label": "id", "sortable": true },
         { "accessor": "title", "label": "Name", "sortable": true },
         { "accessor": "desc", "label": "desc", "sortable": false },
         { "accessor": "prix", "label": "Prix", "sortable": true },
@@ -159,6 +157,91 @@
     }
   },
 
+  "Commande": {
+    "title": "Commandes",
+    "table": {
+      "columns": [
+        { "accessor": "nom", "label": "Nom", "sortable": true },
+        { "accessor": "prenom", "label": "Prénom", "sortable": true },
+        { "accessor": "region", "label": "Région", "sortable": true },
+        { "accessor": "adresse", "label": "Adresse", "sortable": false },
+        { "accessor": "mail", "label": "Email", "sortable": false },
+        { "accessor": "num", "label": "Téléphone", "sortable": false },
+        { "accessor": "emballage", "label": "Emballage", "sortable": false },
+        { "accessor": "productId", "label": "Produit", "sortable": true },
+        { "accessor": "Date", "label": "Date de Commande", "sortable": true },
+        { "accessor": "status", "label": "status", "sortable": true }
+      ],
+      "SearchPlaceHolder": "Rechercher une commande..."
+    },
+    "AddClient": {
+      "FirstFields": [
+        {
+          "accessor": "nom",
+          "label": "Nom",
+          "type": "text",
+          "required": true
+        },
+        {
+          "accessor": "prenom",
+          "label": "Prénom",
+          "type": "text",
+          "required": true
+        },
+        {
+          "accessor": "region",
+          "label": "Région",
+          "type": "text",
+          "required": true
+        },
+        {
+          "accessor": "adresse",
+          "label": "Adresse",
+          "type": "text",
+          "required": true
+        },
+        {
+          "accessor": "mail",
+          "label": "Email",
+          "type": "email",
+          "required": true
+        },
+        {
+          "accessor": "num",
+          "label": "Téléphone",
+          "type": "text",
+          "required": true
+        },
+        {
+          "accessor": "emballage",
+          "label": "Emballage",
+          "type": "text",
+          "required": true
+        },
+        {
+          "accessor": "productId",
+          "label": "Produit",
+          "type": "select",
+          "required": true,
+          "options": []
+        }
+      ],
+      "AddButton": "Ajouter Commande",
+      "Title": "Ajouter une Commande"
+    },
+    "ViewModel": {
+      "title": "Détails de la Commande",
+      "DontDisplayField": ""
+    },
+    "StatsModel": {
+      "title": "Statistiques des Commandes",
+      "totalClientsTitle": "Total des Commandes",
+      "plan": {
+        "title": "Commandes par Mois"
+      }
+    }
+  },
+
   "Labels": {
     "Add": "Add",
     "Update": "Update",
@@ -167,6 +250,7 @@
     "Edit": "Edit",
     "Save": "Save",
     "Valider": "Valider",
+    "rejeter": "rejeter ",
     "Cancel": "Cancel",
     "Close": "Close",
     "Stats": "Stats",
@@ -187,7 +271,10 @@
     "Actions": "Actions",
     "ClickToPrint": "Click to print",
     "MAD": "DA",
-
+    "Re_vérifier": "Re_vérifier",
+    "Waiting": "wating..",
+    "Verified": "Validés",
+    "Tous": "Tous",
     "mounts": [
       "Jan",
       "Feb",

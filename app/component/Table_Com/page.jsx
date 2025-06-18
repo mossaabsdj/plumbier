@@ -26,6 +26,7 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
   const [openViewModel, setOpenViewModel] = useState(false);
   const [openStatsModel, setOpenStatsModel] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [statusFilter, setStatusFilter] = useState("all"); // "all", "waiting", "valider", "rejeter"
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDate, setSelectedDate] = useState();
@@ -68,16 +69,16 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
     const selected = selectedDate ? new Date(selectedDate) : null;
 
     if (selected) {
-      // Normalize both dates to midnight for accurate day-level comparison
       selected.setHours(0, 0, 0, 0);
       rowDate.setHours(0, 0, 0, 0);
     }
 
     const matchesDate = !selected || rowDate.getTime() === selected.getTime();
 
-    return matchesSearch && matchesDate;
-  });
+    const matchesStatus = statusFilter === "all" || row.status === statusFilter;
 
+    return matchesSearch && matchesDate && matchesStatus;
+  });
   const sortedData = [...filteredData];
 
   if (sortConfig.key) {
@@ -142,6 +143,32 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
           📊 {Labels.Stats}
         </Button>
       </div>
+      <div className="flex gap-2 mb-4">
+        <Button
+          variant={statusFilter === "all" ? "default" : "outline"}
+          onClick={() => setStatusFilter("all")}
+        >
+          {Labels.Tous || "Tous"}
+        </Button>
+        <Button
+          variant={statusFilter === "waiting" ? "default" : "outline"}
+          onClick={() => setStatusFilter("waiting")}
+        >
+          {Labels.Waiting || "En attente"}
+        </Button>
+        <Button
+          variant={statusFilter === "valider" ? "default" : "outline"}
+          onClick={() => setStatusFilter("valider")}
+        >
+          {Labels.Verified || "Validés"}
+        </Button>
+        <Button
+          variant={statusFilter === "rejeter" ? "default" : "outline"}
+          onClick={() => setStatusFilter("rejeter")}
+        >
+          {Labels.Rejected || "Rejetés"}
+        </Button>
+      </div>
 
       <Table>
         <TableHeader>
@@ -177,19 +204,55 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
               <TableCell>{row.id}</TableCell>
               {columns.map((col) => (
                 <TableCell key={col.accessor}>
-                  {col.accessor === "date"
-                    ? format(new Date(row[col.accessor]), "yyyy-MM-dd")
-                    : row[col.accessor]}
+                  {col.accessor === "date" || col.accessor === "Date" ? (
+                    format(new Date(row[col.accessor]), "yyyy-MM-dd")
+                  ) : col.accessor === "status" ? (
+                    <span
+                      className={`font-semibold ${
+                        row.status === "valider"
+                          ? "text-green-600"
+                          : row.status === "rejeter"
+                          ? "text-red-600"
+                          : "text-gray-500"
+                      }`}
+                    >
+                      {row[col.accessor]}
+                    </span>
+                  ) : (
+                    row[col.accessor]
+                  )}
                 </TableCell>
               ))}
-              <TableCell className="text-right">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleView(row)}
-                >
-                  {Labels.View}
-                </Button>
+
+              <TableCell className="text-right space-x-2">
+                {row.status === "waiting" ? (
+                  <>
+                    <Button
+                      variant="default"
+                      size="sm"
+                      className="bg-green-600 hover:bg-green-700 text-white"
+                      onClick={() => console.log("Valider", row)}
+                    >
+                      {Labels.Valider}
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => console.log("Annuler", row)}
+                    >
+                      {Labels.rejeter}
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-gray-600 border-gray-400 hover:bg-gray-100"
+                    onClick={() => console.log("Re-vérifier", row)}
+                  >
+                    {Labels.Re_vérifier}
+                  </Button>
+                )}
               </TableCell>
             </TableRow>
           ))}
