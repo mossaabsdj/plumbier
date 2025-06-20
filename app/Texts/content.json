@@ -145,7 +145,7 @@
     },
     "ViewModel": {
       "title": "View Product",
-      "DontDisplayField": "seances"
+      "DontDisplayField": "farmId"
     },
     "StatsModel": {
       "title": "Stats",

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import object from "@/app/Texts/content.json";
 import { fetchData } from "@/lib/FetchData/page";
 import { Progress } from "@/components/ui/progress";
@@ -11,10 +11,22 @@ const AddModal = ({ open, onClose, data }) => {
   const Title = data.AddClient.Title;
   const labels = object.Labels;
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [Farms, setFarms] = useState([{}]);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+  const getSelectedFarms = async () => {
+    const response = await fetchData({
+      method: "GET",
+      url: "/api/Farms",
+    });
+    //  const data = await response.json(); // ✅ needed
+    console.log("data" + JSON.stringify(response));
+    setFarms(response);
+  };
 
+  useEffect(() => {
+    getSelectedFarms();
+  }, []);
   const uploadImageToCloudinary = async (file) => {
     return new Promise((resolve, reject) => {
       const url = "https://api.cloudinary.com/v1_1/dgozr0fbn/image/upload";
@@ -141,14 +153,17 @@ const AddModal = ({ open, onClose, data }) => {
                     <select
                       id={field.accessor}
                       name={field.accessor}
-                      value={values[field.accessor]}
+                      value={Farms}
                       onChange={handleChange}
                       required={field.required}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
                     >
-                      {field.options.map((opt) => (
-                        <option key={opt} value={opt}>
-                          {opt}
+                      <option value="" disabled>
+                        Please choose
+                      </option>
+                      {Farms.map((opt) => (
+                        <option key={opt.id} value={opt.id}>
+                          {opt.name}
                         </option>
                       ))}
                     </select>
@@ -186,6 +201,7 @@ const AddModal = ({ open, onClose, data }) => {
                 );
               }
 
+              // Default input (text, number, etc.)
               return (
                 <div key={field.accessor}>
                   <label

@@ -3,7 +3,11 @@ const prisma = new PrismaClient();
 
 export async function GET() {
   try {
-    const products = await prisma.product.findMany();
+    const products = await prisma.product.findMany({
+      include: {
+        farm: true, // Include related farm
+      },
+    });
     return Response.json(products);
   } catch (error) {
     console.error("GET error:", error);
@@ -24,6 +28,7 @@ export async function POST(req) {
         prix: parseFloat(body.prix), // ✅ convert string to float
         emballage: body.emballage,
         image: body.image,
+        farmId: parseFloat(body.farm),
       },
     });
     return Response.json(product);

@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
+import { NextResponse } from "next/server";
 
 export async function GET(req, { params }) {
   const product = await prisma.product.findUnique({
@@ -8,15 +9,39 @@ export async function GET(req, { params }) {
   return Response.json(product);
 }
 
-export async function PUT(req, { params }) {
-  const data = await req.json();
-  const updated = await prisma.product.update({
-    where: { id: Number(params.id) },
-    data,
-  });
-  return Response.json(updated);
-}
+export async function PUT(request, { params }) {
+  const id = Number(params.id);
+  const body = await request.json();
 
+  try {
+    console.log("apidata" + body.farmId);
+    const updatedProduct = await prisma.product.update({
+      where: { id },
+
+      data: {
+        title: body.title,
+        desc: body.desc,
+        prix: body.prix,
+        emballage: body.emballage,
+        farmId: body.farmId,
+        image: body.image,
+        Date: body.Date,
+      },
+    });
+
+    return NextResponse.json(updatedProduct);
+  } catch (error) {
+    console.error("Update error:", error);
+
+    return NextResponse.json(
+      {
+        error: "Failed to update product",
+        details: error.message, // 👈 send error message back to frontend
+      },
+      { status: 500 }
+    );
+  }
+}
 export async function DELETE(req, { params }) {
   await prisma.product.delete({
     where: { id: Number(params.id) },

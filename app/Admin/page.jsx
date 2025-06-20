@@ -6,8 +6,8 @@ import ProductPage from "@/app/component/admin/products/page";
 import CommandesPage from "@/app/component/admin/commandes/page";
 export default function Home({}) {
   const [pagesVisibility, setPagesVisibility] = useState({
-    Products: false,
-    Commandes: true,
+    Products: true,
+    Commandes: false,
   });
   return (
     <>

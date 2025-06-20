@@ -1,6 +1,15 @@
 "use client";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { toast } from "sonner"; // optional success toast
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -28,10 +37,14 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
   const [openStatsModel, setOpenStatsModel] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState(object); // start with props
-
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDate, setSelectedDate] = useState();
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+  const [showDialog, setShowDialog] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState("");
+  const [dialogType, setDialogType] = useState("success"); // or 'error'
 
   const Labels = defaultdata.Labels;
 
@@ -39,6 +52,15 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
   const handleStats = () => {
     setOpenStatsModel(true);
   };
+  useEffect(() => {
+    if (showDialog) {
+      const timer = setTimeout(() => {
+        setShowDialog(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showDialog]);
+
   const handleSort = (col) => {
     if (!col.sortable) return;
 
@@ -55,6 +77,31 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
   const handleAdd = () => {
     setOpen(true);
   };
+  const handleDelete = async () => {
+    try {
+      const res = await fetch(`/api/Product/${selectedId}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        handleReload();
+        setDialogType("success");
+        setDialogMessage("Product deleted successfully!");
+      } else {
+        setDialogType("error");
+        setDialogMessage("Failed to delete product.");
+        console.error("Failed to delete", await res.text());
+      }
+    } catch (error) {
+      setDialogType("error");
+      setDialogMessage("Error deleting product.");
+      console.error("Error deleting row:", error);
+    } finally {
+      setShowDialog(true);
+      setOpenDialog(false); // close confirmation dialog
+    }
+  };
+
   const handleReload = async () => {
     setOpen(false);
     const updatedProducts = await fetchData({
@@ -186,20 +233,35 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
           {sortedData.map((row) => (
             <TableRow key={row.id}>
               <TableCell>{row.id}</TableCell>
+
               {columns.map((col) => (
                 <TableCell key={col.accessor}>
                   {col.accessor === "date"
                     ? format(new Date(row[col.accessor]), "yyyy-MM-dd")
+                    : col.accessor === "farm"
+                    ? row.farm?.name || "N/A"
                     : row[col.accessor]}
                 </TableCell>
               ))}
-              <TableCell className="text-right">
+
+              <TableCell className="text-right flex gap-2 justify-end">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => handleView(row)}
                 >
                   {Labels.View}
+                </Button>
+
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => {
+                    setSelectedId(row.id);
+                    setOpenDialog(true);
+                  }}
+                >
+                  Delete
                 </Button>
               </TableCell>
             </TableRow>
@@ -211,6 +273,51 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
         <p className="text-center text-muted-foreground mt-4">
           No results found.
         </p>
+      )}
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Are you sure?</DialogTitle>
+          </DialogHeader>
+          <p>
+            This action cannot be undone. Do you really want to delete this
+            product?
+          </p>
+          <DialogFooter>
+            <Button variant="secondary" onClick={() => setOpenDialog(false)}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={handleDelete}>
+              Yes, Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      {showDialog && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Background overlay with blur */}
+          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
+
+          {/* Dialog content */}
+          <div className="relative bg-white rounded-lg shadow-lg p-6 max-w-sm w-full z-10">
+            <h2
+              className={`text-xl font-bold mb-2 ${
+                dialogType === "error" ? "text-red-600" : "text-green-600"
+              }`}
+            >
+              {dialogType === "error" ? "Error" : "Success"}
+            </h2>
+            <p className="mb-4">{dialogMessage}</p>
+            <div className="flex justify-end">
+              <button
+                onClick={() => setShowDialog(false)}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       <AddModel open={open} onClose={handleReload} data={data} />

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import object from "@/app/Texts/content.json";
+import { fetchData } from "@/lib/FetchData/page";
 
 const Labels = object.Labels;
 const defaultdata = object.Product.ViewModel;
@@ -15,6 +16,7 @@ const closeAria = Labels.Close;
 const ConsulteClientModal = ({ open, onClose, product }) => {
   const [editValues, setEditValues] = useState(product || {});
   const [editing, setEditing] = useState(false);
+  const [Farms, setFarms] = useState([{}]);
 
   useEffect(() => {
     setEditValues(product || {});
@@ -23,17 +25,51 @@ const ConsulteClientModal = ({ open, onClose, product }) => {
 
   const handleChange = (e) => {
     setEditValues({ ...editValues, [e.target.name]: e.target.value });
+    console.log("editvalues" + JSON.stringify(editValues));
   };
 
   const handleModify = () => {
     setEditing(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setEditing(false);
-    // Save logic (API call, etc.)
+    console.log("editvalues" + JSON.stringify(editValues));
+
+    try {
+      const response = await fetchData({
+        method: "PUT",
+        url: `/api/Product/${editValues.id}`,
+        body: {
+          editValues,
+        },
+      });
+
+      if (response.error) {
+        console.error("Update failed:", response.error);
+        // Optionally: show a toast or dialog
+      } else {
+        console.log("Update success:", response);
+        // Optionally: refresh list or close modal
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
+    }
   };
 
+  const getSelectedFarms = async () => {
+    const response = await fetchData({
+      method: "GET",
+      url: "/api/Farms",
+    });
+    //  const data = await response.json(); // ✅ needed
+    console.log("data" + JSON.stringify(response));
+    setFarms(response);
+  };
+
+  useEffect(() => {
+    getSelectedFarms();
+  }, []);
   if (!open || !product) return null;
 
   return (
@@ -104,27 +140,125 @@ const ConsulteClientModal = ({ open, onClose, product }) => {
 
         {/* Fields */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {Object.entries(editValues).map(([key, value]) =>
-            key === DontDisplayasfield ? null : (
+          {Object.entries(editValues).map(([key, value]) => {
+            if (key === DontDisplayasfield) return null;
+
+            const isFarmField =
+              key === "farm" && value && typeof value === "object";
+            const isImageField =
+              typeof value === "string" &&
+              (key.toLowerCase().includes("image") ||
+                key.toLowerCase().includes("file")) &&
+              (value.endsWith(".jpg") ||
+                value.endsWith(".jpeg") ||
+                value.endsWith(".png") ||
+                value.endsWith(".gif") ||
+                value.startsWith("data:image"));
+
+            const isDateField =
+              key.toLowerCase().includes("date") || value instanceof Date;
+
+            const displayValue = isFarmField ? value.name : value;
+
+            return (
               <div key={key} className="mb-4">
                 <div className="text-black font-medium mb-1 break-words">
                   {key}
                 </div>
+
                 {editing ? (
-                  <input
-                    name={key}
-                    value={value}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-black rounded shadow focus:outline-none focus:ring-2 focus:ring-black text-black bg-white"
-                  />
+                  isImageField ? (
+                    <>
+                      <input
+                        type="file"
+                        name={key}
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              setEditValues({
+                                ...editValues,
+                                [key]: reader.result,
+                              });
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                        className="w-full px-3 py-2 border border-black rounded shadow bg-white text-black"
+                      />
+                      {value && (
+                        <img
+                          src={value}
+                          alt={key}
+                          className="mt-2 max-h-40 rounded border border-gray-300 shadow"
+                        />
+                      )}
+                    </>
+                  ) : isDateField ? (
+                    <input
+                      type="date"
+                      name={key}
+                      value={
+                        value ? new Date(value).toISOString().split("T")[0] : ""
+                      }
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 border border-black rounded shadow bg-white text-black"
+                    />
+                  ) : key === "farm" ? (
+                    <select
+                      name={key}
+                      value={editValues[key]?.name}
+                      onChange={(e) => {
+                        const selectedId = parseInt(e.target.value, 10); // Ensure it's a number
+                        alert("se" + selectedId);
+
+                        setEditValues((prev) => ({
+                          ...prev,
+                          farmId: selectedId,
+                        }));
+                      }}
+                      className="w-full px-3 py-2 border border-black rounded shadow bg-white text-black"
+                    >
+                      <option value="">Select a farm</option>
+                      {Farms.map((farm) => (
+                        <option key={farm.id} value={farm.id}>
+                          {farm.name}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      name={key}
+                      value={displayValue}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 border border-black rounded shadow focus:outline-none focus:ring-2 focus:ring-black text-black bg-white"
+                      readOnly={isFarmField}
+                    />
+                  )
+                ) : isImageField ? (
+                  value ? (
+                    <img
+                      src={value}
+                      alt={key}
+                      className="max-h-40 rounded border border-gray-300 shadow"
+                    />
+                  ) : (
+                    <div className="text-gray-500">No image</div>
+                  )
                 ) : (
                   <div className="px-3 py-2 border border-black rounded shadow bg-white text-black break-words">
-                    {value}
+                    {isFarmField
+                      ? value.name
+                      : isDateField
+                      ? new Date(value).toLocaleDateString()
+                      : value}
                   </div>
                 )}
               </div>
-            )
-          )}
+            );
+          })}
         </div>
       </div>
     </div>
