@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 import Table from "@/app/component/Table_Com/page";
 import objects from "@/app/Texts/content.json";
-import addmodal from "@/app/component/admin/products/AddProduct/page";
-import Viewmodal from "@/app/component/admin/products/ViewProduct/page";
+import addmodal from "@/app/component/admin/commandes/AddCommande/page";
+import Viewmodal from "@/app/component/admin/commandes/ViewCommande/page";
+import { fetchData } from "@/lib/FetchData/page"; // Adjust path if needed
 
 const commandes = [
   {
@@ -114,17 +115,13 @@ const commandes = [
   },
 ];
 
+const C = await fetchData({ method: "GET", url: "/api/Commande" });
+console.log("Commande" + JSON.stringify(C));
 const data = objects.Commande;
-console.log(JSON.stringify(data.table.columns));
 export default function ProductTable() {
   return (
     <>
-      <Table
-        object={commandes}
-        data={data}
-        ViewModel={Viewmodal}
-        AddModel={addmodal}
-      />
+      <Table object={C} data={data} ViewModel={Viewmodal} AddModel={addmodal} />
     </>
   );
 }

@@ -20,12 +20,14 @@ import {
 import { format } from "date-fns";
 import { CalendarIcon, ArrowDown, ArrowUp } from "lucide-react";
 import defaultdata from "@/app/Texts/content.json";
+import { fetchData } from "@/lib/FetchData/page";
 
 const Page = ({ object, data, AddModel, ViewModel }) => {
   const [open, setOpen] = useState(false);
   const [openViewModel, setOpenViewModel] = useState(false);
   const [openStatsModel, setOpenStatsModel] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [products, setProducts] = useState(object); // start with props
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDate, setSelectedDate] = useState();
@@ -53,12 +55,21 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
   const handleAdd = () => {
     setOpen(true);
   };
+  const handleReload = async () => {
+    setOpen(false);
+    const updatedProducts = await fetchData({
+      method: "GET",
+      url: "/api/Product",
+    });
+    setProducts(updatedProducts); // ✅ this triggers re-render
+  };
+
   const handleView = (row) => {
     setSelectedProduct(row); // Pass the row object to the modal
 
     setOpenViewModel(true);
   };
-  const filteredData = object.filter((row) => {
+  const filteredData = products.filter((row) => {
     const matchesSearch = Object.values(row)
       .join(" ")
       .toLowerCase()
@@ -202,7 +213,7 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
         </p>
       )}
 
-      <AddModel open={open} onClose={() => setOpen(false)} data={data} />
+      <AddModel open={open} onClose={handleReload} data={data} />
       <ViewModel
         open={openViewModel}
         onClose={() => setOpenViewModel(false)}

@@ -1,84 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import object from "@/app/Texts/content.json";
-import { fetchData } from "@/lib/FetchData/page";
-import { Progress } from "@/components/ui/progress";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons"; // optional icon
 
-const AddModal = ({ open, onClose, data }) => {
+const AddModal = ({ open, onClose, onSubmit, data }) => {
   const FirstFields = data.AddClient.FirstFields;
   const Title = data.AddClient.Title;
   const labels = object.Labels;
-  const [errorMessage, setErrorMessage] = useState("");
 
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [isUploading, setIsUploading] = useState(false);
-
-  const uploadImageToCloudinary = async (file) => {
-    return new Promise((resolve, reject) => {
-      const url = "https://api.cloudinary.com/v1_1/dgozr0fbn/image/upload";
-      const preset = "SiteYakoub";
-
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", preset);
-
-      const xhr = new XMLHttpRequest();
-
-      xhr.upload.addEventListener("progress", (e) => {
-        if (e.lengthComputable) {
-          const progress = Math.round((e.loaded * 100) / e.total);
-          setUploadProgress(progress);
-        }
-      });
-
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
-          setIsUploading(false);
-          setUploadProgress(0);
-          if (xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText);
-            resolve(response.secure_url);
-          } else {
-            reject(new Error("Image upload failed"));
-          }
-        }
-      };
-
-      setIsUploading(true);
-      xhr.open("POST", url);
-      xhr.send(formData);
-    });
-  };
-
-  const onSubmit = async (formValues) => {
-    setErrorMessage(""); // Reset before submit
-    try {
-      const updatedValues = { ...formValues };
-
-      if (updatedValues.image instanceof File) {
-        const imageUrl = await uploadImageToCloudinary(updatedValues.image);
-        updatedValues.image = imageUrl;
-      }
-
-      const response = await fetchData({
-        method: "POST",
-        url: "/api/Product",
-        body: updatedValues,
-      });
-
-      if (response?.error) {
-        setErrorMessage("❌ " + response.error); // Show alert
-        return;
-      }
-
-      onClose(); // ✅ Success: close the modal
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      setErrorMessage("❌ Failed to add product: " + error.message); // Show alert
-    }
-  };
   const initialValues = FirstFields.reduce((acc, field) => {
     if (field.type === "image" || field.accessor === "image") {
       acc[field.accessor] = null;
@@ -124,7 +52,8 @@ const AddModal = ({ open, onClose, data }) => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            onSubmit(values);
+            if (onSubmit) onSubmit(values);
+            onClose();
           }}
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -174,14 +103,6 @@ const AddModal = ({ open, onClose, data }) => {
                       required={field.required}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
                     />
-                    {isUploading && (
-                      <div className="mt-3">
-                        <Progress value={uploadProgress} />
-                        <p className="text-sm text-gray-500 mt-1">
-                          {uploadProgress}%
-                        </p>
-                      </div>
-                    )}
                   </div>
                 );
               }
@@ -214,18 +135,10 @@ const AddModal = ({ open, onClose, data }) => {
           <button
             type="submit"
             className="mt-6 w-full bg-black text-white py-2 px-4 rounded-lg shadow hover:bg-white hover:text-black border border-black transition"
-            disabled={isUploading}
           >
-            {isUploading ? "Uploading..." : labels.Next}
+            {labels.Next}
           </button>
         </form>
-        {errorMessage && (
-          <Alert variant="destructive" className="mb-4">
-            <ExclamationTriangleIcon className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>{errorMessage}</AlertDescription>
-          </Alert>
-        )}
       </div>
     </div>
   );

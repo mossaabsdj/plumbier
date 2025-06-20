@@ -16,8 +16,16 @@ export async function GET() {
 
 export async function POST(req) {
   try {
-    const data = await req.json();
-    const product = await prisma.product.create({ data });
+    const body = await req.json();
+    const product = await prisma.product.create({
+      data: {
+        title: body.title,
+        desc: body.desc,
+        prix: parseFloat(body.prix), // ✅ convert string to float
+        emballage: body.emballage,
+        image: body.image,
+      },
+    });
     return Response.json(product);
   } catch (error) {
     console.error("POST error:", error);
