@@ -11,21 +11,21 @@ export async function GET(req, { params }) {
 
 export async function PUT(request, { params }) {
   const id = Number(params.id);
-  const body = await request.json();
-
+  const r = await request.json();
+  const body = r.editValues;
   try {
-    console.log("apidata" + body.farmId);
+    console.log("apidata" + JSON.stringify(body));
     const updatedProduct = await prisma.product.update({
       where: { id },
 
       data: {
         title: body.title,
         desc: body.desc,
-        prix: body.prix,
+        prix: parseFloat(body.prix),
         emballage: body.emballage,
         farmId: body.farmId,
         image: body.image,
-        Date: body.Date,
+        Date: new Date(body.Date).toISOString(),
       },
     });
 

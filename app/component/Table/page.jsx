@@ -293,38 +293,28 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      {showDialog && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          {/* Background overlay with blur */}
-          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
-
-          {/* Dialog content */}
-          <div className="relative bg-white rounded-lg shadow-lg p-6 max-w-sm w-full z-10">
-            <h2
-              className={`text-xl font-bold mb-2 ${
-                dialogType === "error" ? "text-red-600" : "text-green-600"
-              }`}
-            >
-              {dialogType === "error" ? "Error" : "Success"}
-            </h2>
-            <p className="mb-4">{dialogMessage}</p>
-            <div className="flex justify-end">
-              <button
-                onClick={() => setShowDialog(false)}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <Dialog open={showDialog} onOpenChange={setShowDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {dialogType === "error" ? "❌ Error" : "✅ Success"}
+            </DialogTitle>
+          </DialogHeader>
+          <p className="text-gray-700">{dialogMessage}</p>
+          <DialogFooter>
+            <Button variant="default" onClick={() => setShowDialog(false)}>
+              OK
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <AddModel open={open} onClose={handleReload} data={data} />
       <ViewModel
         open={openViewModel}
         onClose={() => setOpenViewModel(false)}
         product={selectedProduct}
+        reload={handleReload}
       />
     </div>
   );

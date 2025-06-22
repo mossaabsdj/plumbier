@@ -68,12 +68,14 @@ const AddModal = ({ open, onClose, data }) => {
     setErrorMessage(""); // Reset before submit
     try {
       const updatedValues = { ...formValues };
-
+      if (!updatedValues.farm) {
+        updatedValues.farm = Farms[0].id;
+      }
       if (updatedValues.image instanceof File) {
         const imageUrl = await uploadImageToCloudinary(updatedValues.image);
         updatedValues.image = imageUrl;
       }
-
+      console.log("updatedValues" + JSON.stringify(updatedValues));
       const response = await fetchData({
         method: "POST",
         url: "/api/Product",
@@ -95,7 +97,7 @@ const AddModal = ({ open, onClose, data }) => {
     if (field.type === "image" || field.accessor === "image") {
       acc[field.accessor] = null;
     } else if (field.type === "select") {
-      acc[field.accessor] = field.options?.[0] || "";
+      acc[field.accessor] = Farms?.[0] || "";
     } else {
       acc[field.accessor] = "";
     }
@@ -105,7 +107,10 @@ const AddModal = ({ open, onClose, data }) => {
   const [values, setValues] = useState(initialValues);
 
   const handleChange = (e) => {
+    console.log(e);
     const { name, value, type, files } = e.target;
+    console.log(value);
+
     if (type === "file") {
       setValues({ ...values, [name]: files[0] });
     } else {
@@ -153,7 +158,7 @@ const AddModal = ({ open, onClose, data }) => {
                     <select
                       id={field.accessor}
                       name={field.accessor}
-                      value={Farms}
+                      value={values[field.accessor] || ""} // ✅ current selected value
                       onChange={handleChange}
                       required={field.required}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"

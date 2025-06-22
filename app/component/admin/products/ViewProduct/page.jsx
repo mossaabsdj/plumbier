@@ -2,21 +2,27 @@
 import React, { useState, useEffect } from "react";
 import object from "@/app/Texts/content.json";
 import { fetchData } from "@/lib/FetchData/page";
+import { Progress } from "@/components/ui/progress";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 
 const Labels = object.Labels;
 const defaultdata = object.Product.ViewModel;
 
-// Text variables
 const DontDisplayasfield = defaultdata.DontDisplayField;
 const title = defaultdata.title;
 const modifyText = Labels.Edit;
 const applyText = Labels.Save;
 const closeAria = Labels.Close;
 
-const ConsulteClientModal = ({ open, onClose, product }) => {
+const ConsulteClientModal = ({ open, onClose, product, reload }) => {
   const [editValues, setEditValues] = useState(product || {});
   const [editing, setEditing] = useState(false);
   const [Farms, setFarms] = useState([{}]);
+  const [rawImageFile, setRawImageFile] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     setEditValues(product || {});
@@ -24,104 +30,138 @@ const ConsulteClientModal = ({ open, onClose, product }) => {
   }, [product, open]);
 
   const handleChange = (e) => {
-    setEditValues({ ...editValues, [e.target.name]: e.target.value });
-    console.log("editvalues" + JSON.stringify(editValues));
+    const { name, value } = e.target;
+    if (name === "prix") {
+      if (/^\d*\.?\d*$/.test(value)) {
+        setEditValues((prev) => ({ ...prev, [name]: value }));
+      }
+    } else {
+      setEditValues((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
-  const handleModify = () => {
-    setEditing(true);
+  const uploadImageToCloudinary = async (file) => {
+    return new Promise((resolve, reject) => {
+      const url = "https://api.cloudinary.com/v1_1/dgozr0fbn/image/upload";
+      const preset = "SiteYakoub";
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", preset);
+
+      const xhr = new XMLHttpRequest();
+      xhr.upload.addEventListener("progress", (e) => {
+        if (e.lengthComputable) {
+          const progress = Math.round((e.loaded * 100) / e.total);
+          setUploadProgress(progress);
+        }
+      });
+
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          setIsUploading(false);
+          setUploadProgress(0);
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            resolve(response.secure_url);
+          } else {
+            reject(new Error("Image upload failed"));
+          }
+        }
+      };
+
+      setIsUploading(true);
+      xhr.open("POST", url);
+      xhr.send(formData);
+    });
   };
+
+  const handleModify = () => setEditing(true);
 
   const handleSave = async () => {
-    setEditing(false);
-    console.log("editvalues" + JSON.stringify(editValues));
+    setErrorMessage("");
+    setIsUploading(true);
 
     try {
+      if (rawImageFile) {
+        const imageUrl = await uploadImageToCloudinary(rawImageFile);
+        editValues.image = imageUrl;
+        setRawImageFile(null);
+      }
+
       const response = await fetchData({
         method: "PUT",
         url: `/api/Product/${editValues.id}`,
-        body: {
-          editValues,
-        },
+        body: { editValues },
       });
 
       if (response.error) {
-        console.error("Update failed:", response.error);
-        // Optionally: show a toast or dialog
+        setErrorMessage("❌ " + response.error);
       } else {
-        console.log("Update success:", response);
-        // Optionally: refresh list or close modal
+        reload();
+        setErrorMessage("✅ Produit mis à jour avec succès.");
+        setTimeout(() => setErrorMessage(""), 1500);
+        setEditing(false);
       }
     } catch (err) {
-      console.error("Unexpected error:", err);
+      setErrorMessage(
+        "❌ Erreur inattendue lors de la mise à jour: " + err.message
+      );
+    } finally {
+      setIsUploading(false);
     }
   };
 
   const getSelectedFarms = async () => {
-    const response = await fetchData({
-      method: "GET",
-      url: "/api/Farms",
-    });
-    //  const data = await response.json(); // ✅ needed
-    console.log("data" + JSON.stringify(response));
+    const response = await fetchData({ method: "GET", url: "/api/Farms" });
     setFarms(response);
   };
 
   useEffect(() => {
     getSelectedFarms();
   }, []);
+
   if (!open || !product) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm overflow-x-hidden overflow-y-auto">
       <div className="bg-white rounded shadow-lg border w-full max-w-4xl mx-4 sm:mx-6 md:mx-8 my-8 p-4 relative max-h-[90vh] overflow-y-auto">
-        {/* Top bar */}
+        {errorMessage && (
+          <Alert
+            variant={errorMessage.startsWith("✅") ? "success" : "destructive"}
+            className="mb-4"
+          >
+            <ExclamationTriangleIcon className="h-4 w-4" />
+            <AlertTitle>
+              {errorMessage.startsWith("✅") ? "Succès" : "Erreur"}
+            </AlertTitle>
+            <AlertDescription>{errorMessage}</AlertDescription>
+          </Alert>
+        )}
+
+        {isUploading && uploadProgress > 0 && (
+          <div className="mb-4">
+            <Progress value={uploadProgress} />
+            <p className="text-sm text-gray-500 mt-1">{uploadProgress}%</p>
+          </div>
+        )}
+
         <div className="flex flex-wrap justify-between items-center mb-4 gap-2">
           <div className="flex gap-2 flex-wrap">
-            {!editing && (
+            {!editing ? (
               <button
-                type="button"
                 onClick={handleModify}
                 className="flex items-center gap-2 bg-black hover:bg-gray-900 text-white px-4 py-2 rounded shadow"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15.232 5.232l3.536 3.536M9 13l6.536-6.536a2 2 0 112.828 2.828L11.828 15.828a4 4 0 01-2.828 1.172H7v-2a4 4 0 011.172-2.828z"
-                  />
-                </svg>
-                {modifyText}
+                ✎ {modifyText}
               </button>
-            )}
-            {editing && (
+            ) : (
               <button
-                type="button"
                 onClick={handleSave}
                 className="flex items-center gap-2 bg-white hover:bg-gray-200 text-black px-4 py-2 rounded shadow border border-black"
+                disabled={isUploading}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-                {applyText}
+                {isUploading ? "Uploading..." : "✔ " + applyText}
               </button>
             )}
           </div>
@@ -134,11 +174,10 @@ const ConsulteClientModal = ({ open, onClose, product }) => {
           </button>
         </div>
 
-        <h1 className="text-xl sm:text-2xl font-bold mb-6 text-center text-black">
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 text-center text-black">
           {title}
         </h1>
 
-        {/* Fields */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {Object.entries(editValues).map(([key, value]) => {
             if (key === DontDisplayasfield) return null;
@@ -149,15 +188,12 @@ const ConsulteClientModal = ({ open, onClose, product }) => {
               typeof value === "string" &&
               (key.toLowerCase().includes("image") ||
                 key.toLowerCase().includes("file")) &&
-              (value.endsWith(".jpg") ||
-                value.endsWith(".jpeg") ||
-                value.endsWith(".png") ||
-                value.endsWith(".gif") ||
+              (/\.(jpe?g|png|gif|webp|svg|ico|bmp|heic|heif|tiff?|avif)$/i.test(
+                value
+              ) ||
                 value.startsWith("data:image"));
-
             const isDateField =
               key.toLowerCase().includes("date") || value instanceof Date;
-
             const displayValue = isFarmField ? value.name : value;
 
             return (
@@ -168,7 +204,7 @@ const ConsulteClientModal = ({ open, onClose, product }) => {
 
                 {editing ? (
                   isImageField ? (
-                    <>
+                    <div className="flex items-center gap-4">
                       <input
                         type="file"
                         name={key}
@@ -176,26 +212,27 @@ const ConsulteClientModal = ({ open, onClose, product }) => {
                         onChange={(e) => {
                           const file = e.target.files?.[0];
                           if (file) {
+                            setRawImageFile(file);
                             const reader = new FileReader();
                             reader.onloadend = () => {
-                              setEditValues({
-                                ...editValues,
+                              setEditValues((prev) => ({
+                                ...prev,
                                 [key]: reader.result,
-                              });
+                              }));
                             };
                             reader.readAsDataURL(file);
                           }
                         }}
-                        className="w-full px-3 py-2 border border-black rounded shadow bg-white text-black"
+                        className="px-3 py-2 border border-black rounded shadow bg-white text-black"
                       />
                       {value && (
                         <img
                           src={value}
                           alt={key}
-                          className="mt-2 max-h-40 rounded border border-gray-300 shadow"
+                          className="h-16 w-auto rounded border border-gray-300 shadow"
                         />
                       )}
-                    </>
+                    </div>
                   ) : isDateField ? (
                     <input
                       type="date"
@@ -211,9 +248,7 @@ const ConsulteClientModal = ({ open, onClose, product }) => {
                       name={key}
                       value={editValues[key]?.name}
                       onChange={(e) => {
-                        const selectedId = parseInt(e.target.value, 10); // Ensure it's a number
-                        alert("se" + selectedId);
-
+                        const selectedId = parseInt(e.target.value, 10);
                         setEditValues((prev) => ({
                           ...prev,
                           farmId: selectedId,
