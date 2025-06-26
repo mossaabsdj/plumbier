@@ -1,8 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import object from "@/app/Texts/content.json";
+import { fetchData } from "@/lib/FetchData/page"; // Adjust path if needed
+const prods = await fetchData({ method: "GET", url: "/api/Product" });
 
-const AddModal = ({ open, onClose, onSubmit, data }) => {
+const AddModal = ({ open, onClose, data, loadData }) => {
   const FirstFields = data.AddClient.FirstFields;
   const Title = data.AddClient.Title;
   const labels = object.Labels;
@@ -15,12 +17,29 @@ const AddModal = ({ open, onClose, onSubmit, data }) => {
     } else {
       acc[field.accessor] = "";
     }
+    if (field.accessor === "productId") {
+      acc[field.accessor] = prods[0].id || "";
+    }
     return acc;
   }, {});
 
   const [values, setValues] = useState(initialValues);
+  const [emballages, setemballages] = useState([]);
+  const [prod_id, setprod_ID] = useState();
+
+  // After setEmballages(emballage);
+  useEffect(() => {
+    // Get only emballages for the selected product
+    const filteredEmballages = prod_id?.emballageRel
+      ? [prod_id.emballageRel]
+      : [];
+    setemballages(filteredEmballages);
+  }, [values.productId]);
+  // Find the selected product
 
   const handleChange = (e) => {
+    const selectedProduct = prods.find((p) => p.id === values.productId);
+    setprod_ID(selectedProduct);
     const { name, value, type, files } = e.target;
     if (type === "file") {
       setValues({ ...values, [name]: files[0] });
@@ -28,7 +47,16 @@ const AddModal = ({ open, onClose, onSubmit, data }) => {
       setValues({ ...values, [name]: value });
     }
   };
-
+  const onSubmit = async (values) => {
+    console.log(JSON.stringify(values));
+    const response = await fetchData({
+      method: "POST",
+      url: "/api/Commande",
+      body: values,
+    });
+    loadData();
+    onClose();
+  };
   if (!open) return null;
 
   return (
@@ -52,13 +80,44 @@ const AddModal = ({ open, onClose, onSubmit, data }) => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            if (onSubmit) onSubmit(values);
-            onClose();
+            onSubmit(values);
           }}
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {FirstFields.map((field) => {
-              if (field.type === "select") {
+            {FirstFields?.map((field) => {
+              if (field.accessor === "productId") {
+                return (
+                  <div key={field.accessor}>
+                    <label
+                      htmlFor={field.accessor}
+                      className="block text-gray-700 font-medium mb-1"
+                    >
+                      {field.label}
+                    </label>
+                    <select
+                      id={field.accessor}
+                      name={field.accessor}
+                      value={values[field.accessor]}
+                      onChange={(e) => {
+                        handleChange(e);
+                        setValues((prev) => ({
+                          ...prev,
+                          emballage: "", // reset emballage when product changes
+                        }));
+                      }}
+                      required={field.required}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                    >
+                      {prods?.map((opt) => (
+                        <option key={opt.id} value={opt.id}>
+                          {opt.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                );
+              }
+              if (field.type === "select" && field.accessor === "region") {
                 return (
                   <div key={field.accessor}>
                     <label
@@ -75,7 +134,7 @@ const AddModal = ({ open, onClose, onSubmit, data }) => {
                       required={field.required}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
                     >
-                      {field.options.map((opt) => (
+                      {field.options?.map((opt) => (
                         <option key={opt} value={opt}>
                           {opt}
                         </option>
@@ -107,6 +166,35 @@ const AddModal = ({ open, onClose, onSubmit, data }) => {
                 );
               }
 
+              // Add emballage select
+              if (field.accessor === "emballage") {
+                return (
+                  <div key={field.accessor}>
+                    <label
+                      htmlFor={field.accessor}
+                      className="block text-gray-700 font-medium mb-1"
+                    >
+                      Emballage
+                    </label>
+                    <select
+                      id={field.accessor}
+                      name={field.accessor}
+                      value={values[field.accessor] || ""}
+                      onChange={handleChange}
+                      required={field.required}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                      disabled={!values.productId}
+                    >
+                      <option value="">Select emballage</option>
+                      {emballages.map((emb) => (
+                        <option key={emb.id} value={emb.id}>
+                          {emb.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                );
+              }
               return (
                 <div key={field.accessor}>
                   <label

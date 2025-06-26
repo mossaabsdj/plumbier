@@ -1,4 +1,6 @@
 {
+  "TitleApp": "Ski Agrotour luxe",
+  "logo": "/images/logo.png",
   "SliderMenu": [
     {
       "title": "Products",
@@ -11,79 +13,7 @@
       "url": "Commandes"
     }
   ],
-  "Paiments": {
-    "title": "Paiments",
-    "AddModel": {
-      "fields": [
-        {
-          "accessor": "FullName",
-          "label": "Full Name",
-          "type": "text"
-        },
-        {
-          "accessor": "CodeBar",
-          "label": "Code Bar",
-          "type": "text"
-        },
-        {
-          "accessor": "Num",
-          "label": "Phone Number",
-          "type": "text"
-        },
-        {
-          "accessor": "Address",
-          "label": "Address",
-          "type": "text"
-        },
-        {
-          "accessor": "DateNaissance",
-          "label": "Date de Naissance",
-          "type": "date"
-        },
-        {
-          "accessor": "Balance",
-          "label": "Balance",
-          "type": "text"
-        },
-        {
-          "accessor": "CurrentOffer",
-          "label": "Offre actuelle",
-          "type": "text"
-        }
-      ],
-      "searchTrainer": "Search Trainer",
-      "searchPlaceholder": "Enter name or code bar",
-      "trainerDetails": "Trainer Details",
-      "notFound": "Trainer not found.",
-      "customAmount": "Montant personnalisé",
-      "customAmountPlaceholder": "Entrer le montant",
-      "selectedOffer": "Offre sélectionnée",
-      "customAmountLabel": "Montant personnalisé",
-      "endOfferLabel": "Fin"
-    },
-    "table": {
-      "columns": [
-        { "accessor": "FullName", "label": "Full Name", "sortable": true },
-        { "accessor": "Amount", "label": "Amount", "sortable": true },
-        { "accessor": "Date", "label": "Date", "sortable": true },
-        { "accessor": "Employee", "label": "Employee", "sortable": false },
-        { "accessor": "Type", "label": "Type", "sortable": false }
-      ],
-      "SearchPlaceHolder": "Search Paiments..."
-    }
-  },
-  "Sessions": {
-    "title": "Sessions"
-  },
-  "Sales": {
-    "title": "Sales"
-  },
-  "Caisse": {
-    "title": "Caisse"
-  },
-  "Employees": {
-    "title": "Employees"
-  },
+
   "Product": {
     "title": "Products",
     "table": {
@@ -93,9 +23,9 @@
         { "accessor": "prix", "label": "Prix", "sortable": true },
         { "accessor": "emballage", "label": "embalage", "sortable": false },
         { "accessor": "farm", "label": "Farm", "sortable": true },
-        { "accessor": "image", "label": "image", "sortable": false },
 
-        { "accessor": "Date", "label": "createdAt", "sortable": true }
+        { "accessor": "Date", "label": "createdAt", "sortable": true },
+        { "accessor": "image", "label": "image", "sortable": false }
       ],
 
       "SearchPlaceHolder": "Search Product..."
@@ -163,12 +93,15 @@
       "columns": [
         { "accessor": "nom", "label": "Nom", "sortable": true },
         { "accessor": "prenom", "label": "Prénom", "sortable": true },
-        { "accessor": "region", "label": "Région", "sortable": true },
+        { "accessor": "region", "label": "Country", "sortable": true },
         { "accessor": "adresse", "label": "Adresse", "sortable": false },
         { "accessor": "mail", "label": "Email", "sortable": false },
         { "accessor": "num", "label": "Téléphone", "sortable": false },
-        { "accessor": "emballage", "label": "Emballage", "sortable": false },
         { "accessor": "productId", "label": "Produit", "sortable": true },
+
+        { "accessor": "emballage", "label": "Emballage", "sortable": false },
+        { "accessor": "quantite", "label": "quantite", "sortable": false },
+
         { "accessor": "Date", "label": "Date de Commande", "sortable": true },
         { "accessor": "status", "label": "status", "sortable": true }
       ],
@@ -190,9 +123,206 @@
         },
         {
           "accessor": "region",
-          "label": "Région",
-          "type": "text",
-          "required": true
+          "label": "Country",
+          "type": "select",
+          "required": true,
+          "options": [
+            "Afghanistan",
+            "Albania",
+            "Algeria",
+            "Andorra",
+            "Angola",
+            "Antigua and Barbuda",
+            "Argentina",
+            "Armenia",
+            "Australia",
+            "Austria",
+            "Azerbaijan",
+            "Bahamas",
+            "Bahrain",
+            "Bangladesh",
+            "Barbados",
+            "Belarus",
+            "Belgium",
+            "Belize",
+            "Benin",
+            "Bhutan",
+            "Bolivia",
+            "Bosnia and Herzegovina",
+            "Botswana",
+            "Brazil",
+            "Brunei",
+            "Bulgaria",
+            "Burkina Faso",
+            "Burundi",
+            "Cabo Verde",
+            "Cambodia",
+            "Cameroon",
+            "Canada",
+            "Central African Republic",
+            "Chad",
+            "Chile",
+            "China",
+            "Colombia",
+            "Comoros",
+            "Congo (Congo-Brazzaville)",
+            "Costa Rica",
+            "Croatia",
+            "Cuba",
+            "Cyprus",
+            "Czech Republic (Czechia)",
+            "Democratic Republic of the Congo",
+            "Denmark",
+            "Djibouti",
+            "Dominica",
+            "Dominican Republic",
+            "Ecuador",
+            "Egypt",
+            "El Salvador",
+            "Equatorial Guinea",
+            "Eritrea",
+            "Estonia",
+            "Eswatini",
+            "Ethiopia",
+            "Fiji",
+            "Finland",
+            "France",
+            "Gabon",
+            "Gambia",
+            "Georgia",
+            "Germany",
+            "Ghana",
+            "Greece",
+            "Grenada",
+            "Guatemala",
+            "Guinea",
+            "Guinea-Bissau",
+            "Guyana",
+            "Haiti",
+            "Honduras",
+            "Hungary",
+            "Iceland",
+            "India",
+            "Indonesia",
+            "Iran",
+            "Iraq",
+            "Ireland",
+            "Israel",
+            "Italy",
+            "Ivory Coast",
+            "Jamaica",
+            "Japan",
+            "Jordan",
+            "Kazakhstan",
+            "Kenya",
+            "Kiribati",
+            "Kuwait",
+            "Kyrgyzstan",
+            "Laos",
+            "Latvia",
+            "Lebanon",
+            "Lesotho",
+            "Liberia",
+            "Libya",
+            "Liechtenstein",
+            "Lithuania",
+            "Luxembourg",
+            "Madagascar",
+            "Malawi",
+            "Malaysia",
+            "Maldives",
+            "Mali",
+            "Malta",
+            "Marshall Islands",
+            "Mauritania",
+            "Mauritius",
+            "Mexico",
+            "Micronesia",
+            "Moldova",
+            "Monaco",
+            "Mongolia",
+            "Montenegro",
+            "Morocco",
+            "Mozambique",
+            "Myanmar (Burma)",
+            "Namibia",
+            "Nauru",
+            "Nepal",
+            "Netherlands",
+            "New Zealand",
+            "Nicaragua",
+            "Niger",
+            "Nigeria",
+            "North Korea",
+            "North Macedonia",
+            "Norway",
+            "Oman",
+            "Pakistan",
+            "Palau",
+            "Palestine State",
+            "Panama",
+            "Papua New Guinea",
+            "Paraguay",
+            "Peru",
+            "Philippines",
+            "Poland",
+            "Portugal",
+            "Qatar",
+            "Romania",
+            "Russia",
+            "Rwanda",
+            "Saint Kitts and Nevis",
+            "Saint Lucia",
+            "Saint Vincent and the Grenadines",
+            "Samoa",
+            "San Marino",
+            "Sao Tome and Principe",
+            "Saudi Arabia",
+            "Senegal",
+            "Serbia",
+            "Seychelles",
+            "Sierra Leone",
+            "Singapore",
+            "Slovakia",
+            "Slovenia",
+            "Solomon Islands",
+            "Somalia",
+            "South Africa",
+            "South Korea",
+            "South Sudan",
+            "Spain",
+            "Sri Lanka",
+            "Sudan",
+            "Suriname",
+            "Sweden",
+            "Switzerland",
+            "Syria",
+            "Tajikistan",
+            "Tanzania",
+            "Thailand",
+            "Timor-Leste",
+            "Togo",
+            "Tonga",
+            "Trinidad and Tobago",
+            "Tunisia",
+            "Turkey",
+            "Turkmenistan",
+            "Tuvalu",
+            "Uganda",
+            "Ukraine",
+            "United Arab Emirates",
+            "United Kingdom",
+            "United States of America",
+            "Uruguay",
+            "Uzbekistan",
+            "Vanuatu",
+            "Vatican City",
+            "Venezuela",
+            "Vietnam",
+            "Yemen",
+            "Zambia",
+            "Zimbabwe"
+          ]
         },
         {
           "accessor": "adresse",
@@ -209,13 +339,7 @@
         {
           "accessor": "num",
           "label": "Téléphone",
-          "type": "text",
-          "required": true
-        },
-        {
-          "accessor": "emballage",
-          "label": "Emballage",
-          "type": "text",
+          "type": "number",
           "required": true
         },
         {
@@ -224,6 +348,18 @@
           "type": "select",
           "required": true,
           "options": []
+        },
+        {
+          "accessor": "emballage",
+          "label": "Emballage",
+          "type": "select",
+          "required": true
+        },
+        {
+          "accessor": "quantite",
+          "label": "quantite",
+          "type": "number",
+          "required": true
         }
       ],
       "AddButton": "Ajouter Commande",

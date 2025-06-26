@@ -10,10 +10,21 @@ export async function GET(req, { params }) {
 }
 
 export async function PUT(req, { params }) {
-  const data = await req.json();
+  const body = await req.json();
   const updated = await prisma.commande.update({
     where: { id: Number(params.id) },
-    data,
+    data: {
+      adresse: body.adresse,
+      emballage: body.emballage,
+      num: parseFloat(body.num), // ✅ convert string to float
+      mail: body.mail,
+      nom: body.nom,
+      quantite: parseFloat(body.quantite),
+      prenom: body.prenom,
+      region: body.region,
+      productId: parseFloat(body.productId),
+      status: body.status,
+    },
   });
   return Response.json(updated);
 }

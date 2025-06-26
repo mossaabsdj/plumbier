@@ -1,11 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
+// GET: Get all products with their farms and emballages
 export async function GET() {
   try {
     const products = await prisma.product.findMany({
       include: {
-        farm: true, // Include related farm
+        farm: true,
+        emballages: true, // Correct relation name
       },
     });
     return Response.json(products);
@@ -18,19 +20,31 @@ export async function GET() {
   }
 }
 
+// POST: Create a new product with optional emballages
 export async function POST(req) {
   try {
     const body = await req.json();
+
     const product = await prisma.product.create({
       data: {
         title: body.title,
         desc: body.desc,
-        prix: parseFloat(body.prix), // ✅ convert string to float
+        prix: parseFloat(body.prix),
         emballage: body.emballage,
         image: body.image,
-        farmId: parseFloat(body.farm),
+        farmId: body.farm ? parseInt(body.farm) : null,
+        emballages: body.emballages
+          ? {
+              create: body.emballages.map((name) => ({ name })),
+            }
+          : undefined,
+      },
+      include: {
+        farm: true,
+        emballages: true,
       },
     });
+
     return Response.json(product);
   } catch (error) {
     console.error("POST error:", error);

@@ -19,6 +19,7 @@ model Product {
 
   commandes  Commande[]  // 👈 relation
   Date  DateTime    @default(now())
+  emballages Emballage[] // 1 Product → many Emballages
 }
 model Commande {
   id         Int      @id @default(autoincrement())
@@ -28,9 +29,11 @@ model Commande {
   region     String
   adresse    String
   mail       String
-  num        String
+  num        Float
+  quantite   Int
   product    Product  @relation(fields: [productId], references: [id])
   productId  Int
+status Boolean? 
   Date  DateTime @default(now())
 }
 
@@ -49,6 +52,13 @@ model Admin {
   User     String @unique
   Password String
 
+}
+
+model Emballage {
+  id        Int      @id @default(autoincrement())
+  name      String
+   productId Int   // FK to Product
+  product   Product  @relation(fields: [productId], references: [id]) // Many Emballages → 1 Product
 }
 
 

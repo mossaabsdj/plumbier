@@ -150,22 +150,22 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
   }
 
   return (
-    <div className="p-6 max-w-8xl ">
+    <div className="p-2 w-full sm:p-6 max-w-7xl">
       <h1 className="text-2xl font-bold mb-4">{data.title}</h1>
 
-      <div className="grid grid-cols-2 gap-3 mb-6 w-full max-w-[40%] sm:max-w-[90%] sm:flex sm:flex-row">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-6 w-full max-w-full">
         <Input
           placeholder={data.table.SearchPlaceHolder}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full sm:max-w-sm max-w-[200px]"
+          className="w-full sm:max-w-sm"
         />
 
         <Popover>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
-              className="max-w-[160px] justify-start text-left font-normal"
+              className="w-full justify-start text-left font-normal"
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
               {selectedDate ? (
@@ -187,87 +187,138 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
 
         <Button
           onClick={handleAdd}
-          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 max-w-[120px]"
+          className="bg-green-600 hover:bg-green-700 text-white w-full"
         >
           + {Labels.Add}
         </Button>
 
-        <Button
-          onClick={handleStats}
-          variant="secondary"
-          className="px-4 py-2 max-w-[120px]"
-        >
+        <Button onClick={handleStats} variant="secondary" className="w-full">
           📊 {Labels.Stats}
         </Button>
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            {columns.map((col) => (
-              <TableHead
-                key={col.accessor}
-                onClick={() => handleSort(col)}
-                className={`cursor-pointer ${
-                  col.sortable ? "hover:underline" : "text-muted-foreground"
-                }`}
-              >
-                <div className="flex items-center gap-1">
-                  {col.label}
-                  {col.sortable &&
-                    sortConfig.key === col.accessor &&
-                    (sortConfig.direction === "asc" ? (
-                      <ArrowUp size={14} />
-                    ) : (
-                      <ArrowDown size={14} />
-                    ))}
-                </div>
-              </TableHead>
-            ))}
-            <TableHead className="text-right">{Labels.Actions}</TableHead>
-          </TableRow>
-        </TableHeader>
+      <div className="w-full flex justify-center">
+        <div className="overflow-x-auto rounded-lg shadow border border-gray-200 bg-white max-w-full">
+          <Table className="w-full min-w-[600px] divide-y divide-gray-200">
+            <TableHeader>
+              <TableRow className="bg-gray-100">
+                <TableHead className="px-3 py-2 font-semibold text-gray-700">
+                  ID
+                </TableHead>
+                {columns.map((col) => (
+                  <TableHead
+                    key={col.accessor}
+                    onClick={() => handleSort(col)}
+                    className={`px-3 py-2 font-semibold text-gray-700 cursor-pointer select-none ${
+                      col.sortable ? "hover:underline" : "text-muted-foreground"
+                    }`}
+                  >
+                    <div className="flex items-center gap-1">
+                      {col.label}
+                      {col.sortable &&
+                        sortConfig.key === col.accessor &&
+                        (sortConfig.direction === "asc" ? (
+                          <ArrowUp size={14} />
+                        ) : (
+                          <ArrowDown size={14} />
+                        ))}
+                    </div>
+                  </TableHead>
+                ))}
+                <TableHead className="px-3 py-2 text-right font-semibold text-gray-700">
+                  {Labels.Actions}
+                </TableHead>
+              </TableRow>
+            </TableHeader>
 
-        <TableBody>
-          {sortedData.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.id}</TableCell>
+            <TableBody>
+              {sortedData.map((row) => (
+                <TableRow
+                  key={row.id}
+                  className="hover:bg-gray-50 transition-colors"
+                >
+                  <TableCell className="px-3 py-2">{row.id}</TableCell>
 
-              {columns.map((col) => (
-                <TableCell key={col.accessor}>
-                  {col.accessor === "date"
-                    ? format(new Date(row[col.accessor]), "yyyy-MM-dd")
-                    : col.accessor === "farm"
-                    ? row.farm?.name || "N/A"
-                    : row[col.accessor]}
-                </TableCell>
+                  {columns.map((col) => (
+                    <TableCell
+                      key={col.accessor}
+                      className="px-3 py-2 align-middle"
+                    >
+                      {col.accessor === "Date" ? (
+                        format(new Date(row[col.accessor]), "yyyy-MM-dd")
+                      ) : col.accessor === "farm" ? (
+                        row.farm?.name || "N/A"
+                      ) : col.accessor === "emballage" ? (
+                        Array.isArray(row?.emballages) &&
+                        row.emballages.length > 0 ? (
+                          <select
+                            className="border rounded px-2 py-1 bg-gray-50"
+                            value={
+                              typeof row.emballages[0] === "object"
+                                ? row.emballages[0].name
+                                : row.emballages[0]
+                            }
+                            style={{ minWidth: 100 }}
+                          >
+                            {row.emballages.map((emb, idx) => (
+                              <option
+                                key={idx}
+                                value={typeof emb === "object" ? emb.name : emb}
+                              >
+                                {typeof emb === "object" ? emb.name : emb}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
+                          "N/A"
+                        )
+                      ) : col.accessor === "image" ? (
+                        row.image ? (
+                          <img
+                            src={row.image}
+                            alt="product"
+                            className="rounded shadow border"
+                            style={{
+                              maxWidth: 60,
+                              maxHeight: 40,
+                              objectFit: "contain",
+                            }}
+                          />
+                        ) : (
+                          "N/A"
+                        )
+                      ) : (
+                        row[col.accessor]
+                      )}
+                    </TableCell>
+                  ))}
+
+                  <TableCell className="px-3 py-2 text-right flex gap-2 justify-end">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleView(row)}
+                    >
+                      {Labels.View}
+                    </Button>
+
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => {
+                        setSelectedId(row.id);
+                        setOpenDialog(true);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
               ))}
-
-              <TableCell className="text-right flex gap-2 justify-end">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleView(row)}
-                >
-                  {Labels.View}
-                </Button>
-
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => {
-                    setSelectedId(row.id);
-                    setOpenDialog(true);
-                  }}
-                >
-                  Delete
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+            </TableBody>
+          </Table>
+        </div>
+      </div>
 
       {sortedData.length === 0 && (
         <p className="text-center text-muted-foreground mt-4">

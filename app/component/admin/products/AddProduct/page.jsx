@@ -12,8 +12,14 @@ const AddModal = ({ open, onClose, data }) => {
   const labels = object.Labels;
   const [errorMessage, setErrorMessage] = useState("");
   const [Farms, setFarms] = useState([{}]);
+  const [Emballages, setEmballages] = useState([]);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+  const [showNewEmballage, setShowNewEmballage] = useState(false);
+  const [newEmballageName, setNewEmballageName] = useState("");
+  const [selectedEmballages, setSelectedEmballages] = useState([]);
+  const [newEmballageNames, setNewEmballageNames] = useState([""]);
+
   const getSelectedFarms = async () => {
     const response = await fetchData({
       method: "GET",
@@ -64,18 +70,59 @@ const AddModal = ({ open, onClose, data }) => {
     });
   };
 
+  // Handle multi-select for emballages
+  const handleEmballagesChange = (e) => {
+    const options = Array.from(e.target.selectedOptions, (opt) => opt.value);
+    setSelectedEmballages(options.filter((v) => v !== "add_new"));
+    setShowNewEmballage(options.includes("add_new"));
+  };
+
+  // Add new emballage input field
+  const addNewEmballageField = () => {
+    setNewEmballageNames([...newEmballageNames, ""]);
+  };
+
+  // Remove a new emballage input field
+  const removeNewEmballageField = (idx) => {
+    setNewEmballageNames(newEmballageNames.filter((_, i) => i !== idx));
+  };
+
+  // Update a new emballage name
+  const updateNewEmballageName = (idx, value) => {
+    const updated = [...newEmballageNames];
+    updated[idx] = value;
+    setNewEmballageNames(updated);
+  };
+
   const onSubmit = async (formValues) => {
-    setErrorMessage(""); // Reset before submit
+    setErrorMessage("");
     try {
       const updatedValues = { ...formValues };
-      if (!updatedValues.farm) {
-        updatedValues.farm = Farms[0].id;
+
+      // Only use newEmballageNames for new products
+      const emballagesToSend = newEmballageNames.filter((n) => n.trim() !== "");
+
+      // Remove old emballage field
+      delete updatedValues.emballage;
+
+      // Map farm to farmId for API
+      if (updatedValues.farm) {
+        updatedValues.farmId = parseInt(updatedValues.farm);
+        delete updatedValues.farm;
       }
+
+      // Handle image upload
       if (updatedValues.image instanceof File) {
         const imageUrl = await uploadImageToCloudinary(updatedValues.image);
         updatedValues.image = imageUrl;
       }
-      console.log("updatedValues" + JSON.stringify(updatedValues));
+
+      // Send emballages as array of names
+      updatedValues.emballages = emballagesToSend;
+
+      // Debug: log what will be sent
+      console.log("Submitting product:", updatedValues);
+
       const response = await fetchData({
         method: "POST",
         url: "/api/Product",
@@ -83,21 +130,19 @@ const AddModal = ({ open, onClose, data }) => {
       });
 
       if (response?.error) {
-        setErrorMessage("❌ " + response.error); // Show alert
+        setErrorMessage("❌ " + response.error);
         return;
       }
-
-      onClose(); // ✅ Success: close the modal
+      onClose();
     } catch (error) {
-      console.error("Error submitting form:", error);
-      setErrorMessage("❌ Failed to add product: " + error.message); // Show alert
+      setErrorMessage("❌ Failed to add product: " + error.message);
     }
   };
   const initialValues = FirstFields.reduce((acc, field) => {
     if (field.type === "image" || field.accessor === "image") {
       acc[field.accessor] = null;
     } else if (field.type === "select") {
-      acc[field.accessor] = Farms?.[0] || "";
+      acc[field.accessor] = Farms?.[0].id || "";
     } else {
       acc[field.accessor] = "";
     }
@@ -172,6 +217,51 @@ const AddModal = ({ open, onClose, data }) => {
                         </option>
                       ))}
                     </select>
+                  </div>
+                );
+              }
+
+              if (field.accessor === "emballage") {
+                return (
+                  <div key={field.accessor}>
+                    <label
+                      htmlFor={field.accessor}
+                      className="block text-gray-700 font-medium mb-1"
+                    >
+                      {field.label}
+                    </label>
+                    <div className="mt-2 space-y-2">
+                      {newEmballageNames.map((name, idx) => (
+                        <div key={idx} className="flex gap-2">
+                          <input
+                            type="text"
+                            placeholder="New emballage name"
+                            value={name}
+                            onChange={(e) =>
+                              updateNewEmballageName(idx, e.target.value)
+                            }
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          />
+                          {newEmballageNames.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => removeNewEmballageField(idx)}
+                              className="text-red-500"
+                              title="Remove"
+                            >
+                              &times;
+                            </button>
+                          )}
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={addNewEmballageField}
+                        className="mt-1 text-black underline"
+                      >
+                        + Add another emballage
+                      </button>
+                    </div>
                   </div>
                 );
               }

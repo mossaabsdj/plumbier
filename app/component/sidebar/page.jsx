@@ -16,7 +16,7 @@ const items = data.SliderMenu;
 
 export function AppSidebar({ setpagesVisibility }) {
   const handleClick = (pageKey) => {
-    console.log("ke" + pageKey);
+    //  console.log("ke" + pageKey);
     setpagesVisibility((prev) => ({
       ...Object.fromEntries(Object.keys(prev).map((key) => [key, false])), // set all false
       [pageKey]: true, // activate the selected one
@@ -26,7 +26,7 @@ export function AppSidebar({ setpagesVisibility }) {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>GYM</SidebarGroupLabel>
+          <SidebarGroupLabel>{data.TitleApp}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (

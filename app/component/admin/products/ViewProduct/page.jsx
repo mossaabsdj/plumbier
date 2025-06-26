@@ -19,10 +19,13 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
   const [editValues, setEditValues] = useState(product || {});
   const [editing, setEditing] = useState(false);
   const [Farms, setFarms] = useState([{}]);
+  const [Emballages, setEmballages] = useState([]);
   const [rawImageFile, setRawImageFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showNewEmballage, setShowNewEmballage] = useState(false);
+  const [newEmballageName, setNewEmballageName] = useState("");
 
   useEffect(() => {
     setEditValues(product || {});
@@ -89,6 +92,19 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
         setRawImageFile(null);
       }
 
+      // Handle emballage
+      if (showNewEmballage && newEmballageName) {
+        // Create new emballage
+        const emballageRes = await fetchData({
+          method: "POST",
+          url: "/api/Product/Emballage",
+          body: { name: newEmballageName },
+        });
+        editValues.emballageId = emballageRes.id;
+      } else if (editValues.emballageRel && editValues.emballageRel.id) {
+        editValues.emballageId = editValues.emballageRel.id;
+      }
+
       const response = await fetchData({
         method: "PUT",
         url: `/api/Product/${editValues.id}`,
@@ -99,8 +115,11 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
         setErrorMessage("❌ " + response.error);
       } else {
         reload();
+        getEmballages();
         setErrorMessage("✅ Produit mis à jour avec succès.");
+
         setTimeout(() => setErrorMessage(""), 1500);
+        onClose();
         setEditing(false);
       }
     } catch (err) {
@@ -117,8 +136,17 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
     setFarms(response);
   };
 
+  const getEmballages = async () => {
+    const response = await fetchData({
+      method: "GET",
+      url: "/api/Product/Emballage",
+    });
+    setEmballages(response);
+  };
+
   useEffect(() => {
     getSelectedFarms();
+    getEmballages();
   }, []);
 
   if (!open || !product) return null;
@@ -180,7 +208,14 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {Object.entries(editValues).map(([key, value]) => {
-            if (key === DontDisplayasfield) return null;
+            // Skip id and emballageId fields
+            if (
+              key === DontDisplayasfield ||
+              key === "id" ||
+              key === "emballageId" ||
+              key === "emballage"
+            )
+              return null;
 
             const isFarmField =
               key === "farm" && value && typeof value === "object";
@@ -196,6 +231,70 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
               key.toLowerCase().includes("date") || value instanceof Date;
             const displayValue = isFarmField ? value.name : value;
 
+            // Emballage select logic
+            if (key === "emballageRel") {
+              return (
+                <div key={key} className="mb-4">
+                  <div className="text-black font-medium mb-1 break-words">
+                    Emballage
+                  </div>
+                  {editing ? (
+                    <>
+                      <select
+                        name="emballageRel"
+                        value={
+                          showNewEmballage
+                            ? "add_new"
+                            : value && value.id
+                            ? value.id
+                            : ""
+                        }
+                        onChange={(e) => {
+                          if (e.target.value === "add_new") {
+                            setShowNewEmballage(true);
+                            setEditValues((prev) => ({
+                              ...prev,
+                              emballageRel: { id: "", name: "" },
+                            }));
+                          } else {
+                            setShowNewEmballage(false);
+                            const selected = Emballages.find(
+                              (emb) => emb.id === Number(e.target.value)
+                            );
+                            setEditValues((prev) => ({
+                              ...prev,
+                              emballageRel: selected,
+                            }));
+                          }
+                        }}
+                        className="w-full px-3 py-2 border border-black rounded shadow bg-white text-black"
+                      >
+                        <option value="">Select emballage</option>
+                        {Emballages.map((emb) => (
+                          <option key={emb.id} value={emb.id}>
+                            {emb.name}
+                          </option>
+                        ))}
+                        <option value="add_new">Add new emballage</option>
+                      </select>
+                      {showNewEmballage && (
+                        <input
+                          type="text"
+                          placeholder="New emballage name"
+                          value={newEmballageName}
+                          onChange={(e) => setNewEmballageName(e.target.value)}
+                          className="mt-2 w-full px-3 py-2 border border-black rounded shadow bg-white text-black"
+                        />
+                      )}
+                    </>
+                  ) : (
+                    <div className="px-3 py-2 border border-black rounded shadow bg-white text-black break-words">
+                      {value?.name || ""}
+                    </div>
+                  )}
+                </div>
+              );
+            }
             return (
               <div key={key} className="mb-4">
                 <div className="text-black font-medium mb-1 break-words">
@@ -223,7 +322,7 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
                             reader.readAsDataURL(file);
                           }
                         }}
-                        className="px-3 py-2 border border-black rounded shadow bg-white text-black"
+                        className="px-3 py-2 w-80  border border-black rounded shadow bg-white text-black"
                       />
                       {value && (
                         <img
@@ -246,12 +345,13 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
                   ) : key === "farm" ? (
                     <select
                       name={key}
-                      value={editValues[key]?.name}
+                      value={editValues.farmId || ""}
                       onChange={(e) => {
                         const selectedId = parseInt(e.target.value, 10);
                         setEditValues((prev) => ({
                           ...prev,
                           farmId: selectedId,
+                          farm: Farms.find((f) => f.id === selectedId) || null,
                         }));
                       }}
                       className="w-full px-3 py-2 border border-black rounded shadow bg-white text-black"
