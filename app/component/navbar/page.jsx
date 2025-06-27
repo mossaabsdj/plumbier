@@ -10,16 +10,35 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
+import { useSession, signOut, signIn } from "next-auth/react";
 
 const TEXTS = {
   brandName: "ACME",
   navItems: ["About", "Products", "International", "Rates & Fees", "Contact"],
   login: "Login",
+  logout: "Logout",
 };
 
-export default function AppNavbar() {
+export default function AppNavbar({ setlogin }) {
   const [open, setOpen] = React.useState(false);
+  const { data: session, status } = useSession();
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, logout",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        signOut({ callbackUrl: "/Login" });
+      }
+    });
+  };
 
+  if (status === "loading") return null; // Or show a spinner
   return (
     <header className="bg-white text-black shadow-sm px-6 py-4 z-50 ">
       <div className="flex items-center justify-between">
@@ -53,13 +72,24 @@ export default function AppNavbar() {
 
         {/* Desktop Login */}
         <div className="hidden sm:block">
-          <Button
-            asChild
-            variant="default"
-            className="bg-black hover:bg-gray-700"
-          >
-            <Link href="#">{TEXTS.login}</Link>
-          </Button>
+          {!session ? (
+            <Button
+              asChild
+              variant="default"
+              className="bg-black hover:bg-gray-700"
+            >
+              <Link href="/Login">{TEXTS.login}</Link>
+            </Button>
+          ) : (
+            <Button
+              asChild
+              variant="default"
+              onClick={handleLogout}
+              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+            >
+              {TEXTS.logout}
+            </Button>
+          )}
         </div>
 
         {/* Mobile Menu Trigger */}

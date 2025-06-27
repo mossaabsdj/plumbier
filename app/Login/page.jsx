@@ -3,14 +3,14 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import DashBoard from "./DashBoard";
+import Login from "./Login";
 
 export default async function AdminPage() {
   const session = await getServerSession(authOptions);
 
-  if (!session) {
-    redirect("/Login");
+  if (session) {
+    redirect("/DashBoard");
   }
 
-  return <DashBoard />;
+  return <Login />;
 }

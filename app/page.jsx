@@ -11,7 +11,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
-
+import LoginPage from "@/app/Login/Login";
 export default function Home() {
   return (
     <>
