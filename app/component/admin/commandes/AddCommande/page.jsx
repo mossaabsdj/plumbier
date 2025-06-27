@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import object from "@/app/Texts/content.json";
 import { fetchData } from "@/lib/FetchData/page"; // Adjust path if needed
+import { number } from "framer-motion";
 const prods = await fetchData({ method: "GET", url: "/api/Product" });
 
 const AddModal = ({ open, onClose, data, loadData }) => {
@@ -25,26 +26,34 @@ const AddModal = ({ open, onClose, data, loadData }) => {
 
   const [values, setValues] = useState(initialValues);
   const [emballages, setemballages] = useState([]);
-  const [prod_id, setprod_ID] = useState();
+  const [prod, setprod] = useState();
 
   // After setEmballages(emballage);
   useEffect(() => {
     // Get only emballages for the selected product
-    const filteredEmballages = prod_id?.emballageRel
-      ? [prod_id.emballageRel]
-      : [];
+    console.log(JSON.stringify(prod));
+    const filteredEmballages = prod?.emballages ? prod.emballages : [];
+    console.log(JSON.stringify(filteredEmballages));
+
     setemballages(filteredEmballages);
-  }, [values.productId]);
+  }, [values.productId, prod]);
   // Find the selected product
 
   const handleChange = (e) => {
-    const selectedProduct = prods.find((p) => p.id === values.productId);
-    setprod_ID(selectedProduct);
     const { name, value, type, files } = e.target;
     if (type === "file") {
       setValues({ ...values, [name]: files[0] });
     } else {
       setValues({ ...values, [name]: value });
+      if (name === "productId") {
+        console.log("values" + value);
+        const selectedProduct = prods.find(
+          (p) => Number(p.id) === Number(value)
+        );
+        console.log("selectedProduct" + JSON.stringify(selectedProduct));
+
+        setprod(selectedProduct);
+      }
     }
   };
   const onSubmit = async (values) => {
@@ -100,10 +109,6 @@ const AddModal = ({ open, onClose, data, loadData }) => {
                       value={values[field.accessor]}
                       onChange={(e) => {
                         handleChange(e);
-                        setValues((prev) => ({
-                          ...prev,
-                          emballage: "", // reset emballage when product changes
-                        }));
                       }}
                       required={field.required}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
@@ -186,8 +191,8 @@ const AddModal = ({ open, onClose, data, loadData }) => {
                       disabled={!values.productId}
                     >
                       <option value="">Select emballage</option>
-                      {emballages.map((emb) => (
-                        <option key={emb.id} value={emb.id}>
+                      {emballages?.map((emb) => (
+                        <option key={emb.id} value={emb.name}>
                           {emb.name}
                         </option>
                       ))}

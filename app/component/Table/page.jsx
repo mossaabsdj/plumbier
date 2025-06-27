@@ -150,7 +150,7 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
   }
 
   return (
-    <div className="p-2 w-full sm:p-6 max-w-7xl">
+    <div className="p-8 w-full sm:p-6 max-w-7xl">
       <h1 className="text-2xl font-bold mb-4">{data.title}</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-6 w-full max-w-full">
@@ -197,9 +197,9 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
         </Button>
       </div>
 
-      <div className="w-full flex justify-center">
+      <div className="w-full ">
         <div className="overflow-x-auto rounded-lg shadow border border-gray-200 bg-white max-w-full">
-          <Table className="w-full min-w-[600px] divide-y divide-gray-200">
+          <Table className="w-full  divide-y divide-gray-200">
             <TableHeader>
               <TableRow className="bg-gray-100">
                 <TableHead className="px-3 py-2 font-semibold text-gray-700">

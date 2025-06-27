@@ -5,6 +5,8 @@ import { fetchData } from "@/lib/FetchData/page";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const Labels = object.Labels;
 const defaultdata = object.Product.ViewModel;
@@ -26,10 +28,18 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [showNewEmballage, setShowNewEmballage] = useState(false);
   const [newEmballageName, setNewEmballageName] = useState("");
+  // Add this state for editing emballages array
+  const [editEmballages, setEditEmballages] = useState([]);
 
+  // Sync editEmballages with product.emballages when opening or switching product
   useEffect(() => {
     setEditValues(product || {});
     setEditing(false);
+    setEditEmballages(
+      Array.isArray(product?.emballages)
+        ? product.emballages.map((e) => (typeof e === "object" ? e.name : e))
+        : [""]
+    );
   }, [product, open]);
 
   const handleChange = (e) => {
@@ -42,7 +52,15 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
       setEditValues((prev) => ({ ...prev, [name]: value }));
     }
   };
-
+  const addEmballageField = () => {
+    setEditEmballages((prev) => [...prev, ""]);
+  };
+  const removeEmballageField = (idx) => {
+    setEditEmballages((prev) => prev.filter((_, i) => i !== idx));
+  };
+  const updateEmballageName = (idx, value) => {
+    setEditEmballages((prev) => prev.map((e, i) => (i === idx ? value : e)));
+  };
   const uploadImageToCloudinary = async (file) => {
     return new Promise((resolve, reject) => {
       const url = "https://api.cloudinary.com/v1_1/dgozr0fbn/image/upload";
@@ -92,30 +110,23 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
         setRawImageFile(null);
       }
 
-      // Handle emballage
-      if (showNewEmballage && newEmballageName) {
-        // Create new emballage
-        const emballageRes = await fetchData({
-          method: "POST",
-          url: "/api/Product/Emballage",
-          body: { name: newEmballageName },
-        });
-        editValues.emballageId = emballageRes.id;
-      } else if (editValues.emballageRel && editValues.emballageRel.id) {
-        editValues.emballageId = editValues.emballageRel.id;
-      }
+      const emballagesToSend = editEmballages.filter((n) => n.trim() !== "");
+      editValues.emballages = emballagesToSend;
 
+      console.log(
+        "data" +
+          JSON.stringify({ ...editValues, emballages: editValues.emballages })
+      );
       const response = await fetchData({
         method: "PUT",
         url: `/api/Product/${editValues.id}`,
-        body: { editValues },
+        body: { ...editValues, emballages: editValues.emballages },
       });
 
       if (response.error) {
         setErrorMessage("❌ " + response.error);
       } else {
         reload();
-        getEmballages();
         setErrorMessage("✅ Produit mis à jour avec succès.");
 
         setTimeout(() => setErrorMessage(""), 1500);
@@ -136,17 +147,8 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
     setFarms(response);
   };
 
-  const getEmballages = async () => {
-    const response = await fetchData({
-      method: "GET",
-      url: "/api/Product/Emballage",
-    });
-    setEmballages(response);
-  };
-
   useEffect(() => {
     getSelectedFarms();
-    getEmballages();
   }, []);
 
   if (!open || !product) return null;
@@ -231,11 +233,60 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
               key.toLowerCase().includes("date") || value instanceof Date;
             const displayValue = isFarmField ? value.name : value;
 
+            // Emballages array display
+            if (key === "emballages" && Array.isArray(value)) {
+              return (
+                <div key={key} className="mb-4">
+                  <div className="block text-gray-700 font-medium mb-1">
+                    Emballages
+                  </div>
+                  <div>
+                    {editEmballages.map((name, idx) => (
+                      <div key={idx} className="flex gap-2 mb-1">
+                        <Input
+                          type="text"
+                          value={name}
+                          readOnly={!editing}
+                          onChange={
+                            editing
+                              ? (e) => updateEmballageName(idx, e.target.value)
+                              : undefined
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                        />
+                        {editing && editEmballages.length > 1 && (
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            onClick={() => removeEmballageField(idx)}
+                            className="px-2"
+                            title="Remove"
+                          >
+                            &times;
+                          </Button>
+                        )}
+                      </div>
+                    ))}
+                    {editing && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={addEmballageField}
+                        className="mt-1 underline"
+                      >
+                        + Add another emballage
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              );
+            }
+
             // Emballage select logic
             if (key === "emballageRel") {
               return (
                 <div key={key} className="mb-4">
-                  <div className="text-black font-medium mb-1 break-words">
+                  <div className="block text-gray-700 font-medium mb-1">
                     Emballage
                   </div>
                   {editing ? (
@@ -267,7 +318,7 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
                             }));
                           }
                         }}
-                        className="w-full px-3 py-2 border border-black rounded shadow bg-white text-black"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
                       >
                         <option value="">Select emballage</option>
                         {Emballages.map((emb) => (
@@ -278,33 +329,36 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
                         <option value="add_new">Add new emballage</option>
                       </select>
                       {showNewEmballage && (
-                        <input
+                        <Input
                           type="text"
                           placeholder="New emballage name"
                           value={newEmballageName}
                           onChange={(e) => setNewEmballageName(e.target.value)}
-                          className="mt-2 w-full px-3 py-2 border border-black rounded shadow bg-white text-black"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
                         />
                       )}
                     </>
                   ) : (
-                    <div className="px-3 py-2 border border-black rounded shadow bg-white text-black break-words">
-                      {value?.name || ""}
-                    </div>
+                    <input
+                      name={key + 9876}
+                      value={value?.name}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                      readOnly={true}
+                    />
                   )}
                 </div>
               );
             }
             return (
               <div key={key} className="mb-4">
-                <div className="text-black font-medium mb-1 break-words">
+                <div className="block text-gray-700 font-medium mb-1">
                   {key}
                 </div>
 
                 {editing ? (
                   isImageField ? (
                     <div className="flex items-center gap-4">
-                      <input
+                      <Input
                         type="file"
                         name={key}
                         accept="image/*"
@@ -322,7 +376,7 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
                             reader.readAsDataURL(file);
                           }
                         }}
-                        className="px-3 py-2 w-80  border border-black rounded shadow bg-white text-black"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
                       />
                       {value && (
                         <img
@@ -333,14 +387,14 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
                       )}
                     </div>
                   ) : isDateField ? (
-                    <input
+                    <Input
                       type="date"
                       name={key}
                       value={
                         value ? new Date(value).toISOString().split("T")[0] : ""
                       }
                       onChange={handleChange}
-                      className="w-full px-3 py-2 border border-black rounded shadow bg-white text-black"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
                     />
                   ) : key === "farm" ? (
                     <select
@@ -354,7 +408,7 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
                           farm: Farms.find((f) => f.id === selectedId) || null,
                         }));
                       }}
-                      className="w-full px-3 py-2 border border-black rounded shadow bg-white text-black"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
                     >
                       <option value="">Select a farm</option>
                       {Farms.map((farm) => (
@@ -368,7 +422,7 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
                       name={key}
                       value={displayValue}
                       onChange={handleChange}
-                      className="w-full px-3 py-2 border border-black rounded shadow focus:outline-none focus:ring-2 focus:ring-black text-black bg-white"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
                       readOnly={isFarmField}
                     />
                   )
@@ -383,12 +437,29 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
                     <div className="text-gray-500">No image</div>
                   )
                 ) : (
-                  <div className="px-3 py-2 border border-black rounded shadow bg-white text-black break-words">
-                    {isFarmField
-                      ? value.name
-                      : isDateField
-                      ? new Date(value).toLocaleDateString()
-                      : value}
+                  <div>
+                    {isFarmField ? (
+                      <input
+                        name={key + 9876}
+                        value={value?.name}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                        readOnly={true}
+                      />
+                    ) : isDateField ? (
+                      <input
+                        name={key + 9876}
+                        value={new Date(value).toLocaleDateString()}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                        readOnly={true}
+                      />
+                    ) : (
+                      <input
+                        name={key + 9876}
+                        value={value}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                        readOnly={true}
+                      />
+                    )}
                   </div>
                 )}
               </div>

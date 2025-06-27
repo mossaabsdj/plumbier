@@ -21,7 +21,7 @@ export default function AppNavbar() {
   const [open, setOpen] = React.useState(false);
 
   return (
-    <header className="bg-white text-black shadow-sm px-6 py-4 z-50">
+    <header className="bg-white text-black shadow-sm px-6 py-4 z-50 ">
       <div className="flex items-center justify-between">
         {/* Logo and Brand */}
         <div className="flex items-center gap-3">

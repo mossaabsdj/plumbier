@@ -11,8 +11,7 @@ export async function GET(req, { params }) {
 
 export async function PUT(request, { params }) {
   const id = Number(params.id);
-  const r = await request.json();
-  const body = r.editValues;
+  const body = await request.json();
   try {
     // Update the product fields
     const updatedProduct = await prisma.product.update({
@@ -27,14 +26,14 @@ export async function PUT(request, { params }) {
       },
     });
     // body.emballageNames should be an array of emballage IDs to link to this product
-    if (Array.isArray(body.emballageNames)) {
+    if (Array.isArray(body.emballages)) {
       // First, disconnect all emballages from this product
       await prisma.emballage.deleteMany({
         where: { productId: id },
       });
       // Then, connect the selected emballages
       await prisma.emballage.createMany({
-        data: body.emballageNames.map((name) => ({ name, productId: id })),
+        data: body.emballages.map((name) => ({ name, productId: id })),
       });
     }
     const productWithEmballages = await prisma.product.findUnique({

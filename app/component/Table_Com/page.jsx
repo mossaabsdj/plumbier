@@ -27,7 +27,7 @@ const Page = ({ objects, data, AddModel, ViewModel }) => {
   const [openViewModel, setOpenViewModel] = useState(false);
   const [openStatsModel, setOpenStatsModel] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [statusFilter, setStatusFilter] = useState("all"); // "all", "waiting", "valider", "rejeter"
+  const [statusFilter, setStatusFilter] = useState(null); // "all", "waiting", "valider", "rejeter"
   const [object, setobject] = useState(objects);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDate, setSelectedDate] = useState();
@@ -139,22 +139,22 @@ const Page = ({ objects, data, AddModel, ViewModel }) => {
   }
 
   return (
-    <div className="p-6 max-w-8xl ">
+    <div className="p-6 w-full sm:p-4 max-w-7xl">
       <h1 className="text-2xl font-bold mb-4">{data.title}</h1>
 
-      <div className="grid grid-cols-2 gap-3 mb-6 w-full max-w-[40%] sm:max-w-[90%] sm:flex sm:flex-row">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-6 w-full max-w-full">
         <Input
           placeholder={data.table.SearchPlaceHolder}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full sm:max-w-sm max-w-[200px]"
+          className="w-full sm:max-w-sm"
         />
 
         <Popover>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
-              className="max-w-[160px] justify-start text-left font-normal"
+              className="w-full justify-start text-left font-normal"
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
               {selectedDate ? (
@@ -176,16 +176,12 @@ const Page = ({ objects, data, AddModel, ViewModel }) => {
 
         <Button
           onClick={handleAdd}
-          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 max-w-[120px]"
+          className="bg-green-600 hover:bg-green-700 text-white w-full"
         >
           + {Labels.Add}
         </Button>
 
-        <Button
-          onClick={handleStats}
-          variant="secondary"
-          className="px-4 py-2 max-w-[120px]"
-        >
+        <Button onClick={handleStats} variant="secondary" className="w-full">
           📊 {Labels.Stats}
         </Button>
       </div>
