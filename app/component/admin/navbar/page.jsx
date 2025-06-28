@@ -4,7 +4,6 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Swal from "sweetalert2";
-
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,17 +16,16 @@ import { useSession, signOut, signIn } from "next-auth/react";
 const TEXTS = {
   brandName: "Ski agrotour luxe",
   navItems: [
-    "About",
-    "traditional cheese",
-    "animal husbandry",
-    "Rates & Fees",
-    "order",
+    { label: "Products", href: "/admin/products" },
+    { label: "Commandes", href: "/admin/commande" },
+    { label: "Farms", href: "/admin/farms" },
+    { label: "Paramètre", href: "/admin/parametre" },
   ],
   login: "Login",
   logout: "Logout",
 };
 
-export default function AppNavbar() {
+export default function AppNavbar({ onNavChange, currentPage }) {
   const [open, setOpen] = React.useState(false);
   const { data: session, status } = useSession();
   const handleLogout = () => {
@@ -65,19 +63,24 @@ export default function AppNavbar() {
         <NavigationMenu className="hidden sm:flex">
           <NavigationMenuList className="flex gap-4">
             {TEXTS.navItems.map((item) => (
-              <NavigationMenuItem key={item}>
-                <Link
-                  href="#"
-                  className="text-sm font-medium text-black hover:text-gray-700"
+              <NavigationMenuItem key={item.label}>
+                <button
+                  type="button"
+                  onClick={() => onNavChange(item.label)}
+                  className={`text-sm font-medium ${
+                    currentPage === item.label
+                      ? "text-white bg-black font-bold  rounded-2xl w-24 h-9"
+                      : "text-black"
+                  }`}
                 >
-                  {item}
-                </Link>
+                  {item.label}
+                </button>
               </NavigationMenuItem>
             ))}
           </NavigationMenuList>
         </NavigationMenu>
 
-        {/* Desktop Login */}
+        {/* Desktop Login/Logout */}
         <div className="hidden sm:block">
           {status === "loading" ? (
             <div className="w-24 h-8 bg-gray-200 rounded animate-pulse" />
@@ -111,20 +114,32 @@ export default function AppNavbar() {
               <div className="space-y-4">
                 {TEXTS.navItems.map((item) => (
                   <Link
-                    key={item}
-                    href="#"
+                    key={item.label}
+                    href={item.href}
                     className="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100"
                     onClick={() => setOpen(false)}
                   >
-                    {item}
+                    {item.label}
                   </Link>
                 ))}
-                <Button
-                  asChild
-                  className="w-full bg-black hover:bg-gray-700 mt-4"
-                >
-                  <Link href="#">{TEXTS.login}</Link>
-                </Button>
+                {session ? (
+                  <Button
+                    onClick={() => {
+                      setOpen(false);
+                      handleLogout();
+                    }}
+                    className="w-full bg-red-600 hover:bg-red-700 mt-4 text-white"
+                  >
+                    {TEXTS.logout}
+                  </Button>
+                ) : (
+                  <Button
+                    asChild
+                    className="w-full bg-black hover:bg-gray-700 mt-4"
+                  >
+                    <Link href="/Login">{TEXTS.login}</Link>
+                  </Button>
+                )}
               </div>
             </SheetContent>
           </Sheet>

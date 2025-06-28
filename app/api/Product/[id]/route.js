@@ -25,38 +25,40 @@ export async function PUT(request, { params }) {
         Date: new Date(body.Date).toISOString(),
       },
     });
-    // body.emballageNames should be an array of emballage IDs to link to this product
-    if (Array.isArray(body.emballages)) {
-      // First, disconnect all emballages from this product
-      await prisma.emballage.deleteMany({
+    // body.emballageNames should be an array of emballage ID
+    if (body.emballageNames && body.emballageNames.length > 0) {
+      // First, delete existing emballage relations
+      await prisma.emballageOnProduct.deleteMany({
         where: { productId: id },
       });
-      // Then, connect the selected emballages
-      await prisma.emballage.createMany({
-        data: body.emballages.map((name) => ({ name, productId: id })),
-      });
+      // Then, create new relations for each emballage ID
+      for (const emballageId of body.emballageNames) {
+        await prisma.emballageOnProduct.create({
+          data: {
+            productId: id,
+            emballageId,
+          },
+        });
+      }
     }
-    const productWithEmballages = await prisma.product.findUnique({
-      where: { id },
-      include: { emballages: true },
-    });
-
-    return NextResponse.json(productWithEmballages);
+    return Response.json(updatedProduct);
   } catch (error) {
-    console.error("Update error:", error);
-
-    return NextResponse.json(
-      {
-        error: "Failed to update product",
-        details: error.message,
-      },
-      { status: 500 }
-    );
+    return new Response("Could not update product", { status: 500 });
   }
 }
+
 export async function DELETE(req, { params }) {
+  const id = Number(params.id);
+  // First, delete all commandes related to this product
+  await prisma.commande.deleteMany({
+    where: { productId: id },
+  });
+  await prisma.emballage.deleteMany({
+    where: { productId: id },
+  });
+  // Then, delete the product itself
   await prisma.product.delete({
-    where: { id: Number(params.id) },
+    where: { id },
   });
   return Response.json({ success: true });
 }

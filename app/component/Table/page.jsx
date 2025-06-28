@@ -27,7 +27,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { format } from "date-fns";
-import { CalendarIcon, ArrowDown, ArrowUp } from "lucide-react";
+import { CalendarIcon, ArrowDown, ArrowUp, Loader2 } from "lucide-react";
 import defaultdata from "@/app/Texts/content.json";
 import { fetchData } from "@/lib/FetchData/page";
 
@@ -45,6 +45,7 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
   const [showDialog, setShowDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const [dialogType, setDialogType] = useState("success"); // or 'error'
+  const [loading, setLoading] = useState(false);
 
   const Labels = defaultdata.Labels;
 
@@ -103,12 +104,14 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
   };
 
   const handleReload = async () => {
+    setLoading(true);
     setOpen(false);
     const updatedProducts = await fetchData({
       method: "GET",
       url: "/api/Product",
     });
-    setProducts(updatedProducts); // ✅ this triggers re-render
+    setProducts(updatedProducts);
+    setLoading(false);
   };
 
   const handleView = (row) => {
@@ -150,223 +153,246 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
   }
 
   return (
-    <div className="p-8 w-full sm:p-6 max-w-7xl">
-      <h1 className="text-2xl font-bold mb-4">{data.title}</h1>
+    <div className="flex flex-col min-h-screen w-full bg-gray-50 items-center justify-center">
+      <div className="w-full max-w-8xl flex flex-col h-[90vh] bg-white rounded-lg shadow border border-gray-200">
+        <h1 className="text-2xl font-bold mb-4 text-center pt-6">
+          {data.title}
+        </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-6 w-full max-w-full">
-        <Input
-          placeholder={data.table.SearchPlaceHolder}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full sm:max-w-sm"
-        />
+        {loading ? (
+          <div className="flex flex-col items-center justify-center flex-1">
+            <Loader2 className="h-12 w-12 animate-spin text-black mb-4" />
+            <span className="text-lg text-gray-700">Loading...</span>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 px-8 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-6 w-full max-w-full">
+              <Input
+                placeholder={data.table.SearchPlaceHolder}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full sm:max-w-sm"
+              />
 
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className="w-full justify-start text-left font-normal"
-            >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {selectedDate ? (
-                format(selectedDate, "PPP")
-              ) : (
-                <span>{Labels.pickdata}</span>
-              )}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0">
-            <Calendar
-              mode="single"
-              selected={selectedDate}
-              onSelect={setSelectedDate}
-              initialFocus
-            />
-          </PopoverContent>
-        </Popover>
-
-        <Button
-          onClick={handleAdd}
-          className="bg-green-600 hover:bg-green-700 text-white w-full"
-        >
-          + {Labels.Add}
-        </Button>
-
-        <Button onClick={handleStats} variant="secondary" className="w-full">
-          📊 {Labels.Stats}
-        </Button>
-      </div>
-
-      <div className="w-full ">
-        <div className="overflow-x-auto rounded-lg shadow border border-gray-200 bg-white max-w-full">
-          <Table className="w-full  divide-y divide-gray-200">
-            <TableHeader>
-              <TableRow className="bg-gray-100">
-                <TableHead className="px-3 py-2 font-semibold text-gray-700">
-                  ID
-                </TableHead>
-                {columns.map((col) => (
-                  <TableHead
-                    key={col.accessor}
-                    onClick={() => handleSort(col)}
-                    className={`px-3 py-2 font-semibold text-gray-700 cursor-pointer select-none ${
-                      col.sortable ? "hover:underline" : "text-muted-foreground"
-                    }`}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-left font-normal"
                   >
-                    <div className="flex items-center gap-1">
-                      {col.label}
-                      {col.sortable &&
-                        sortConfig.key === col.accessor &&
-                        (sortConfig.direction === "asc" ? (
-                          <ArrowUp size={14} />
-                        ) : (
-                          <ArrowDown size={14} />
-                        ))}
-                    </div>
-                  </TableHead>
-                ))}
-                <TableHead className="px-3 py-2 text-right font-semibold text-gray-700">
-                  {Labels.Actions}
-                </TableHead>
-              </TableRow>
-            </TableHeader>
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {selectedDate ? (
+                      format(selectedDate, "PPP")
+                    ) : (
+                      <span>{Labels.pickdata}</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={setSelectedDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
 
-            <TableBody>
-              {sortedData.map((row) => (
-                <TableRow
-                  key={row.id}
-                  className="hover:bg-gray-50 transition-colors"
-                >
-                  <TableCell className="px-3 py-2">{row.id}</TableCell>
+              <Button
+                onClick={handleAdd}
+                className="bg-green-600 hover:bg-green-700 text-white w-full"
+              >
+                + {Labels.Add}
+              </Button>
 
-                  {columns.map((col) => (
-                    <TableCell
-                      key={col.accessor}
-                      className="px-3 py-2 align-middle"
-                    >
-                      {col.accessor === "Date" ? (
-                        format(new Date(row[col.accessor]), "yyyy-MM-dd")
-                      ) : col.accessor === "farm" ? (
-                        row.farm?.name || "N/A"
-                      ) : col.accessor === "emballage" ? (
-                        Array.isArray(row?.emballages) &&
-                        row.emballages.length > 0 ? (
-                          <select
-                            className="border rounded px-2 py-1 bg-gray-50"
-                            value={
-                              typeof row.emballages[0] === "object"
-                                ? row.emballages[0].name
-                                : row.emballages[0]
-                            }
-                            style={{ minWidth: 100 }}
+              <Button
+                onClick={handleStats}
+                variant="secondary"
+                className="w-full"
+              >
+                📊 {Labels.Stats}
+              </Button>
+            </div>
+
+            {/* Table area is now flex-1 and scrollable */}
+            <div className="flex-1 overflow-y-auto px-8 pb-6">
+              <div className="overflow-x-auto rounded-lg shadow border border-gray-200 bg-white">
+                <Table className="min-w-full divide-y divide-gray-200">
+                  <TableHeader>
+                    <TableRow className="bg-gray-100">
+                      <TableHead className="px-3 py-2 font-semibold text-gray-700">
+                        ID
+                      </TableHead>
+                      {columns.map((col) => (
+                        <TableHead
+                          key={col.accessor}
+                          onClick={() => handleSort(col)}
+                          className={`px-3 py-2 font-semibold text-gray-700 cursor-pointer select-none ${
+                            col.sortable
+                              ? "hover:underline"
+                              : "text-muted-foreground"
+                          }`}
+                        >
+                          <div className="flex items-center gap-1">
+                            {col.label}
+                            {col.sortable &&
+                              sortConfig.key === col.accessor &&
+                              (sortConfig.direction === "asc" ? (
+                                <ArrowUp size={14} />
+                              ) : (
+                                <ArrowDown size={14} />
+                              ))}
+                          </div>
+                        </TableHead>
+                      ))}
+                      <TableHead className="px-3 py-2 text-right font-semibold text-gray-700">
+                        {Labels.Actions}
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+
+                  <TableBody>
+                    {sortedData.map((row) => (
+                      <TableRow
+                        key={row.id}
+                        className="hover:bg-gray-50 transition-colors"
+                      >
+                        <TableCell className="px-3 py-2">{row.id}</TableCell>
+
+                        {columns.map((col) => (
+                          <TableCell
+                            key={col.accessor}
+                            className="px-3 py-2 align-middle"
                           >
-                            {row.emballages.map((emb, idx) => (
-                              <option
-                                key={idx}
-                                value={typeof emb === "object" ? emb.name : emb}
-                              >
-                                {typeof emb === "object" ? emb.name : emb}
-                              </option>
-                            ))}
-                          </select>
-                        ) : (
-                          "N/A"
-                        )
-                      ) : col.accessor === "image" ? (
-                        row.image ? (
-                          <img
-                            src={row.image}
-                            alt="product"
-                            className="rounded shadow border"
-                            style={{
-                              maxWidth: 60,
-                              maxHeight: 40,
-                              objectFit: "contain",
+                            {col.accessor === "Date" ? (
+                              format(new Date(row[col.accessor]), "yyyy-MM-dd")
+                            ) : col.accessor === "farm" ? (
+                              row.farm?.name || "N/A"
+                            ) : col.accessor === "emballage" ? (
+                              Array.isArray(row?.emballages) &&
+                              row.emballages.length > 0 ? (
+                                <select
+                                  className="border rounded px-2 py-1 bg-gray-50"
+                                  value={
+                                    typeof row.emballages[0] === "object"
+                                      ? row.emballages[0].name
+                                      : row.emballages[0]
+                                  }
+                                  style={{ minWidth: 100 }}
+                                >
+                                  {row.emballages.map((emb, idx) => (
+                                    <option
+                                      key={idx}
+                                      value={
+                                        typeof emb === "object" ? emb.name : emb
+                                      }
+                                    >
+                                      {typeof emb === "object" ? emb.name : emb}
+                                    </option>
+                                  ))}
+                                </select>
+                              ) : (
+                                "N/A"
+                              )
+                            ) : col.accessor === "image" ? (
+                              row.image ? (
+                                <img
+                                  src={row.image}
+                                  alt="product"
+                                  className="rounded shadow border"
+                                  style={{
+                                    maxWidth: 60,
+                                    maxHeight: 40,
+                                    objectFit: "contain",
+                                  }}
+                                />
+                              ) : (
+                                "N/A"
+                              )
+                            ) : (
+                              row[col.accessor]
+                            )}
+                          </TableCell>
+                        ))}
+
+                        <TableCell className="px-3 py-2 text-right flex gap-2 justify-end">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleView(row)}
+                          >
+                            {Labels.View}
+                          </Button>
+
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => {
+                              setSelectedId(row.id);
+                              setOpenDialog(true);
                             }}
-                          />
-                        ) : (
-                          "N/A"
-                        )
-                      ) : (
-                        row[col.accessor]
-                      )}
-                    </TableCell>
-                  ))}
+                          >
+                            Delete
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
 
-                  <TableCell className="px-3 py-2 text-right flex gap-2 justify-end">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleView(row)}
-                    >
-                      {Labels.View}
-                    </Button>
+            <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Are you sure?</DialogTitle>
+                </DialogHeader>
+                <p>
+                  This action cannot be undone. Do you really want to delete
+                  this product?
+                </p>
+                <DialogFooter>
+                  <Button
+                    variant="secondary"
+                    onClick={() => setOpenDialog(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button variant="destructive" onClick={handleDelete}>
+                    Yes, Delete
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+            <Dialog open={showDialog} onOpenChange={setShowDialog}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>
+                    {dialogType === "error" ? "❌ Error" : "✅ Success"}
+                  </DialogTitle>
+                </DialogHeader>
+                <p className="text-gray-700">{dialogMessage}</p>
+                <DialogFooter>
+                  <Button
+                    variant="default"
+                    onClick={() => setShowDialog(false)}
+                  >
+                    OK
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
 
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => {
-                        setSelectedId(row.id);
-                        setOpenDialog(true);
-                      }}
-                    >
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+            <AddModel open={open} onClose={handleReload} data={data} />
+            <ViewModel
+              open={openViewModel}
+              onClose={() => setOpenViewModel(false)}
+              product={selectedProduct}
+              reload={handleReload}
+            />
+          </>
+        )}
       </div>
-
-      {sortedData.length === 0 && (
-        <p className="text-center text-muted-foreground mt-4">
-          No results found.
-        </p>
-      )}
-      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Are you sure?</DialogTitle>
-          </DialogHeader>
-          <p>
-            This action cannot be undone. Do you really want to delete this
-            product?
-          </p>
-          <DialogFooter>
-            <Button variant="secondary" onClick={() => setOpenDialog(false)}>
-              Cancel
-            </Button>
-            <Button variant="destructive" onClick={handleDelete}>
-              Yes, Delete
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-      <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              {dialogType === "error" ? "❌ Error" : "✅ Success"}
-            </DialogTitle>
-          </DialogHeader>
-          <p className="text-gray-700">{dialogMessage}</p>
-          <DialogFooter>
-            <Button variant="default" onClick={() => setShowDialog(false)}>
-              OK
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <AddModel open={open} onClose={handleReload} data={data} />
-      <ViewModel
-        open={openViewModel}
-        onClose={() => setOpenViewModel(false)}
-        product={selectedProduct}
-        reload={handleReload}
-      />
     </div>
   );
 };
