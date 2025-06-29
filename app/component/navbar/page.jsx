@@ -27,7 +27,7 @@ const TEXTS = {
   logout: "Logout",
 };
 
-export default function AppNavbar() {
+export default function AppNavbar({ select }) {
   const [open, setOpen] = React.useState(false);
   const { data: session, status } = useSession();
   const handleLogout = () => {
@@ -68,6 +68,9 @@ export default function AppNavbar() {
               <NavigationMenuItem key={item}>
                 <Link
                   href="#"
+                  onClick={() => {
+                    select(item);
+                  }}
                   className="text-sm font-medium text-black hover:text-gray-700"
                 >
                   {item}

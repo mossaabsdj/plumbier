@@ -34,7 +34,8 @@ import { fetchData } from "@/lib/FetchData/page";
 const Page = ({ object, data, AddModel, ViewModel }) => {
   const [open, setOpen] = useState(false);
   const [openViewModel, setOpenViewModel] = useState(false);
-  const [openStatsModel, setOpenStatsModel] = useState(false);
+  const [sortedData, setsortedData] = useState([]);
+
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState(object); // start with props
   const [openDialog, setOpenDialog] = useState(false);
@@ -119,38 +120,40 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
 
     setOpenViewModel(true);
   };
-  const filteredData = products.filter((row) => {
-    const matchesSearch = Object.values(row)
-      .join(" ")
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
+  useEffect(() => {
+    const filteredData = products.filter((row) => {
+      const matchesSearch = Object.values(row)
+        .join(" ")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
 
-    const rowDate = new Date(row.Date);
-    const selected = selectedDate ? new Date(selectedDate) : null;
+      const rowDate = new Date(row.Date);
+      const selected = selectedDate ? new Date(selectedDate) : null;
 
-    if (selected) {
-      // Normalize both dates to midnight for accurate day-level comparison
-      selected.setHours(0, 0, 0, 0);
-      rowDate.setHours(0, 0, 0, 0);
-    }
+      if (selected) {
+        // Normalize both dates to midnight for accurate day-level comparison
+        selected.setHours(0, 0, 0, 0);
+        rowDate.setHours(0, 0, 0, 0);
+      }
 
-    const matchesDate = !selected || rowDate.getTime() === selected.getTime();
+      const matchesDate = !selected || rowDate.getTime() === selected.getTime();
 
-    return matchesSearch && matchesDate;
-  });
-
-  const sortedData = [...filteredData];
-
-  if (sortConfig.key) {
-    sortedData.sort((a, b) => {
-      const valA = a[sortConfig.key];
-      const valB = b[sortConfig.key];
-
-      if (valA < valB) return sortConfig.direction === "asc" ? -1 : 1;
-      if (valA > valB) return sortConfig.direction === "asc" ? 1 : -1;
-      return 0;
+      return matchesSearch && matchesDate;
     });
-  }
+
+    setsortedData([...filteredData]);
+
+    if (sortConfig.key) {
+      sortedData.sort((a, b) => {
+        const valA = a[sortConfig.key];
+        const valB = b[sortConfig.key];
+
+        if (valA < valB) return sortConfig.direction === "asc" ? -1 : 1;
+        if (valA > valB) return sortConfig.direction === "asc" ? 1 : -1;
+        return 0;
+      });
+    }
+  }, [products]);
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-gray-50 items-center justify-center">
@@ -252,7 +255,7 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
                   </TableHeader>
 
                   <TableBody>
-                    {sortedData.map((row) => (
+                    {sortedData?.map((row) => (
                       <TableRow
                         key={row.id}
                         className="hover:bg-gray-50 transition-colors"

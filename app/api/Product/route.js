@@ -32,7 +32,7 @@ export async function POST(req) {
         prix: parseFloat(body.prix),
         emballage: body.emballage,
         image: body.image,
-        farmId: body.farm ? parseInt(body.farm) : null,
+        farmId: body.farmId ? parseInt(body.farmId) : null,
         emballages: body.emballages
           ? {
               create: body.emballages.map((name) => ({ name })),

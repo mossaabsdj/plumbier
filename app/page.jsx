@@ -12,12 +12,23 @@ import {
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 import LoginPage from "@/app/Login/Login";
+import { se } from "date-fns/locale";
+import FarmPage from "@/app/component/Home/Farm/page";
 export default function Home() {
+  const [selectedFarm, setselectedFarm] = useState(null);
+
   return (
     <>
-      <Header />
-      <FirstPAge />
-      <ProductList />
+      <Header select={setselectedFarm} />
+      {!selectedFarm ? (
+        <>
+          <FirstPAge />
+          <ProductList />
+        </>
+      ) : (
+        <FarmPage />
+      )}
+
       <Footer />
     </>
   );

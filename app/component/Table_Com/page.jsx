@@ -37,6 +37,8 @@ const Page = ({ objects, data, AddModel, ViewModel }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [statusFilter, setStatusFilter] = useState(null); // "all", "waiting", "valider", "rejeter"
   const [object, setobject] = useState(objects);
+  const [sortedData, setsortedData] = useState([]);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDate, setSelectedDate] = useState();
   const [sortConfig, setSortConfig] = useState({
@@ -110,46 +112,49 @@ const Page = ({ objects, data, AddModel, ViewModel }) => {
   useEffect(() => {
     loadData();
   }, []);
-  const filteredData = object.filter((row) => {
-    const matchesSearch = Object.values(row)
-      .join(" ")
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
+  useEffect(() => {
+    const filteredData = object.filter((row) => {
+      const matchesSearch = Object.values(row)
+        .join(" ")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
 
-    const rowDate = new Date(row.Date);
-    const selected = selectedDate ? new Date(selectedDate) : null;
+      const rowDate = new Date(row.Date);
+      const selected = selectedDate ? new Date(selectedDate) : null;
 
-    if (selected) {
-      selected.setHours(0, 0, 0, 0);
-      rowDate.setHours(0, 0, 0, 0);
-    }
-
-    const matchesDate = !selected || rowDate.getTime() === selected.getTime();
-
-    const matchesStatus = statusFilter === "all" || row.status === statusFilter;
-
-    return matchesSearch && matchesDate && matchesStatus;
-  });
-  const sortedData = [...filteredData];
-
-  if (sortConfig.key) {
-    sortedData.sort((a, b) => {
-      const valA = a[sortConfig.key];
-      const valB = b[sortConfig.key];
-
-      // If sorting by a date field, convert to Date objects
-      if (sortConfig.key.toLowerCase().includes("date")) {
-        return sortConfig.direction === "asc"
-          ? new Date(valA) - new Date(valB)
-          : new Date(valB) - new Date(valA);
+      if (selected) {
+        selected.setHours(0, 0, 0, 0);
+        rowDate.setHours(0, 0, 0, 0);
       }
 
-      // Fallback for normal values
-      if (valA < valB) return sortConfig.direction === "asc" ? -1 : 1;
-      if (valA > valB) return sortConfig.direction === "asc" ? 1 : -1;
-      return 0;
+      const matchesDate = !selected || rowDate.getTime() === selected.getTime();
+
+      const matchesStatus =
+        statusFilter === "all" || row.status === statusFilter;
+
+      return matchesSearch && matchesDate && matchesStatus;
     });
-  }
+    setsortedData([...filteredData]);
+
+    if (sortConfig.key) {
+      sortedData.sort((a, b) => {
+        const valA = a[sortConfig.key];
+        const valB = b[sortConfig.key];
+
+        // If sorting by a date field, convert to Date objects
+        if (sortConfig.key.toLowerCase().includes("date")) {
+          return sortConfig.direction === "asc"
+            ? new Date(valA) - new Date(valB)
+            : new Date(valB) - new Date(valA);
+        }
+
+        // Fallback for normal values
+        if (valA < valB) return sortConfig.direction === "asc" ? -1 : 1;
+        if (valA > valB) return sortConfig.direction === "asc" ? 1 : -1;
+        return 0;
+      });
+    }
+  }, [object]);
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-gray-50 items-center justify-center">

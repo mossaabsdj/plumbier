@@ -1,19 +1,149 @@
 {
   "TitleApp": "Ski Agrotour luxe",
   "logo": "/images/logo.png",
-  "SliderMenu": [
-    {
-      "title": "Products",
-      "icon": "Products.png",
-      "url": "Products"
-    },
-    {
-      "title": "Commandes",
-      "icon": "Commandes.png",
-      "url": "Commandes"
-    }
-  ],
 
+  "Farms": {
+    "TraditionalCheese": {
+      "hero": {
+        "title": "Traditional Cheese",
+        "description": "Discover the authentic taste of our traditional cheese,\ncrafted with passion and expertise from the finest local milk.\nOur cheese is aged to perfection, offering a rich flavor and\ncreamy texture that reflects our region’s heritage.",
+        "button": "Discover Our Products",
+        "image": {
+          "src": "/images/cheese-hero.jpg",
+          "alt": "Traditional Cheese",
+          "width": 340,
+          "height": 220
+        }
+      },
+      "products": [
+        {
+          "title": "Goat Cheese",
+          "description": "Soft, tangy, and perfect for salads or as a spread.",
+          "prix": "€8.50",
+          "image": {
+            "src": "/images/fraise.jpg",
+            "alt": "Goat Cheese",
+            "width": 350,
+            "height": 220
+          }
+        },
+        {
+          "title": "Aged Tomme",
+          "description": "Firm and nutty, aged for a deep, complex flavor.",
+          "prix": "€12.00",
+          "image": {
+            "src": "/images/fraise.jpg",
+            "alt": "Aged Tomme",
+            "width": 350,
+            "height": 220
+          }
+        },
+        {
+          "title": "Fresh Ricotta",
+          "description": "Creamy and delicate, ideal for desserts and pastries.",
+          "prix": "€7.00",
+          "image": {
+            "src": "/images/fraise.jpg",
+            "alt": "Fresh Ricotta",
+            "width": 350,
+            "height": 220
+          }
+        }
+      ],
+      "catering": {
+        "title": "Catering Services",
+        "description": "Enjoy our authentic catering services for your events and\ngatherings.\n\nWe offer a variety of traditional dishes, fresh cheeses, and\nlocal specialties, all prepared with care and delivered to your\nvenue.",
+        "button": "Contact Catering",
+        "image": {
+          "src": "/images/catering.jpg",
+          "alt": "Catering",
+          "width": 500,
+          "height": 350
+        }
+      },
+      "bungalow": {
+        "title": "Stay in Our Bungalows",
+        "description": "Experience comfort and tranquility in our cozy bungalows,\nsurrounded by nature.\nPerfect for families, couples, or solo travelers looking for a\npeaceful retreat with a taste of rural life.\nEach bungalow is fully equipped and offers stunning views of the\ncountryside, ensuring a relaxing and memorable stay.",
+        "button": "Book a Bungalow",
+        "image": {
+          "src": "/images/bungalow.png",
+          "alt": "Bungalow",
+          "width": 500,
+          "height": 350
+        }
+      }
+    },
+    "AnimalHusbandry": {
+      "hero": {
+        "title": "Animal Husbandry",
+        "description": "Explore our animal husbandry farm, where we raise livestock with care and dedication. Our animals are nurtured in a natural environment, ensuring high-quality dairy and meat products.",
+        "button": "Learn More",
+        "image": {
+          "src": "/images/animal-husbandry-hero.jpg",
+          "alt": "Animal Husbandry",
+          "width": 340,
+          "height": 220
+        }
+      },
+      "products": [
+        {
+          "title": "Fresh Milk",
+          "description": "Pure, fresh milk from grass-fed cows and goats.",
+          "prix": "€2.00/L",
+          "image": {
+            "src": "/images/fresh-milk.jpg",
+            "alt": "Fresh Milk",
+            "width": 350,
+            "height": 220
+          }
+        },
+        {
+          "title": "Organic Eggs",
+          "description": "Farm-fresh organic eggs, rich in nutrients.",
+          "prix": "€3.50/dozen",
+          "image": {
+            "src": "/images/organic-eggs.jpg",
+            "alt": "Organic Eggs",
+            "width": 350,
+            "height": 220
+          }
+        },
+        {
+          "title": "Free-range Chicken",
+          "description": "Tender and flavorful free-range chicken.",
+          "prix": "€10.00/kg",
+          "image": {
+            "src": "/images/free-range-chicken.jpg",
+            "alt": "Free-range Chicken",
+            "width": 350,
+            "height": 220
+          }
+        }
+      ],
+      "catering": {
+        "title": "Farm-to-Table Catering",
+        "description": "Enjoy our farm-to-table catering services featuring fresh dairy, eggs, and meats from our own livestock. Perfect for events and gatherings.",
+        "button": "Contact Catering",
+        "image": {
+          "src": "/images/animal-catering.jpg",
+          "alt": "Farm-to-Table Catering",
+          "width": 500,
+          "height": 350
+        }
+      },
+      "bungalow": {
+        "title": "Farm Stay Bungalows",
+        "description": "Stay close to nature in our comfortable bungalows, surrounded by the sights and sounds of the farm. Ideal for families and nature lovers.",
+        "button": "Book a Farm Stay",
+        "image": {
+          "src": "/images/animal-bungalow.jpg",
+          "alt": "Farm Stay Bungalow",
+          "width": 500,
+          "height": 350
+        }
+      }
+    }
+  },
   "Product": {
     "title": "Products",
     "table": {
@@ -362,8 +492,8 @@
           "required": true
         }
       ],
-      "AddButton": "Ajouter Commande",
-      "Title": "Ajouter une Commande"
+      "AddButton": "Confirm",
+      "Title": "Order Now"
     },
     "ViewModel": {
       "title": "Détails de la Commande",
