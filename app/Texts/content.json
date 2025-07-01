@@ -1,15 +1,33 @@
 {
   "TitleApp": "Ski Agrotour luxe",
   "logo": "/images/logo.png",
-
+  "FirstPage": {
+    "badge": "Ski Agrotour luxe",
+    "title": "Business\nAg <span class='text-green-600'>ro</span>\ntouristique",
+    "description": "We simplify tax complexities with tailored strategies, resolving disputes and ensuring compliance for local and international needs.",
+    "button": "Start Consultation",
+    "tags": [
+      "International",
+      "Cultural",
+      "Economic",
+      "Agricultural",
+      "Touristic"
+    ],
+    "image": {
+      "src": "/images/Home.png",
+      "alt": "Justice Statue with Leaves",
+      "width": 600,
+      "height": 600
+    }
+  },
   "Farms": {
     "TraditionalCheese": {
       "hero": {
         "title": "Traditional Cheese",
-        "description": "Discover the authentic taste of our traditional cheese,\ncrafted with passion and expertise from the finest local milk.\nOur cheese is aged to perfection, offering a rich flavor and\ncreamy texture that reflects our region’s heritage.",
+        "description": "A traditional cheese production farm (fromage artisanal) that uses high-quality local products, herbs, and oils. The project is based on producing fresh milk from a herd of high-quality dairy cows, which is then transformed into various types of cheese using traditional or semi-industrial methods, such as fresh or aged cheeses. The cheese is made using milking equipment, a pasteurization and curdling unit, and temperature- and humidity-controlled aging rooms. The project focuses on quality, hygiene, and the local character of the product, giving it added value in high-end markets. The cheese is marketed directly at the farm, as well as through shops, hotels, and specialty markets. Regarding sanitary conditions, all health regulations must be respected. This farm specializes in producing natural and artisanal local products using local herbs and oils.",
         "button": "Discover Our Products",
         "image": {
-          "src": "/images/cheese-hero.jpg",
+          "src": "/images/HeroCheese.jpg",
           "alt": "Traditional Cheese",
           "width": 340,
           "height": 220
@@ -21,7 +39,7 @@
           "description": "Soft, tangy, and perfect for salads or as a spread.",
           "prix": "€8.50",
           "image": {
-            "src": "/images/fraise.jpg",
+            "src": "/images/Cheese_1.png",
             "alt": "Goat Cheese",
             "width": 350,
             "height": 220
@@ -32,7 +50,7 @@
           "description": "Firm and nutty, aged for a deep, complex flavor.",
           "prix": "€12.00",
           "image": {
-            "src": "/images/fraise.jpg",
+            "src": "/images/cheese_2.jpg",
             "alt": "Aged Tomme",
             "width": 350,
             "height": 220
@@ -52,10 +70,10 @@
       ],
       "catering": {
         "title": "Catering Services",
-        "description": "Enjoy our authentic catering services for your events and\ngatherings.\n\nWe offer a variety of traditional dishes, fresh cheeses, and\nlocal specialties, all prepared with care and delivered to your\nvenue.",
+        "description": "It is a sector dedicated to preparing and serving food, and it gains a distinctive character when it relies on organic and natural products. In the context of a traditional cheese production farm, la restauration involves offering dishes made with high-quality fresh milk cheeses, enhanced with natural local herbs and oils. These organic products are used to prepare healthy recipes with a local flair, giving restaurants and hotels an authentic touch and increasing the appeal of the dishes served. This makes la restauration a key partner in promoting artisanal agriculture and natural products.",
         "button": "Contact Catering",
         "image": {
-          "src": "/images/catering.jpg",
+          "src": "/images/cateringChesee.png",
           "alt": "Catering",
           "width": 500,
           "height": 350
@@ -63,7 +81,7 @@
       },
       "bungalow": {
         "title": "Stay in Our Bungalows",
-        "description": "Experience comfort and tranquility in our cozy bungalows,\nsurrounded by nature.\nPerfect for families, couples, or solo travelers looking for a\npeaceful retreat with a taste of rural life.\nEach bungalow is fully equipped and offers stunning views of the\ncountryside, ensuring a relaxing and memorable stay.",
+        "description": "A bungalow is a type of simple dwelling, often built from wood, consisting of a single floor with an outdoor porch. It is characterized by its practical and comfortable design and is typically used as temporary accommodation in tourist areas such as beaches or mountains. Bungalows offer a peaceful and natural environment for relaxation, making them a popular choice in campsites and summer resorts.",
         "button": "Book a Bungalow",
         "image": {
           "src": "/images/bungalow.png",
@@ -76,8 +94,8 @@
     "AnimalHusbandry": {
       "hero": {
         "title": "Animal Husbandry",
-        "description": "Explore our animal husbandry farm, where we raise livestock with care and dedication. Our animals are nurtured in a natural environment, ensuring high-quality dairy and meat products.",
-        "button": "Learn More",
+        "description": "A farm specialized in animal husbandry for meat production is defined as an agricultural production unit aimed at raising various types of animals for the purpose of producing red and white meat for human consumption. These farms typically include the breeding of livestock such as cattle, sheep, and goats for red meat, as well as poultry such as chickens and turkeys for white meat. The farm operates on scientific principles that include proper nutrition, veterinary care, and raising animals in a suitable environment to ensure product quality and health safety. Additionally, the farm features beautifully and modernly designed wooden houses, as well as restaurant services provided through a contemporary on-site restaurant that serves fresh meat produced by the farm itself, offering a variety of meat-based dishes and grills.",
+        "button": "Discover Our Products",
         "image": {
           "src": "/images/animal-husbandry-hero.jpg",
           "alt": "Animal Husbandry",
@@ -121,23 +139,23 @@
         }
       ],
       "catering": {
-        "title": "Farm-to-Table Catering",
-        "description": "Enjoy our farm-to-table catering services featuring fresh dairy, eggs, and meats from our own livestock. Perfect for events and gatherings.",
+        "title": "Catering Services",
+        "description": "It is a sector dedicated to preparing and serving food, and it gains a distinctive character when it relies on organic and natural products. In the context of a traditional cheese production farm, la restauration involves offering dishes made with high-quality fresh milk cheeses, enhanced with natural local herbs and oils. These organic products are used to prepare healthy recipes with a local flair, giving restaurants and hotels an authentic touch and increasing the appeal of the dishes served. This makes la restauration a key partner in promoting artisanal agriculture and natural products.",
         "button": "Contact Catering",
         "image": {
-          "src": "/images/animal-catering.jpg",
-          "alt": "Farm-to-Table Catering",
+          "src": "/images/cateringChesee.png",
+          "alt": "Catering",
           "width": 500,
           "height": 350
         }
       },
       "bungalow": {
-        "title": "Farm Stay Bungalows",
-        "description": "Stay close to nature in our comfortable bungalows, surrounded by the sights and sounds of the farm. Ideal for families and nature lovers.",
-        "button": "Book a Farm Stay",
+        "title": "Stay in Our Bungalows",
+        "description": "A bungalow is a type of simple dwelling, often built from wood, consisting of a single floor with an outdoor porch. It is characterized by its practical and comfortable design and is typically used as temporary accommodation in tourist areas such as beaches or mountains. Bungalows offer a peaceful and natural environment for relaxation, making them a popular choice in campsites and summer resorts.",
+        "button": "Book a Bungalow",
         "image": {
-          "src": "/images/animal-bungalow.jpg",
-          "alt": "Farm Stay Bungalow",
+          "src": "/images/bungalow.png",
+          "alt": "Bungalow",
           "width": 500,
           "height": 350
         }

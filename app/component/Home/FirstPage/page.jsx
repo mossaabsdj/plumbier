@@ -1,39 +1,44 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import content from "@/app/Texts/content.json";
+
+const firstPage = content.FirstPage;
 
 export default function TaxLawyerLandingPage() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-white px-6 py-12">
       <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
         {/* Text Section */}
-        <div className="space-y-6">
+        <motion.div
+          className="space-y-6"
+          initial={{ opacity: 0, x: -60 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          viewport={{ once: false, amount: 0.3 }}
+        >
           <span className="uppercase tracking-widest text-sm text-gray-600">
-            Tax Lawyer
+            {firstPage.badge}
           </span>
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
-            Guiding You <br />
-            Through <span className="text-green-600">Tax</span> <br />
-            Complexity
+            {/* Render HTML for colored span */}
+            {firstPage.title
+              .split("\n")
+              .map((line, i) => (
+                <span key={i} dangerouslySetInnerHTML={{ __html: line }} />
+              ))
+              .reduce((prev, curr) => [prev, <br key={Math.random()} />, curr])}
           </h1>
-          <p className="text-gray-500 max-w-md">
-            We simplify tax complexities with tailored strategies, resolving
-            disputes and ensuring compliance for local and international needs.
-          </p>
+          <p className="text-gray-500 max-w-md">{firstPage.description}</p>
           <Link
             href="#"
             className="inline-block px-6 py-3 text-white bg-green-600 hover:bg-green-700 rounded-full font-medium transition"
           >
-            Start Consultation
+            {firstPage.button}
           </Link>
           <div className="flex flex-wrap gap-3 mt-4">
-            {[
-              "International Taxation",
-              "Tax Disputes",
-              "Tax Planning",
-              "Tax Compliance",
-              "Consultations",
-            ].map((label, idx) => (
+            {firstPage.tags.map((label, idx) => (
               <span
                 key={idx}
                 className="px-4 py-2 border border-gray-300 rounded-full text-sm text-gray-600"
@@ -42,21 +47,25 @@ export default function TaxLawyerLandingPage() {
               </span>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Image Section */}
-        <div className="relative">
-          <div className="rounded-3xl overflow-hidden shadow-lg bg-green-900 p-6">
-            <Image
-              src="/images/farm.png" // <-- adjust if necessary
-              alt="Justice Statue with Leaves"
-              width={600}
-              height={600}
-              className="rounded-3xl object-cover"
-              priority
-            />
-          </div>
-        </div>
+        <motion.div
+          className="rounded-3xl overflow-hidden shadow-lg bg-gray-50 p-6"
+          initial={{ opacity: 0, x: 60 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+          viewport={{ once: false }}
+        >
+          <Image
+            src={firstPage.image.src}
+            alt={firstPage.image.alt}
+            width={firstPage.image.width}
+            height={firstPage.image.height}
+            className="rounded-3xl object-cover w-full h-auto"
+            priority
+          />
+        </motion.div>
       </div>
     </main>
   );

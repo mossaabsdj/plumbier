@@ -108,7 +108,7 @@ const AddModal = ({ data }) => {
         }}
         className="w-full flex flex-col flex-1"
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 flex-1">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 gap-1 flex-1">
           {FirstFields?.map((field) => {
             if (field.accessor === "productId") {
               return (

@@ -154,7 +154,7 @@ const Page = ({ objects, data, AddModel, ViewModel }) => {
         return 0;
       });
     }
-  }, [object]);
+  }, [object, statusFilter]);
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-gray-50 items-center justify-center">

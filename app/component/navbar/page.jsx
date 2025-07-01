@@ -17,7 +17,7 @@ import { useSession, signOut, signIn } from "next-auth/react";
 const TEXTS = {
   brandName: "Ski agrotour luxe",
   navItems: [
-    "About",
+    "Home",
     "traditional cheese",
     "animal husbandry",
     "Rates & Fees",
@@ -30,6 +30,7 @@ const TEXTS = {
 export default function AppNavbar({ select }) {
   const [open, setOpen] = React.useState(false);
   const { data: session, status } = useSession();
+
   const handleLogout = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -66,15 +67,14 @@ export default function AppNavbar({ select }) {
           <NavigationMenuList className="flex gap-4">
             {TEXTS.navItems.map((item) => (
               <NavigationMenuItem key={item}>
-                <Link
-                  href="#"
+                <button
                   onClick={() => {
                     select(item);
                   }}
                   className="text-sm font-medium text-black hover:text-gray-700"
                 >
                   {item}
-                </Link>
+                </button>
               </NavigationMenuItem>
             ))}
           </NavigationMenuList>
@@ -113,21 +113,32 @@ export default function AppNavbar({ select }) {
             <SheetContent side="left" className="w-[70%] p-6">
               <div className="space-y-4">
                 {TEXTS.navItems.map((item) => (
-                  <Link
+                  <button
                     key={item}
-                    href="#"
                     className="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100"
-                    onClick={() => setOpen(false)}
+                    onClick={() => setOpen(false) + select(item)}
                   >
                     {item}
-                  </Link>
+                  </button>
                 ))}
-                <Button
-                  asChild
-                  className="w-full bg-black hover:bg-gray-700 mt-4"
-                >
-                  <Link href="#">{TEXTS.login}</Link>
-                </Button>
+                {status === "loading" ? (
+                  <div className="w-24 h-8 bg-gray-200 rounded animate-pulse" />
+                ) : session ? (
+                  <Button
+                    onClick={handleLogout}
+                    className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                  >
+                    {TEXTS.logout}
+                  </Button>
+                ) : (
+                  <Button
+                    asChild
+                    variant="default"
+                    className="bg-black hover:bg-gray-700"
+                  >
+                    <Link href="/Login">{TEXTS.login}</Link>
+                  </Button>
+                )}
               </div>
             </SheetContent>
           </Sheet>

@@ -111,16 +111,19 @@ export default function AppNavbar({ onNavChange, currentPage }) {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[70%] p-6">
-              <div className="space-y-4">
+              <div className="flex columns-5">
                 {TEXTS.navItems.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    className="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100"
-                    onClick={() => setOpen(false)}
+                  <button
+                    type="button"
+                    onClick={() => onNavChange(item.label)}
+                    className={`text-sm font-medium ${
+                      currentPage === item.label
+                        ? "text-white bg-black font-bold  rounded-2xl w-24 h-9"
+                        : "text-black"
+                    }`}
                   >
                     {item.label}
-                  </Link>
+                  </button>
                 ))}
                 {session ? (
                   <Button
