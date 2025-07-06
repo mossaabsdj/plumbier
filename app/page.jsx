@@ -40,6 +40,18 @@ export default function Home() {
       setFarmData(objects.Farms.AnimalHusbandry);
 
       setdisplayFarm(true);
+    } else if (selectedFarm === "aquaculture farm") {
+      setFarmData(objects.Farms.aquaculturefarm);
+
+      setdisplayFarm(true);
+    } else if (selectedFarm === "red fruit farm") {
+      setFarmData(objects.Farms.redfruitfarm);
+
+      setdisplayFarm(true);
+    } else if (selectedFarm === "honey farm") {
+      setFarmData(objects.Farms.honeyproducingfarm);
+
+      setdisplayFarm(true);
     }
   }, [selectedFarm]);
 

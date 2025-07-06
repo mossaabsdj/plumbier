@@ -3,7 +3,7 @@
   "logo": "/images/logo.png",
   "FirstPage": {
     "badge": "Ski Agrotour luxe",
-    "title": "Business\nAg <span class='text-green-600'>ro</span>\ntouristique",
+    "title": "Business\n <span class='text-black'>Agro</span>\ntouristique",
     "description": "We simplify tax complexities with tailored strategies, resolving disputes and ensuring compliance for local and international needs.",
     "button": "Start Consultation",
     "tags": [
@@ -97,8 +97,218 @@
         "description": "A farm specialized in animal husbandry for meat production is defined as an agricultural production unit aimed at raising various types of animals for the purpose of producing red and white meat for human consumption. These farms typically include the breeding of livestock such as cattle, sheep, and goats for red meat, as well as poultry such as chickens and turkeys for white meat. The farm operates on scientific principles that include proper nutrition, veterinary care, and raising animals in a suitable environment to ensure product quality and health safety. Additionally, the farm features beautifully and modernly designed wooden houses, as well as restaurant services provided through a contemporary on-site restaurant that serves fresh meat produced by the farm itself, offering a variety of meat-based dishes and grills.",
         "button": "Discover Our Products",
         "image": {
-          "src": "/images/animal-husbandry-hero.jpg",
+          "src": "/images/AnimalsHero.png",
           "alt": "Animal Husbandry",
+          "width": 340,
+          "height": 220
+        }
+      },
+      "products": [
+        {
+          "title": "Fresh Milk",
+          "description": "Pure, fresh milk from grass-fed cows and goats.",
+          "prix": "€2.00/L",
+          "image": {
+            "src": "/images/fresh-milk.jpg",
+            "alt": "Fresh Milk",
+            "width": 350,
+            "height": 220
+          }
+        },
+        {
+          "title": "Organic Eggs",
+          "description": "Farm-fresh organic eggs, rich in nutrients.",
+          "prix": "€3.50/dozen",
+          "image": {
+            "src": "/images/organic-eggs.jpg",
+            "alt": "Organic Eggs",
+            "width": 350,
+            "height": 220
+          }
+        },
+        {
+          "title": "Free-range Chicken",
+          "description": "Tender and flavorful free-range chicken.",
+          "prix": "€10.00/kg",
+          "image": {
+            "src": "/images/free-range-chicken.jpg",
+            "alt": "Free-range Chicken",
+            "width": 350,
+            "height": 220
+          }
+        }
+      ],
+      "catering": {
+        "title": "Catering Services",
+        "description": "It is a sector dedicated to preparing and serving food, and it gains a distinctive character when it relies on organic and natural products. In the context of a traditional cheese production farm, la restauration involves offering dishes made with high-quality fresh milk cheeses, enhanced with natural local herbs and oils. These organic products are used to prepare healthy recipes with a local flair, giving restaurants and hotels an authentic touch and increasing the appeal of the dishes served. This makes la restauration a key partner in promoting artisanal agriculture and natural products.",
+        "button": "Contact Catering",
+        "image": {
+          "src": "/images/cateringChesee.png",
+          "alt": "Catering",
+          "width": 500,
+          "height": 350
+        }
+      },
+      "bungalow": {
+        "title": "Stay in Our Bungalows",
+        "description": "A bungalow is a type of simple dwelling, often built from wood, consisting of a single floor with an outdoor porch. It is characterized by its practical and comfortable design and is typically used as temporary accommodation in tourist areas such as beaches or mountains. Bungalows offer a peaceful and natural environment for relaxation, making them a popular choice in campsites and summer resorts.",
+        "button": "Book a Bungalow",
+        "image": {
+          "src": "/images/bungalow.png",
+          "alt": "Bungalow",
+          "width": 500,
+          "height": 350
+        }
+      }
+    },
+    "aquaculturefarm": {
+      "hero": {
+        "title": "aquaculture farm",
+        "description": "Whether focused on edible aquatic species or ornamental fish, it is a specialized water-based facility systematically managed to raise various aquatic organisms such as fish, crustaceans, and mollusks in artificial or semi-natural environments like tanks, earthen ponds, or floating cages. These farms aim to produce aquatic species suitable for human consumption, such as tilapia, salmon, and shrimp, with careful attention to balanced nutrition and health monitoring to ensure product quality and safety. Some farms also specialize in breeding ornamental fish like koi and neon tetras for commercial and decorative purposes. These farms are managed using precise environmental and engineering techniques, including water purification, temperature regulation, controlled feeding, and continuous monitoring of environmental conditions.",
+        "button": "Discover Our Products",
+        "image": {
+          "src": "/images/aquacultureHero.png",
+          "alt": "aquaculture farm",
+          "width": 340,
+          "height": 220
+        }
+      },
+      "products": [
+        {
+          "title": "Fresh Milk",
+          "description": "Pure, fresh milk from grass-fed cows and goats.",
+          "prix": "€2.00/L",
+          "image": {
+            "src": "/images/fresh-milk.jpg",
+            "alt": "Fresh Milk",
+            "width": 350,
+            "height": 220
+          }
+        },
+        {
+          "title": "Organic Eggs",
+          "description": "Farm-fresh organic eggs, rich in nutrients.",
+          "prix": "€3.50/dozen",
+          "image": {
+            "src": "/images/organic-eggs.jpg",
+            "alt": "Organic Eggs",
+            "width": 350,
+            "height": 220
+          }
+        },
+        {
+          "title": "Free-range Chicken",
+          "description": "Tender and flavorful free-range chicken.",
+          "prix": "€10.00/kg",
+          "image": {
+            "src": "/images/free-range-chicken.jpg",
+            "alt": "Free-range Chicken",
+            "width": 350,
+            "height": 220
+          }
+        }
+      ],
+      "catering": {
+        "title": "Catering Services",
+        "description": "It is a sector dedicated to preparing and serving food, and it gains a distinctive character when it relies on organic and natural products. In the context of a traditional cheese production farm, la restauration involves offering dishes made with high-quality fresh milk cheeses, enhanced with natural local herbs and oils. These organic products are used to prepare healthy recipes with a local flair, giving restaurants and hotels an authentic touch and increasing the appeal of the dishes served. This makes la restauration a key partner in promoting artisanal agriculture and natural products.",
+        "button": "Contact Catering",
+        "image": {
+          "src": "/images/cateringChesee.png",
+          "alt": "Catering",
+          "width": 500,
+          "height": 350
+        }
+      },
+      "bungalow": {
+        "title": "Stay in Our Bungalows",
+        "description": "A bungalow is a type of simple dwelling, often built from wood, consisting of a single floor with an outdoor porch. It is characterized by its practical and comfortable design and is typically used as temporary accommodation in tourist areas such as beaches or mountains. Bungalows offer a peaceful and natural environment for relaxation, making them a popular choice in campsites and summer resorts.",
+        "button": "Book a Bungalow",
+        "image": {
+          "src": "/images/bungalow.png",
+          "alt": "Bungalow",
+          "width": 500,
+          "height": 350
+        }
+      }
+    },
+    "redfruitfarm": {
+      "hero": {
+        "title": "red fruit farm",
+        "description": "An agricultural unit specialized in the cultivation and care of various types of red-colored fruits such as strawberries, red raspberries, blackberries, cherries, and prunes. These fruits are grown inside well-equipped greenhouses that provide ideal and protected climatic conditions to ensure healthy and balanced plant growth. The farm relies on modern agricultural techniques such as drip irrigation, temperature and humidity control, and biological pest monitoring, with the goal of producing high-quality, chemical-free natural fruits, classifying them as organic (Bio) products. This farm also stands out for producing natural derivatives of these fruits, most notably organic jam, which is prepared using traditional methods that preserve the nutritional value and original flavor of the fruit without adding preservatives. These farms contribute to strengthening food security and supporting the local economy by providing healthy products that are in demand in both local and international markets.",
+        "button": "Discover Our Products",
+        "image": {
+          "src": "/images/redfruitHero.jpg",
+          "alt": "red fruit farm",
+          "width": 340,
+          "height": 220
+        }
+      },
+      "products": [
+        {
+          "title": "Fresh Milk",
+          "description": "Pure, fresh milk from grass-fed cows and goats.",
+          "prix": "€2.00/L",
+          "image": {
+            "src": "/images/fresh-milk.jpg",
+            "alt": "Fresh Milk",
+            "width": 350,
+            "height": 220
+          }
+        },
+        {
+          "title": "Organic Eggs",
+          "description": "Farm-fresh organic eggs, rich in nutrients.",
+          "prix": "€3.50/dozen",
+          "image": {
+            "src": "/images/organic-eggs.jpg",
+            "alt": "Organic Eggs",
+            "width": 350,
+            "height": 220
+          }
+        },
+        {
+          "title": "Free-range Chicken",
+          "description": "Tender and flavorful free-range chicken.",
+          "prix": "€10.00/kg",
+          "image": {
+            "src": "/images/free-range-chicken.jpg",
+            "alt": "Free-range Chicken",
+            "width": 350,
+            "height": 220
+          }
+        }
+      ],
+      "catering": {
+        "title": "Catering Services",
+        "description": "It is a sector dedicated to preparing and serving food, and it gains a distinctive character when it relies on organic and natural products. In the context of a traditional cheese production farm, la restauration involves offering dishes made with high-quality fresh milk cheeses, enhanced with natural local herbs and oils. These organic products are used to prepare healthy recipes with a local flair, giving restaurants and hotels an authentic touch and increasing the appeal of the dishes served. This makes la restauration a key partner in promoting artisanal agriculture and natural products.",
+        "button": "Contact Catering",
+        "image": {
+          "src": "/images/cateringChesee.png",
+          "alt": "Catering",
+          "width": 500,
+          "height": 350
+        }
+      },
+      "bungalow": {
+        "title": "Stay in Our Bungalows",
+        "description": "A bungalow is a type of simple dwelling, often built from wood, consisting of a single floor with an outdoor porch. It is characterized by its practical and comfortable design and is typically used as temporary accommodation in tourist areas such as beaches or mountains. Bungalows offer a peaceful and natural environment for relaxation, making them a popular choice in campsites and summer resorts.",
+        "button": "Book a Bungalow",
+        "image": {
+          "src": "/images/bungalow.png",
+          "alt": "Bungalow",
+          "width": 500,
+          "height": 350
+        }
+      }
+    },
+    "honeyproducingfarm": {
+      "hero": {
+        "title": "honey-producing farm",
+        "description": "An agricultural unit specialized in beekeeping, where bees are raised in carefully prepared hives with the aim of producing natural honey and its by-products such as beeswax, pollen, and propolis. This takes place in an environment rich in flowering plants that serve as the primary source of nectar for the bees. The farm is managed using scientific techniques that include monitoring bee health, preventing diseases, and improving bee strains to ensure high-quality production. The products are collected hygienically to preserve their natural properties, then packaged and marketed according to strict standards. These farms hold both environmental and economic importance, as bees contribute to plant pollination and increased crop yields, making them a pillar of sustainable development, especially in rural areas.",
+        "button": "Discover Our Products",
+        "image": {
+          "src": "/images/honeyproducingfarm.png",
+          "alt": "honey-producing farm",
           "width": 340,
           "height": 220
         }

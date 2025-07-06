@@ -62,7 +62,7 @@ export default function FarmsPage() {
 
   const handleDelete = async (id) => {
     setLoading(true);
-    await fetch("/api/farms", {
+    await fetch("/api/Farms", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),

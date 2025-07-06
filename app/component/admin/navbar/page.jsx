@@ -39,7 +39,7 @@ export default function AppNavbar({ onNavChange, currentPage }) {
       confirmButtonText: "Yes, logout",
     }).then((result) => {
       if (result.isConfirmed) {
-        signOut({ callbackUrl: "/Login" });
+        signOut({ callbackUrl: "/" });
       }
     });
   };
@@ -111,15 +111,19 @@ export default function AppNavbar({ onNavChange, currentPage }) {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[70%] p-6">
-              <div className="flex columns-5">
+              <div className="flex flex-col gap-6">
                 {TEXTS.navItems.map((item) => (
                   <button
+                    key={item.label}
                     type="button"
-                    onClick={() => onNavChange(item.label)}
-                    className={`text-sm font-medium ${
+                    onClick={() => {
+                      onNavChange(item.label);
+                      setOpen(false);
+                    }}
+                    className={`text-sm font-medium transition ${
                       currentPage === item.label
-                        ? "text-white bg-black font-bold  rounded-2xl w-24 h-9"
-                        : "text-black"
+                        ? "text-white bg-black font-bold rounded-2xl p-2 h-9"
+                        : "text-black bg-transparent"
                     }`}
                   >
                     {item.label}
@@ -139,6 +143,7 @@ export default function AppNavbar({ onNavChange, currentPage }) {
                   <Button
                     asChild
                     className="w-full bg-black hover:bg-gray-700 mt-4"
+                    onClick={() => setOpen(false)}
                   >
                     <Link href="/Login">{TEXTS.login}</Link>
                   </Button>

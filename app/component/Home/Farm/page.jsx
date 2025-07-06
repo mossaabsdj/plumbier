@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { useRef, forwardRef } from "react";
+import { useRef, forwardRef, useEffect, useState } from "react";
 import objects from "@/app/Texts/content.json";
 import Footer from "@/app/component/Home/Footer/page";
 import Commande from "@/app/component/Home/AddCommande/page";
@@ -15,6 +15,14 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
   const scrollerRef = useRef(null);
   const data = objects.Commande;
   const cheeseVarietiesRef = useRef(null);
+  const [allProducts, setAllProducts] = useState([]); // Store all fetched products
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true); // 1. Add loading state
+  // Add image loading states
+  const [heroImgLoaded, setHeroImgLoaded] = useState(false);
+  const [cateringImgLoaded, setCateringImgLoaded] = useState(false);
+  const [bungalowImgLoaded, setBungalowImgLoaded] = useState(false);
+  const [imgLoadedMap, setImgLoadedMap] = useState({});
 
   const scrollByCard = (direction = 1) => {
     const container = scrollerRef.current;
@@ -27,6 +35,24 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
   const scrollToCheeseVarieties = () => {
     cheeseVarietiesRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+  useEffect(() => {
+    setLoading(true);
+    fetch("/api/Product")
+      .then((res) => res.json())
+      .then((data) => {
+        setAllProducts(data); // Save all products
+        setLoading(false); // 2. Set loading to false after fetch
+      });
+  }, []);
+  useEffect(() => {
+    if (!FarmData) return;
+    // Always filter from allProducts, not products
+    const filteredProducts = allProducts.filter(
+      (p) => p.farm?.name === FarmData.hero.title
+    );
+    console.log("filtred" + JSON.stringify(filteredProducts));
+    setProducts(filteredProducts);
+  }, [FarmData, allProducts]);
   if (!FarmData) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col items-center py-0 px-0">
@@ -103,14 +129,20 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
               </div>
             </CardContent>
           </div>
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 relative w-40 h-40 md:w-72 md:h-72">
+            {!heroImgLoaded && (
+              <Skeleton className="absolute inset-0 w-full h-full rounded-xl" />
+            )}
             <Image
               src={FarmData.hero.image.src}
               alt={FarmData.hero.image.alt}
               width={FarmData.hero.image.width}
               height={FarmData.hero.image.height}
-              className="w-40 h-40 md:w-72 md:h-72 object-cover rounded-xl shadow-lg"
+              className={`w-40 h-40 md:w-72 md:h-72 object-cover rounded-xl shadow-lg transition-opacity duration-300 ${
+                heroImgLoaded ? "opacity-100" : "opacity-0"
+              }`}
               priority
+              onLoad={() => setHeroImgLoaded(true)}
             />
           </div>
         </Card>
@@ -121,7 +153,7 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
         ref={cheeseVarietiesRef}
         initial={{ opacity: 0, y: 60 }}
         whileInView={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 60 }} // <-- add this line
+        exit={{ opacity: 0, y: 60 }}
         transition={{ duration: 0.8, delay: 0.2 }}
         viewport={{ once: false, amount: 0.3 }}
         className="w-full max-w-6xl snap-start min-h-screen p-10 flex flex-col items-center justify-center"
@@ -148,33 +180,69 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
               className="flex overflow-x-auto gap-8 w-full pb-4 snap-x snap-mandatory scrollbar-hide"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
-              {FarmData.products.map((product) => (
-                <div
-                  key={product.title}
-                  className="product-card group snap-center min-w-[300px] max-w-[350px] bg-gray-50 rounded-xl shadow-md flex flex-col items-center overflow-hidden"
-                >
-                  <div className="w-full h-[220px] relative">
-                    <Image
-                      src={product.image.src}
-                      alt={product.image.alt}
-                      width={product.image.width}
-                      height={product.image.height}
-                      className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center px-4">
-                      <span className="text-white text-sm text-center">
-                        {product.description}
-                      </span>
+              {loading ? (
+                [1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="product-card group snap-center min-w-[300px] max-w-[350px] bg-gray-50 rounded-xl shadow-md flex flex-col items-center overflow-hidden"
+                  >
+                    <div className="w-full h-[220px] relative">
+                      <Skeleton className="w-full h-full" />
                     </div>
+                    <CardContent className="p-4 text-center w-full">
+                      <Skeleton className="h-8 w-3/4 mb-2 mx-auto" />
+                      <Skeleton className="h-6 w-1/2 mx-auto" />
+                    </CardContent>
                   </div>
-                  <CardContent className="p-4 text-center w-full">
-                    <h3 className="text-2xl font-bold mb-1">{product.title}</h3>
-                    <span className="text-green-700 font-semibold text-lg">
-                      {product.prix}
-                    </span>
-                  </CardContent>
+                ))
+              ) : products.length === 0 ? (
+                <div className="w-full text-center text-gray-400 py-16">
+                  No product found for this farm.
                 </div>
-              ))}
+              ) : (
+                products.map((product) => (
+                  <div
+                    key={product.title}
+                    className="product-card group snap-center min-w-[300px] max-w-[350px] bg-gray-50 rounded-xl shadow-md flex flex-col items-center overflow-hidden"
+                  >
+                    <div className="w-full h-[220px] relative">
+                      {!imgLoadedMap[product.title] && (
+                        <Skeleton className="absolute inset-0 w-full h-full" />
+                      )}
+                      <Image
+                        src={product?.image}
+                        alt={product.image.alt}
+                        width={320}
+                        height={220}
+                        className={`object-cover w-full h-full transition-transform duration-300 group-hover:scale-110 transition-opacity duration-300 ${
+                          imgLoadedMap[product.title]
+                            ? "opacity-100"
+                            : "opacity-0"
+                        }`}
+                        onLoad={() =>
+                          setImgLoadedMap((prev) => ({
+                            ...prev,
+                            [product.title]: true,
+                          }))
+                        }
+                      />
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center px-4">
+                        <span className="text-white text-sm text-center">
+                          {product.desc}
+                        </span>
+                      </div>
+                    </div>
+                    <CardContent className="p-4 text-center w-full">
+                      <h3 className="text-2xl font-bold mb-1">
+                        {product.title}
+                      </h3>
+                      <span className="text-green-700 font-semibold text-lg">
+                        {product.prix}
+                      </span>
+                    </CardContent>
+                  </div>
+                ))
+              )}
             </div>
 
             <button
@@ -217,13 +285,19 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
               </Button>
             </CardContent>
           </div>
-          <div className="flex-1 order-1 md:order-2 flex justify-center items-center">
+          <div className="flex-1 order-1 md:order-2 flex justify-center items-center relative">
+            {!cateringImgLoaded && (
+              <Skeleton className="absolute inset-0 w-full h-full rounded-lg" />
+            )}
             <Image
               src={FarmData.catering.image.src}
               alt={FarmData.catering.image.alt}
               width={FarmData.catering.image.width}
               height={FarmData.catering.image.height}
-              className="rounded-lg object-cover w-full h-full max-h-[70vh]"
+              className={`rounded-lg object-cover w-full h-full max-h-[70vh] transition-opacity duration-300 ${
+                cateringImgLoaded ? "opacity-100" : "opacity-0"
+              }`}
+              onLoad={() => setCateringImgLoaded(true)}
             />
           </div>
         </Card>
@@ -239,13 +313,19 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
         className="w-full max-w-5xl snap-end min-h-screen flex items-center justify-center"
       >
         <Card className="shadow-lg min-h-[80vh] flex flex-col md:flex-row items-center bg-white p-10 w-full">
-          <div className="flex-1 order-2 md:order-1 flex justify-center items-center">
+          <div className="flex-1 order-2 md:order-1 flex justify-center items-center relative">
+            {!bungalowImgLoaded && (
+              <Skeleton className="absolute inset-0 w-full h-full rounded-lg" />
+            )}
             <Image
               src={FarmData.bungalow.image.src}
               alt={FarmData.bungalow.image.alt}
               width={FarmData.bungalow.image.width}
               height={FarmData.bungalow.image.height}
-              className="rounded-lg object-cover w-full h-full max-h-[70vh]"
+              className={`rounded-lg object-cover w-full h-full max-h-[70vh] transition-opacity duration-300 ${
+                bungalowImgLoaded ? "opacity-100" : "opacity-0"
+              }`}
+              onLoad={() => setBungalowImgLoaded(true)}
             />
           </div>
           <div className="flex-1 p-8 order-1 md:order-2">
