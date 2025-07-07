@@ -6,16 +6,34 @@ import addmodal from "@/app/component/admin/products/AddProduct/page";
 import objects from "@/app/Texts/content.json";
 import Viewmodal from "@/app/component/admin/products/ViewProduct/page";
 import { fetchData } from "@/lib/FetchData/page"; // Adjust path if needed
-
-const p = await fetchData({ method: "GET", url: "/api/Product" });
-console.log("products" + JSON.stringify(p));
+import LoadingPage from "@/app/component/loading/page";
 
 const data = objects.Product;
 
 export default function ProductTable() {
+  const [isloading, setloading] = useState(false);
+  const [products, setproduct] = useState([]);
+
+  const Getdata = async () => {
+    setloading(true);
+    const p = await fetchData({ method: "GET", url: "/api/Product" });
+    setproduct(p);
+    setloading(false);
+  };
+  useEffect(() => {
+    Getdata();
+  }, []);
+
   return (
     <>
-      <Table AddModel={addmodal} object={p} data={data} ViewModel={Viewmodal} />
+      {isloading && <LoadingPage isVisible={true} />}
+
+      <Table
+        AddModel={addmodal}
+        object={products}
+        data={data}
+        ViewModel={Viewmodal}
+      />
     </>
   );
 }

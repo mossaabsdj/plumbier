@@ -5,8 +5,11 @@ import { fetchData } from "@/lib/FetchData/page";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons"; // optional icon
+import LoadingPage from "@/app/component/loading/page";
 
 const AddModal = ({ open, onClose, data }) => {
+  const [isloading, setloading] = useState(false);
+
   const FirstFields = data.AddClient.FirstFields;
   const Title = data.AddClient.Title;
   const labels = object.Labels;
@@ -116,7 +119,7 @@ const AddModal = ({ open, onClose, data }) => {
         const imageUrl = await uploadImageToCloudinary(updatedValues.image);
         updatedValues.image = imageUrl;
       }
-
+      setloading(true);
       // Send emballages as array of names
       updatedValues.emballages = emballagesToSend;
 
@@ -128,6 +131,7 @@ const AddModal = ({ open, onClose, data }) => {
         url: "/api/Product",
         body: updatedValues,
       });
+      setloading(false);
 
       if (response?.error) {
         setErrorMessage("❌ " + response.error);
@@ -142,7 +146,8 @@ const AddModal = ({ open, onClose, data }) => {
     if (field.type === "image" || field.accessor === "image") {
       acc[field.accessor] = null;
     } else if (field.type === "select") {
-      acc[field.accessor] = Farms?.[0].id || "";
+      acc[field.accessor] =
+        Array.isArray(Farms) && Farms[0]?.id ? Farms[0].id : "";
     } else {
       acc[field.accessor] = "";
     }
@@ -166,107 +171,140 @@ const AddModal = ({ open, onClose, data }) => {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 sm:px-6 md:px-10 py-6 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-300 w-full max-w-3xl p-6 sm:p-8 relative overflow-y-auto max-h-[95vh]">
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-black text-2xl"
-          aria-label="Close"
-        >
-          &times;
-        </button>
+    <>
+      {isloading && <LoadingPage isVisible={true} />}
 
-        {/* Title */}
-        <h1 className="text-xl sm:text-2xl font-bold mb-6 text-center">
-          {Title}
-        </h1>
+      <div className="fixed inset-0 z-50 flex items-center justify-center px-4 sm:px-6 md:px-10 py-6 backdrop-blur-sm">
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-300 w-full max-w-3xl p-6 sm:p-8 relative overflow-y-auto max-h-[95vh]">
+          {/* Close Button */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 text-gray-500 hover:text-black text-2xl"
+            aria-label="Close"
+          >
+            &times;
+          </button>
 
-        {/* Form */}
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            onSubmit(values);
-          }}
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {FirstFields.map((field) => {
-              if (field.type === "select") {
-                return (
-                  <div key={field.accessor}>
-                    <label
-                      htmlFor={field.accessor}
-                      className="block text-gray-700 font-medium mb-1"
-                    >
-                      {field.label}
-                    </label>
-                    <select
-                      id={field.accessor}
-                      name={field.accessor}
-                      value={values[field.accessor] || ""} // ✅ current selected value
-                      onChange={handleChange}
-                      required={field.required}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                    >
-                      <option value="" disabled>
-                        Please choose
-                      </option>
-                      {Farms.map((opt) => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                );
-              }
+          {/* Title */}
+          <h1 className="text-xl sm:text-2xl font-bold mb-6 text-center">
+            {Title}
+          </h1>
 
-              if (field.accessor === "emballage") {
-                return (
-                  <div key={field.accessor}>
-                    <label
-                      htmlFor={field.accessor}
-                      className="block text-gray-700 font-medium mb-1"
-                    >
-                      {field.label}
-                    </label>
-                    <div className="mt-2 space-y-2">
-                      {newEmballageNames.map((name, idx) => (
-                        <div key={idx} className="flex gap-2">
-                          <input
-                            type="text"
-                            placeholder="New emballage name"
-                            value={name}
-                            onChange={(e) =>
-                              updateNewEmballageName(idx, e.target.value)
-                            }
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                          />
-                          {newEmballageNames.length > 1 && (
-                            <button
-                              type="button"
-                              onClick={() => removeNewEmballageField(idx)}
-                              className="text-red-500"
-                              title="Remove"
-                            >
-                              &times;
-                            </button>
-                          )}
-                        </div>
-                      ))}
-                      <button
-                        type="button"
-                        onClick={addNewEmballageField}
-                        className="mt-1 text-black underline"
+          {/* Form */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              onSubmit(values);
+            }}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {FirstFields.map((field) => {
+                if (field.type === "select") {
+                  return (
+                    <div key={field.accessor}>
+                      <label
+                        htmlFor={field.accessor}
+                        className="block text-gray-700 font-medium mb-1"
                       >
-                        + Add another emballage
-                      </button>
+                        {field.label}
+                      </label>
+                      <select
+                        id={field.accessor}
+                        name={field.accessor}
+                        value={values[field.accessor] || ""} // ✅ current selected value
+                        onChange={handleChange}
+                        required={field.required}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                      >
+                        <option value="" disabled>
+                          Please choose
+                        </option>
+                        {Farms.map((opt) => (
+                          <option key={opt.id} value={opt.id}>
+                            {opt.name}
+                          </option>
+                        ))}
+                      </select>
                     </div>
-                  </div>
-                );
-              }
+                  );
+                }
 
-              if (field.type === "image" || field.accessor === "image") {
+                if (field.accessor === "emballage") {
+                  return (
+                    <div key={field.accessor}>
+                      <label
+                        htmlFor={field.accessor}
+                        className="block text-gray-700 font-medium mb-1"
+                      >
+                        {field.label}
+                      </label>
+                      <div className="mt-2 space-y-2">
+                        {newEmballageNames.map((name, idx) => (
+                          <div key={idx} className="flex gap-2">
+                            <input
+                              type="text"
+                              placeholder="New emballage name"
+                              value={name}
+                              onChange={(e) =>
+                                updateNewEmballageName(idx, e.target.value)
+                              }
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+                            {newEmballageNames.length > 1 && (
+                              <button
+                                type="button"
+                                onClick={() => removeNewEmballageField(idx)}
+                                className="text-red-500"
+                                title="Remove"
+                              >
+                                &times;
+                              </button>
+                            )}
+                          </div>
+                        ))}
+                        <button
+                          type="button"
+                          onClick={addNewEmballageField}
+                          className="mt-1 text-black underline"
+                        >
+                          + Add another emballage
+                        </button>
+                      </div>
+                    </div>
+                  );
+                }
+
+                if (field.type === "image" || field.accessor === "image") {
+                  return (
+                    <div key={field.accessor}>
+                      <label
+                        htmlFor={field.accessor}
+                        className="block text-gray-700 font-medium mb-1"
+                      >
+                        {field.label}
+                      </label>
+                      <input
+                        id={field.accessor}
+                        name={field.accessor}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleChange}
+                        required={field.required}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                      />
+                      {isUploading && (
+                        <div className="mt-3">
+                          <Progress value={uploadProgress} />
+                          <p className="text-sm text-gray-500 mt-1">
+                            {uploadProgress}%
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
+                // Default input (text, number, etc.)
                 return (
                   <div key={field.accessor}>
                     <label
@@ -278,67 +316,39 @@ const AddModal = ({ open, onClose, data }) => {
                     <input
                       id={field.accessor}
                       name={field.accessor}
-                      type="file"
-                      accept="image/*"
+                      type={field.type}
+                      value={values[field.accessor]}
                       onChange={handleChange}
+                      placeholder={
+                        field.placeholder ||
+                        `Enter ${field.label.toLowerCase()}`
+                      }
                       required={field.required}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
                     />
-                    {isUploading && (
-                      <div className="mt-3">
-                        <Progress value={uploadProgress} />
-                        <p className="text-sm text-gray-500 mt-1">
-                          {uploadProgress}%
-                        </p>
-                      </div>
-                    )}
                   </div>
                 );
-              }
+              })}
+            </div>
 
-              // Default input (text, number, etc.)
-              return (
-                <div key={field.accessor}>
-                  <label
-                    htmlFor={field.accessor}
-                    className="block text-gray-700 font-medium mb-1"
-                  >
-                    {field.label}
-                  </label>
-                  <input
-                    id={field.accessor}
-                    name={field.accessor}
-                    type={field.type}
-                    value={values[field.accessor]}
-                    onChange={handleChange}
-                    placeholder={
-                      field.placeholder || `Enter ${field.label.toLowerCase()}`
-                    }
-                    required={field.required}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                  />
-                </div>
-              );
-            })}
-          </div>
-
-          <button
-            type="submit"
-            className="mt-6 w-full bg-black text-white py-2 px-4 rounded-lg shadow hover:bg-white hover:text-black border border-black transition"
-            disabled={isUploading}
-          >
-            {isUploading ? "Uploading..." : labels.Next}
-          </button>
-        </form>
-        {errorMessage && (
-          <Alert variant="destructive" className="mb-4">
-            <ExclamationTriangleIcon className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>{errorMessage}</AlertDescription>
-          </Alert>
-        )}
+            <button
+              type="submit"
+              className="mt-6 w-full bg-black text-white py-2 px-4 rounded-lg shadow hover:bg-white hover:text-black border border-black transition"
+              disabled={isUploading}
+            >
+              {isUploading ? "Uploading..." : labels.Next}
+            </button>
+          </form>
+          {errorMessage && (
+            <Alert variant="destructive" className="mb-4">
+              <ExclamationTriangleIcon className="h-4 w-4" />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>{errorMessage}</AlertDescription>
+            </Alert>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

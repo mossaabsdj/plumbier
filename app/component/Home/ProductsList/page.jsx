@@ -33,9 +33,11 @@ export default function HomePage() {
   const [products, setProducts] = useState(null);
   useEffect(() => {
     fetch("/api/Product")
-      .then((res) => res.json())
-      .then(setProducts);
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => setProducts(Array.isArray(data) ? data : []))
+      .catch(() => setProducts([])); // If fetch fails entirely
   }, []);
+
   const [currentPage, setCurrentPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const isManualScroll = useRef(false);
@@ -55,7 +57,7 @@ export default function HomePage() {
     return () => window.removeEventListener("resize", updateItemsPerPage);
   }, []);
 
-  const totalPages = Math.ceil(products?.length / itemsPerPage);
+  const totalPages = Math.ceil((products?.length || 0) / itemsPerPage);
 
   const scrollToPage = (pageIndex) => {
     if (!scrollRef.current) return;
@@ -104,7 +106,7 @@ export default function HomePage() {
       clearTimeout(timeoutRef.current);
     };
   }, [currentPage, itemsPerPage]);
-  if (!products) {
+  if (!products || products.length === 0) {
     return (
       <main
         className={`min-h-screen ${COLORS.background} flex flex-col items-center justify-center p-6`}
@@ -187,7 +189,7 @@ export default function HomePage() {
           ref={scrollRef}
           className="flex space-x-4 overflow-x-hidden scroll-smooth px-4 sm:px-10"
         >
-          {products.map((product, idx) => (
+          {products?.map((product, idx) => (
             <motion.div
               key={idx}
               className={`flex-shrink-0 w-72 ${COLORS.card} rounded-xl shadow-md `}

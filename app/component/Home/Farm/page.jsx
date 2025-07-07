@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { useRef, forwardRef, useEffect, useState } from "react";
 import objects from "@/app/Texts/content.json";
 import Footer from "@/app/component/Home/Footer/page";
-import Commande from "@/app/component/Home/AddCommande/page";
+import Commande from "@/app/component/Home/Farm/AddCommande/page";
 import React from "react";
 
 const CheesePage = forwardRef(({ FarmData }, refCommande) => {
@@ -359,7 +359,7 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
           ref={refCommande}
           className="scroll-mt-34" // Tailwind utility
         >
-          <Commande data={data} />
+          <Commande data={data} FarmProduct={products} />
         </div>
       </motion.div>
     </div>

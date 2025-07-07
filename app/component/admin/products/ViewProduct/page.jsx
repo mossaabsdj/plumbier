@@ -7,6 +7,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import LoadingPage from "@/app/component/loading/page";
 
 const Labels = object.Labels;
 const defaultdata = object.Product.ViewModel;
@@ -30,6 +31,7 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
   const [newEmballageName, setNewEmballageName] = useState("");
   // Add this state for editing emballages array
   const [editEmballages, setEditEmballages] = useState([]);
+  const [isloading, setloading] = useState(false);
 
   // Sync editEmballages with product.emballages when opening or switching product
   useEffect(() => {
@@ -117,12 +119,13 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
         "data" +
           JSON.stringify({ ...editValues, emballages: editValues.emballages })
       );
+      setloading(true);
       const response = await fetchData({
         method: "PUT",
         url: `/api/Product/${editValues.id}`,
         body: { ...editValues, emballages: editValues.emballages },
       });
-
+      setloading(false);
       if (response.error) {
         setErrorMessage("❌ " + response.error);
       } else {
@@ -154,320 +157,332 @@ const ConsulteClientModal = ({ open, onClose, product, reload }) => {
   if (!open || !product) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm overflow-x-hidden overflow-y-auto">
-      <div className="bg-white rounded shadow-lg border w-full max-w-4xl mx-4 sm:mx-6 md:mx-8 my-8 p-4 relative max-h-[90vh] overflow-y-auto">
-        {errorMessage && (
-          <Alert
-            variant={errorMessage.startsWith("✅") ? "success" : "destructive"}
-            className="mb-4"
-          >
-            <ExclamationTriangleIcon className="h-4 w-4" />
-            <AlertTitle>
-              {errorMessage.startsWith("✅") ? "Succès" : "Erreur"}
-            </AlertTitle>
-            <AlertDescription>{errorMessage}</AlertDescription>
-          </Alert>
-        )}
+    <>
+      {" "}
+      {isloading && <LoadingPage isVisible={true} />}
+      <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm overflow-x-hidden overflow-y-auto">
+        <div className="bg-white rounded shadow-lg border w-full max-w-4xl mx-4 sm:mx-6 md:mx-8 my-8 p-4 relative max-h-[90vh] overflow-y-auto">
+          {errorMessage && (
+            <Alert
+              variant={
+                errorMessage.startsWith("✅") ? "success" : "destructive"
+              }
+              className="mb-4"
+            >
+              <ExclamationTriangleIcon className="h-4 w-4" />
+              <AlertTitle>
+                {errorMessage.startsWith("✅") ? "Succès" : "Erreur"}
+              </AlertTitle>
+              <AlertDescription>{errorMessage}</AlertDescription>
+            </Alert>
+          )}
 
-        {isUploading && uploadProgress > 0 && (
-          <div className="mb-4">
-            <Progress value={uploadProgress} />
-            <p className="text-sm text-gray-500 mt-1">{uploadProgress}%</p>
+          {isUploading && uploadProgress > 0 && (
+            <div className="mb-4">
+              <Progress value={uploadProgress} />
+              <p className="text-sm text-gray-500 mt-1">{uploadProgress}%</p>
+            </div>
+          )}
+
+          <div className="flex flex-wrap justify-between items-center mb-4 gap-2">
+            <div className="flex gap-2 flex-wrap">
+              {!editing ? (
+                <button
+                  onClick={handleModify}
+                  className="flex items-center gap-2 bg-black hover:bg-gray-900 text-white px-4 py-2 rounded shadow"
+                >
+                  ✎ {modifyText}
+                </button>
+              ) : (
+                <button
+                  onClick={handleSave}
+                  className="flex items-center gap-2 bg-white hover:bg-gray-200 text-black px-4 py-2 rounded shadow border border-black"
+                  disabled={isUploading}
+                >
+                  {isUploading ? "Uploading..." : "✔ " + applyText}
+                </button>
+              )}
+            </div>
+            <button
+              onClick={onClose}
+              className="text-black hover:text-white text-2xl bg-white hover:bg-black rounded-full w-8 h-8 flex items-center justify-center border border-black"
+              aria-label={closeAria}
+            >
+              &times;
+            </button>
           </div>
-        )}
 
-        <div className="flex flex-wrap justify-between items-center mb-4 gap-2">
-          <div className="flex gap-2 flex-wrap">
-            {!editing ? (
-              <button
-                onClick={handleModify}
-                className="flex items-center gap-2 bg-black hover:bg-gray-900 text-white px-4 py-2 rounded shadow"
-              >
-                ✎ {modifyText}
-              </button>
-            ) : (
-              <button
-                onClick={handleSave}
-                className="flex items-center gap-2 bg-white hover:bg-gray-200 text-black px-4 py-2 rounded shadow border border-black"
-                disabled={isUploading}
-              >
-                {isUploading ? "Uploading..." : "✔ " + applyText}
-              </button>
-            )}
-          </div>
-          <button
-            onClick={onClose}
-            className="text-black hover:text-white text-2xl bg-white hover:bg-black rounded-full w-8 h-8 flex items-center justify-center border border-black"
-            aria-label={closeAria}
-          >
-            &times;
-          </button>
-        </div>
+          <h1 className="text-xl sm:text-2xl font-bold mb-4 text-center text-black">
+            {title}
+          </h1>
 
-        <h1 className="text-xl sm:text-2xl font-bold mb-4 text-center text-black">
-          {title}
-        </h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {Object.entries(editValues).map(([key, value]) => {
+              // Skip id and emballageId fields
+              if (
+                key === DontDisplayasfield ||
+                key === "id" ||
+                key === "emballageId" ||
+                key === "emballage"
+              )
+                return null;
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {Object.entries(editValues).map(([key, value]) => {
-            // Skip id and emballageId fields
-            if (
-              key === DontDisplayasfield ||
-              key === "id" ||
-              key === "emballageId" ||
-              key === "emballage"
-            )
-              return null;
+              const isFarmField =
+                key === "farm" && value && typeof value === "object";
+              const isImageField =
+                typeof value === "string" &&
+                (key.toLowerCase().includes("image") ||
+                  key.toLowerCase().includes("file")) &&
+                (/\.(jpe?g|png|gif|webp|svg|ico|bmp|heic|heif|tiff?|avif)$/i.test(
+                  value
+                ) ||
+                  value.startsWith("data:image"));
+              const isDateField =
+                key.toLowerCase().includes("date") || value instanceof Date;
+              const displayValue = isFarmField ? value.name : value;
 
-            const isFarmField =
-              key === "farm" && value && typeof value === "object";
-            const isImageField =
-              typeof value === "string" &&
-              (key.toLowerCase().includes("image") ||
-                key.toLowerCase().includes("file")) &&
-              (/\.(jpe?g|png|gif|webp|svg|ico|bmp|heic|heif|tiff?|avif)$/i.test(
-                value
-              ) ||
-                value.startsWith("data:image"));
-            const isDateField =
-              key.toLowerCase().includes("date") || value instanceof Date;
-            const displayValue = isFarmField ? value.name : value;
-
-            // Emballages array display
-            if (key === "emballages" && Array.isArray(value)) {
-              return (
-                <div key={key} className="mb-4">
-                  <div className="block text-gray-700 font-medium mb-1">
-                    Emballages
-                  </div>
-                  <div>
-                    {editEmballages.map((name, idx) => (
-                      <div key={idx} className="flex gap-2 mb-1">
-                        <Input
-                          type="text"
-                          value={name}
-                          readOnly={!editing}
-                          onChange={
-                            editing
-                              ? (e) => updateEmballageName(idx, e.target.value)
-                              : undefined
-                          }
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                        />
-                        {editing && editEmballages.length > 1 && (
-                          <Button
-                            type="button"
-                            variant="destructive"
-                            onClick={() => removeEmballageField(idx)}
-                            className="px-2"
-                            title="Remove"
-                          >
-                            &times;
-                          </Button>
-                        )}
-                      </div>
-                    ))}
-                    {editing && (
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={addEmballageField}
-                        className="mt-1 underline"
-                      >
-                        + Add another emballage
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              );
-            }
-
-            // Emballage select logic
-            if (key === "emballageRel") {
-              return (
-                <div key={key} className="mb-4">
-                  <div className="block text-gray-700 font-medium mb-1">
-                    Emballage
-                  </div>
-                  {editing ? (
-                    <>
-                      <select
-                        name="emballageRel"
-                        value={
-                          showNewEmballage
-                            ? "add_new"
-                            : value && value.id
-                            ? value.id
-                            : ""
-                        }
-                        onChange={(e) => {
-                          if (e.target.value === "add_new") {
-                            setShowNewEmballage(true);
-                            setEditValues((prev) => ({
-                              ...prev,
-                              emballageRel: { id: "", name: "" },
-                            }));
-                          } else {
-                            setShowNewEmballage(false);
-                            const selected = Emballages.find(
-                              (emb) => emb.id === Number(e.target.value)
-                            );
-                            setEditValues((prev) => ({
-                              ...prev,
-                              emballageRel: selected,
-                            }));
-                          }
-                        }}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                      >
-                        <option value="">Select emballage</option>
-                        {Emballages.map((emb) => (
-                          <option key={emb.id} value={emb.id}>
-                            {emb.name}
-                          </option>
-                        ))}
-                        <option value="add_new">Add new emballage</option>
-                      </select>
-                      {showNewEmballage && (
-                        <Input
-                          type="text"
-                          placeholder="New emballage name"
-                          value={newEmballageName}
-                          onChange={(e) => setNewEmballageName(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                        />
-                      )}
-                    </>
-                  ) : (
-                    <input
-                      name={key + 9876}
-                      value={value?.name}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                      readOnly={true}
-                    />
-                  )}
-                </div>
-              );
-            }
-            return (
-              <div key={key} className="mb-4">
-                <div className="block text-gray-700 font-medium mb-1">
-                  {key}
-                </div>
-
-                {editing ? (
-                  isImageField ? (
-                    <div className="flex items-center gap-4">
-                      <Input
-                        type="file"
-                        name={key}
-                        accept="image/*"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            setRawImageFile(file);
-                            const reader = new FileReader();
-                            reader.onloadend = () => {
-                              setEditValues((prev) => ({
-                                ...prev,
-                                [key]: reader.result,
-                              }));
-                            };
-                            reader.readAsDataURL(file);
-                          }
-                        }}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                      />
-                      {value && (
-                        <img
-                          src={value}
-                          alt={key}
-                          className="h-16 w-auto rounded border border-gray-300 shadow"
-                        />
+              // Emballages array display
+              if (key === "emballages" && Array.isArray(value)) {
+                return (
+                  <div key={key} className="mb-4">
+                    <div className="block text-gray-700 font-medium mb-1">
+                      Emballages
+                    </div>
+                    <div>
+                      {editEmballages.map((name, idx) => (
+                        <div key={idx} className="flex gap-2 mb-1">
+                          <Input
+                            type="text"
+                            value={name}
+                            readOnly={!editing}
+                            onChange={
+                              editing
+                                ? (e) =>
+                                    updateEmballageName(idx, e.target.value)
+                                : undefined
+                            }
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          />
+                          {editing && editEmballages.length > 1 && (
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              onClick={() => removeEmballageField(idx)}
+                              className="px-2"
+                              title="Remove"
+                            >
+                              &times;
+                            </Button>
+                          )}
+                        </div>
+                      ))}
+                      {editing && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={addEmballageField}
+                          className="mt-1 underline"
+                        >
+                          + Add another emballage
+                        </Button>
                       )}
                     </div>
-                  ) : isDateField ? (
-                    <Input
-                      type="date"
-                      name={key}
-                      value={
-                        value ? new Date(value).toISOString().split("T")[0] : ""
-                      }
-                      onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                    />
-                  ) : key === "farm" ? (
-                    <select
-                      name={key}
-                      value={editValues.farmId || ""}
-                      onChange={(e) => {
-                        const selectedId = parseInt(e.target.value, 10);
-                        setEditValues((prev) => ({
-                          ...prev,
-                          farmId: selectedId,
-                          farm: Farms.find((f) => f.id === selectedId) || null,
-                        }));
-                      }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                    >
-                      <option value="">Select a farm</option>
-                      {Farms.map((farm) => (
-                        <option key={farm.id} value={farm.id}>
-                          {farm.name}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    <input
-                      name={key}
-                      value={displayValue}
-                      onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                      readOnly={isFarmField}
-                    />
-                  )
-                ) : isImageField ? (
-                  value ? (
-                    <img
-                      src={value}
-                      alt={key}
-                      className="max-h-40 rounded border border-gray-300 shadow"
-                    />
-                  ) : (
-                    <div className="text-gray-500">No image</div>
-                  )
-                ) : (
-                  <div>
-                    {isFarmField ? (
+                  </div>
+                );
+              }
+
+              // Emballage select logic
+              if (key === "emballageRel") {
+                return (
+                  <div key={key} className="mb-4">
+                    <div className="block text-gray-700 font-medium mb-1">
+                      Emballage
+                    </div>
+                    {editing ? (
+                      <>
+                        <select
+                          name="emballageRel"
+                          value={
+                            showNewEmballage
+                              ? "add_new"
+                              : value && value.id
+                              ? value.id
+                              : ""
+                          }
+                          onChange={(e) => {
+                            if (e.target.value === "add_new") {
+                              setShowNewEmballage(true);
+                              setEditValues((prev) => ({
+                                ...prev,
+                                emballageRel: { id: "", name: "" },
+                              }));
+                            } else {
+                              setShowNewEmballage(false);
+                              const selected = Emballages.find(
+                                (emb) => emb.id === Number(e.target.value)
+                              );
+                              setEditValues((prev) => ({
+                                ...prev,
+                                emballageRel: selected,
+                              }));
+                            }
+                          }}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                        >
+                          <option value="">Select emballage</option>
+                          {Emballages.map((emb) => (
+                            <option key={emb.id} value={emb.id}>
+                              {emb.name}
+                            </option>
+                          ))}
+                          <option value="add_new">Add new emballage</option>
+                        </select>
+                        {showNewEmballage && (
+                          <Input
+                            type="text"
+                            placeholder="New emballage name"
+                            value={newEmballageName}
+                            onChange={(e) =>
+                              setNewEmballageName(e.target.value)
+                            }
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          />
+                        )}
+                      </>
+                    ) : (
                       <input
                         name={key + 9876}
                         value={value?.name}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
                         readOnly={true}
                       />
-                    ) : isDateField ? (
-                      <input
-                        name={key + 9876}
-                        value={new Date(value).toLocaleDateString()}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                        readOnly={true}
-                      />
-                    ) : (
-                      <input
-                        name={key + 9876}
-                        value={value}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                        readOnly={true}
-                      />
                     )}
                   </div>
-                )}
-              </div>
-            );
-          })}
+                );
+              }
+              return (
+                <div key={key} className="mb-4">
+                  <div className="block text-gray-700 font-medium mb-1">
+                    {key}
+                  </div>
+
+                  {editing ? (
+                    isImageField ? (
+                      <div className="flex items-center gap-4">
+                        <Input
+                          type="file"
+                          name={key}
+                          accept="image/*"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              setRawImageFile(file);
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                setEditValues((prev) => ({
+                                  ...prev,
+                                  [key]: reader.result,
+                                }));
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                        />
+                        {value && (
+                          <img
+                            src={value}
+                            alt={key}
+                            className="h-16 w-auto rounded border border-gray-300 shadow"
+                          />
+                        )}
+                      </div>
+                    ) : isDateField ? (
+                      <Input
+                        type="date"
+                        name={key}
+                        value={
+                          value
+                            ? new Date(value).toISOString().split("T")[0]
+                            : ""
+                        }
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                      />
+                    ) : key === "farm" ? (
+                      <select
+                        name={key}
+                        value={editValues.farmId || ""}
+                        onChange={(e) => {
+                          const selectedId = parseInt(e.target.value, 10);
+                          setEditValues((prev) => ({
+                            ...prev,
+                            farmId: selectedId,
+                            farm:
+                              Farms.find((f) => f.id === selectedId) || null,
+                          }));
+                        }}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                      >
+                        <option value="">Select a farm</option>
+                        {Farms.map((farm) => (
+                          <option key={farm.id} value={farm.id}>
+                            {farm.name}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input
+                        name={key}
+                        value={displayValue}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                        readOnly={isFarmField}
+                      />
+                    )
+                  ) : isImageField ? (
+                    value ? (
+                      <img
+                        src={value}
+                        alt={key}
+                        className="max-h-40 rounded border border-gray-300 shadow"
+                      />
+                    ) : (
+                      <div className="text-gray-500">No image</div>
+                    )
+                  ) : (
+                    <div>
+                      {isFarmField ? (
+                        <input
+                          name={key + 9876}
+                          value={value?.name}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          readOnly={true}
+                        />
+                      ) : isDateField ? (
+                        <input
+                          name={key + 9876}
+                          value={new Date(value).toLocaleDateString()}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          readOnly={true}
+                        />
+                      ) : (
+                        <input
+                          name={key + 9876}
+                          value={value}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                          readOnly={true}
+                        />
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

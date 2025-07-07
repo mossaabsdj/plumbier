@@ -8,12 +8,12 @@ export async function GET(req, { params }) {
   });
   return Response.json(product);
 }
-
 export async function PUT(request, { params }) {
   const id = Number(params.id);
   const body = await request.json();
+
   try {
-    // Update the product fields
+    // 1. Update the product fields
     const updatedProduct = await prisma.product.update({
       where: { id },
       data: {
@@ -25,24 +25,30 @@ export async function PUT(request, { params }) {
         Date: new Date(body.Date).toISOString(),
       },
     });
-    // body.emballageNames should be an array of emballage ID
-    if (body.emballageNames && body.emballageNames.length > 0) {
-      // First, delete existing emballage relations
-      await prisma.emballageOnProduct.deleteMany({
+
+    // 2. If emballages are provided
+    if (body.emballages && body.emballages.length > 0) {
+      // a) Delete old Emballages linked to this product
+      await prisma.emballage.deleteMany({
         where: { productId: id },
       });
-      // Then, create new relations for each emballage ID
-      for (const emballageId of body.emballageNames) {
-        await prisma.emballageOnProduct.create({
+
+      // b) Create new Emballages with the given names
+      const createPromises = body.emballages.map((emballageName) =>
+        prisma.emballage.create({
           data: {
-            productId: id,
-            emballageId,
+            name: emballageName,
+            productId: id, // ✅ link to product
           },
-        });
-      }
+        })
+      );
+
+      await Promise.all(createPromises);
     }
+
     return Response.json(updatedProduct);
   } catch (error) {
+    console.error("PUT Error:", error);
     return new Response("Could not update product", { status: 500 });
   }
 }

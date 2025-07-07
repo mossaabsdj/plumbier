@@ -6,13 +6,16 @@ import {
   Phone,
   Mail,
 } from "lucide-react";
+import Image from "next/image";
 
+import telegrammeIcon from "@/public/images/telegramme.png";
+import whatsappIcon from "@/public/images/whatsapp.png";
 // === Text Variables ===
-const companyName = "Your Company";
-const companyDescription = "Making the web a better place.";
-const address = "123 Web Street, Tech City";
+const companyName = "Ski agrotour luxe";
+const companyDescription = "Business Agro touristique.";
+const address = "----,--------------";
 const phoneNumber = "+1 (555) 123-4567";
-const email = "info@yourcompany.com";
+const email = "Skiagrotourdeluxe10@gmail.com";
 
 const companyLinks = [
   { name: "About Us", href: "#" },
@@ -111,14 +114,51 @@ export default function Footer() {
             Follow Us
           </h3>
           <div className="flex justify-center md:justify-start space-x-4">
-            <a href="#" aria-label="Facebook">
+            <a
+              href="https://www.facebook.com/share/1DhZw9n36S/"
+              aria-label="Facebook"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Facebook className={`w-5 h-5 ${iconColor} ${iconHoverColor}`} />
             </a>
-            <a href="#" aria-label="Twitter">
-              <Twitter className={`w-5 h-5 ${iconColor} ${iconHoverColor}`} />
-            </a>
-            <a href="#" aria-label="Instagram">
+            <a
+              href="https://www.instagram.com/ski_agrotour_luxe?igsh=MTJtNjdmbDViZDBobA=="
+              aria-label="Instagram"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Instagram className={`w-5 h-5 ${iconColor} ${iconHoverColor}`} />
+            </a>
+            <a
+              href="https://wa.me/qr/OBSZF5M4XZ3PB1"
+              aria-label="WhatsApp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src={whatsappIcon}
+                alt="WhatsApp"
+                width={24}
+                height={24}
+                className={`w-6 h-6 ${iconColor} ${iconHoverColor}`}
+              />{" "}
+              {/* Use Phone as fallback */}
+            </a>
+            <a
+              href="https://t.me/your_telegram_username"
+              aria-label="Telegram"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src={telegrammeIcon}
+                alt="Telegram"
+                width={24}
+                height={24}
+                className={`w-6 h-6 text-white ${iconColor} ${iconHoverColor}`}
+              />{" "}
+              {/* Use Mail as fallback */}
             </a>
           </div>
         </div>

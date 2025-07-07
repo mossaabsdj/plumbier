@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Progress } from "@/components/ui/progress";
 
-const AddModal = ({ data }) => {
+const AddModal = ({ data, FarmProduct }) => {
   const FirstFields = data.AddClient.FirstFields;
   const addbutton = data.AddClient.AddButton;
   const Title = data.AddClient.Title;
@@ -27,33 +27,31 @@ const AddModal = ({ data }) => {
   const [showDialog, setShowDialog] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  // Fetch products on mount
+  // Remove the fetchProducts async and just use FarmProduct directly
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      const products = await fetchData({ method: "GET", url: "/api/Product" });
-      setProds(products || []);
-      // Set initial values after products are loaded
-      if (products && products.length > 0) {
-        const initialValues = FirstFields.reduce((acc, field) => {
-          if (field.type === "image" || field.accessor === "image") {
-            acc[field.accessor] = null;
-          } else if (field.type === "select") {
-            acc[field.accessor] = field.options?.[0] || "";
-          } else {
-            acc[field.accessor] = "";
-          }
-          if (field.accessor === "productId") {
-            acc[field.accessor] = products[0].id || "";
-          }
-          return acc;
-        }, {});
-        setValues(initialValues);
-        setprod(products[0]);
-      }
-    };
-    fetchProducts();
+    // Use FarmProduct directly as the product list
+    setProds(FarmProduct || []);
+    // Set initial values after products are loaded
+    if (FarmProduct && FarmProduct.length > 0) {
+      const initialValues = FirstFields.reduce((acc, field) => {
+        if (field.type === "image" || field.accessor === "image") {
+          acc[field.accessor] = null;
+        } else if (field.type === "select") {
+          acc[field.accessor] = field.options?.[0] || "";
+        } else {
+          acc[field.accessor] = "";
+        }
+        if (field.accessor === "productId") {
+          acc[field.accessor] = FarmProduct[0].id || "";
+        }
+        return acc;
+      }, {});
+      setValues(initialValues);
+      setprod(FarmProduct[0]);
+    }
     // eslint-disable-next-line
-  }, [FirstFields]);
+  }, [FirstFields, FarmProduct]);
 
   // Update emballages when product changes
   useEffect(() => {
@@ -68,7 +66,7 @@ const AddModal = ({ data }) => {
     } else {
       setValues({ ...values, [name]: value });
       if (name === "productId") {
-        const selectedProduct = prods?.find(
+        const selectedProduct = prods.find(
           (p) => Number(p.id) === Number(value)
         );
         setprod(selectedProduct);

@@ -7,8 +7,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { toast } from "sonner"; // optional success toast
-
+import { toast } from "sonner";
 import React, { useState, useEffect } from "react";
 import {
   Table,
@@ -27,17 +26,17 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { format } from "date-fns";
-import { CalendarIcon, ArrowDown, ArrowUp, Loader2 } from "lucide-react";
+import { CalendarIcon, ArrowDown, ArrowUp } from "lucide-react";
 import defaultdata from "@/app/Texts/content.json";
 import { fetchData } from "@/lib/FetchData/page";
-
+import LoadingPage from "@/app/component/loading/page";
 const Page = ({ object, data, AddModel, ViewModel }) => {
+  const [isloading, setloading] = useState(false);
   const [open, setOpen] = useState(false);
   const [openViewModel, setOpenViewModel] = useState(false);
   const [sortedData, setsortedData] = useState([]);
-
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [products, setProducts] = useState(object); // start with props
+  const [products, setProducts] = useState(object);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -45,15 +44,17 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [showDialog, setShowDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
-  const [dialogType, setDialogType] = useState("success"); // or 'error'
-  const [loading, setLoading] = useState(false);
+  const [dialogType, setDialogType] = useState("success");
 
   const Labels = defaultdata.Labels;
-
   const columns = data.table.columns;
+
   const handleStats = () => {
     setOpenStatsModel(true);
   };
+  useEffect(() => {
+    setProducts(object);
+  }, [object]);
   useEffect(() => {
     if (showDialog) {
       const timer = setTimeout(() => {
@@ -76,10 +77,13 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
       return { key: col.accessor, direction: "asc" };
     });
   };
+
   const handleAdd = () => {
     setOpen(true);
   };
+
   const handleDelete = async () => {
+    setloading(true);
     try {
       const res = await fetch(`/api/Product/${selectedId}`, {
         method: "DELETE",
@@ -87,9 +91,13 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
 
       if (res.ok) {
         handleReload();
+        setloading(false);
+
         setDialogType("success");
         setDialogMessage("Product deleted successfully!");
       } else {
+        setloading(false);
+
         setDialogType("error");
         setDialogMessage("Failed to delete product.");
         console.error("Failed to delete", await res.text());
@@ -100,27 +108,29 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
       console.error("Error deleting row:", error);
     } finally {
       setShowDialog(true);
-      setOpenDialog(false); // close confirmation dialog
+      setOpenDialog(false);
     }
   };
 
   const handleReload = async () => {
-    setLoading(true);
+    setloading(true);
+
     setOpen(false);
     const updatedProducts = await fetchData({
       method: "GET",
       url: "/api/Product",
     });
+    setloading(false);
     setProducts(updatedProducts);
-    setLoading(false);
   };
 
   const handleView = (row) => {
-    setSelectedProduct(row); // Pass the row object to the modal
-
+    setSelectedProduct(row);
     setOpenViewModel(true);
   };
+
   useEffect(() => {
+    setloading(true);
     const filteredData = products.filter((row) => {
       const matchesSearch = Object.values(row)
         .join(" ")
@@ -131,7 +141,6 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
       const selected = selectedDate ? new Date(selectedDate) : null;
 
       if (selected) {
-        // Normalize both dates to midnight for accurate day-level comparison
         selected.setHours(0, 0, 0, 0);
         rowDate.setHours(0, 0, 0, 0);
       }
@@ -142,9 +151,9 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
     });
 
     setsortedData([...filteredData]);
-
+    setloading(false);
     if (sortConfig.key) {
-      sortedData.sort((a, b) => {
+      filteredData.sort((a, b) => {
         const valA = a[sortConfig.key];
         const valB = b[sortConfig.key];
 
@@ -153,22 +162,18 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
         return 0;
       });
     }
-  }, [products]);
+  }, [products, searchTerm, selectedDate, sortConfig]);
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-gray-50 items-center justify-center">
-      <div className="w-full max-w-8xl flex flex-col h-[90vh] bg-white rounded-lg shadow border border-gray-200">
-        <h1 className="text-2xl font-bold mb-4 text-center pt-6">
-          {data.title}
-        </h1>
+    <>
+      <>
+        {isloading && <LoadingPage isVisible={true} />}
+        <div className="flex flex-col min-h-screen w-full bg-gray-50 items-center justify-center">
+          <div className="w-full max-w-8xl flex flex-col h-[90vh] bg-white rounded-lg shadow border border-gray-200">
+            <h1 className="text-2xl font-bold mb-4 text-center pt-6">
+              {data.title}
+            </h1>
 
-        {loading ? (
-          <div className="flex flex-col items-center justify-center flex-1">
-            <Loader2 className="h-12 w-12 animate-spin text-black mb-4" />
-            <span className="text-lg text-gray-700">Loading...</span>
-          </div>
-        ) : (
-          <>
             <div className="grid grid-cols-1 px-8 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-6 w-full max-w-full">
               <Input
                 placeholder={data.table.SearchPlaceHolder}
@@ -217,7 +222,6 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
               </Button>
             </div>
 
-            {/* Table area is now flex-1 and scrollable */}
             <div className="flex-1 overflow-y-auto px-8 pb-6">
               <div className="overflow-x-auto rounded-lg shadow border border-gray-200 bg-white">
                 <Table className="min-w-full divide-y divide-gray-200">
@@ -367,6 +371,7 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
                 </DialogFooter>
               </DialogContent>
             </Dialog>
+
             <Dialog open={showDialog} onOpenChange={setShowDialog}>
               <DialogContent>
                 <DialogHeader>
@@ -393,10 +398,10 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
               product={selectedProduct}
               reload={handleReload}
             />
-          </>
-        )}
-      </div>
-    </div>
+          </div>
+        </div>
+      </>
+    </>
   );
 };
 

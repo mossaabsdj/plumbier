@@ -4,6 +4,7 @@ import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
 import Image from "next/image";
 import Swal from "sweetalert2";
 import { signIn } from "next-auth/react";
+import Progression from "@/app/component/Proogression/page";
 
 //import Header from "@/app/component/navbar/page";
 //import Footer from "@/app/component/Home/Footer/page";
@@ -42,8 +43,10 @@ const COLORS = {
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     const res = await signIn("credentials", {
       username,
@@ -51,6 +54,8 @@ export default function LoginPage() {
       redirect: false,
       callbackUrl: "/DashBoard",
     });
+    setIsLoading(false);
+
     if (res?.ok) {
       // ✅ Success - redirect manually
       Swal.fire({
@@ -62,6 +67,7 @@ export default function LoginPage() {
         },
         timer: 1500,
       }).then(() => {
+        setIsLoading(true);
         window.location.href = res.url;
       });
     } else {
@@ -80,6 +86,8 @@ export default function LoginPage() {
 
   return (
     <>
+      {isLoading && <Progression isVisible={true} />}
+
       <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
         <div className="flex flex-col md:flex-row rounded-xl shadow-2xl overflow-hidden w-full max-w-4xl h-[540px]">
           {/* Left: Login form */}
