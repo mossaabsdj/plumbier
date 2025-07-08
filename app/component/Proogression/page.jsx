@@ -2,7 +2,6 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import logo from "@/public/images/Logo.png"; // ⬅️ Use your logo path
 
 export default function PageTransition({ isVisible }) {
   return (
@@ -20,7 +19,7 @@ export default function PageTransition({ isVisible }) {
             className="w-24 h-24"
           >
             <Image
-              src={logo}
+              src="/images/Logo.png"
               alt="Logo"
               width={86}
               height={86}

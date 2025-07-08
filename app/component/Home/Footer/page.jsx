@@ -8,8 +8,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
-import telegrammeIcon from "@/public/images/telegramme.png";
-import whatsappIcon from "@/public/images/whatsapp.png";
 // === Text Variables ===
 const companyName = "Ski agrotour luxe";
 const companyDescription = "Business Agro touristique.";
@@ -137,7 +135,7 @@ export default function Footer() {
               rel="noopener noreferrer"
             >
               <Image
-                src={whatsappIcon}
+                src={"/images/whatsapp.png"}
                 alt="WhatsApp"
                 width={24}
                 height={24}
@@ -152,7 +150,7 @@ export default function Footer() {
               rel="noopener noreferrer"
             >
               <Image
-                src={telegrammeIcon}
+                src={"/images/telegramme.png"}
                 alt="Telegram"
                 width={24}
                 height={24}
