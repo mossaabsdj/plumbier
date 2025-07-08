@@ -15,11 +15,12 @@ import {
 import LoadingPage from "@/app/component/Proogression/page";
 import { Progress } from "@/components/ui/progress";
 
-const AddModal = ({ data }) => {
+const AddModal = ({ data = {} }) => {
   const [loding, setloading] = useState(false);
-  const FirstFields = data.AddClient.FirstFields;
-  const addbutton = data.AddClient.AddButton;
-  const Title = data.AddClient.Title;
+  const FirstFields = data?.AddClient?.FirstFields ?? [];
+  const Title = data?.AddClient?.Title ?? "";
+
+  const addbutton = data?.AddClient?.AddButton ?? "";
   const labels = object.Labels;
 
   const [prods, setProds] = useState([]);

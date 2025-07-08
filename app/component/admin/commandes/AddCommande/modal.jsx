@@ -4,12 +4,12 @@ import object from "@/app/Texts/content.json";
 import { fetchData } from "@/lib/FetchData/page"; // Adjust path if needed
 import LoadingPage from "@/app/component/loading/page";
 
-const AddModal = ({ open, onClose, data, loadData }) => {
-  const FirstFields = data.AddClient.FirstFields;
-  const Title = data.AddClient.Title;
+const AddModal = ({ open, onClose, data = {}, loadData }) => {
+  const FirstFields = data?.AddClient?.FirstFields ?? [];
+  const Title = data?.AddClient?.Title ?? "";
+
   const labels = object.Labels;
   const [isloading, setloading] = useState(false);
-
   const [prods, setProds] = useState([]);
   const [values, setValues] = useState({});
   const [emballages, setemballages] = useState([]);

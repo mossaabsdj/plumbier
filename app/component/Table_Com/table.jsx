@@ -17,7 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import Statsmodel from "@/app/component/admin/CommandeStats/page";
+import Statsmodel from "@/app/component/admin/CommandeStats/modal";
 import { format } from "date-fns";
 import { CalendarIcon, ArrowDown, ArrowUp, Trash } from "lucide-react";
 import defaultdata from "@/app/Texts/content.json";
@@ -53,7 +53,7 @@ const Page = ({ objects, data, AddModel, ViewModel }) => {
   const [selectedDeleteId, setSelectedDeleteId] = useState(null);
 
   const Labels = defaultdata.Labels;
-  const columns = data.table.columns;
+  const columns = data?.table?.columns ?? [];
 
   const handleStats = () => setOpenStatsModel(true);
   const handleSort = (col) => {
@@ -168,7 +168,9 @@ const Page = ({ objects, data, AddModel, ViewModel }) => {
 
     setsortedData(sorted);
   }, [object, selectedDate, sortConfig, searchTerm, statusFilter]);
-
+  if (!Array.isArray(object) || object.length === 0) {
+    return;
+  }
   return (
     <>
       {isloading && <LoadingPage isVisible={true} />}
@@ -292,13 +294,13 @@ const Page = ({ objects, data, AddModel, ViewModel }) => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {sortedData.map((row) => (
+                  {sortedData?.map((row) => (
                     <TableRow
                       key={row.id}
                       className="hover:bg-gray-50 transition-colors"
                     >
                       <TableCell className="px-3 py-2">{row.id}</TableCell>
-                      {columns.map((col) => (
+                      {columns?.map((col) => (
                         <TableCell
                           key={col.accessor}
                           className="px-3 py-2 align-middle"

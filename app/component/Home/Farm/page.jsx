@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { useRef, forwardRef, useEffect, useState } from "react";
 import objects from "@/app/Texts/content.json";
 import Footer from "@/app/component/Home/Footer/page";
-import Commande from "@/app/component/Home/Farm/AddCommande/page";
+import Commande from "@/app/component/Home/Farm/AddCommande/modal";
 import React from "react";
 
 const CheesePage = forwardRef(({ FarmData }, refCommande) => {

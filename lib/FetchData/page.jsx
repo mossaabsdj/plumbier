@@ -14,7 +14,8 @@ export async function fetchData({ method = "GET", url, body = null }) {
     const response = await fetch(url, options);
 
     if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
+      console.log(`Error ${response.status}: ${response.statusText}`);
+      return [];
     }
 
     return await response.json();

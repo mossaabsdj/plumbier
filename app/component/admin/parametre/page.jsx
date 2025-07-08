@@ -62,11 +62,11 @@ export default function ParametrePage() {
           <TableBody>
             <TableRow>
               <TableCell>Username</TableCell>
-              <TableCell>{admin.user}</TableCell>
+              <TableCell>{admin?.user}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Password</TableCell>
-              <TableCell>{admin.password}</TableCell>
+              <TableCell>{admin?.password}</TableCell>
             </TableRow>
           </TableBody>
         </Table>

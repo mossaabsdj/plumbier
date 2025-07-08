@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+
 import {
   Table,
   TableHeader,
@@ -73,7 +75,43 @@ export default function FarmsPage() {
     setloading(false);
     fetchFarms();
   };
-
+  if (!Array.isArray(farms) || farms.length === 0) {
+    return (
+      <>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>
+                {" "}
+                <Skeleton className="h-4 w-32" />
+              </TableHead>
+              <TableHead>
+                {" "}
+                <Skeleton className="h-4 w-32" />
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {Array.from({ length: 3 }).map((_, index) => (
+              <TableRow key={index}>
+                <TableCell>
+                  <Skeleton className="h-4 w-32" />
+                </TableCell>
+                <TableCell className="flex gap-2">
+                  <Skeleton className="h-8 w-16" />
+                  <Skeleton className="h-8 w-16" />
+                </TableCell>
+                <TableCell className="flex gap-2">
+                  <Skeleton className="h-8 w-16" />
+                  <Skeleton className="h-8 w-16" />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </>
+    );
+  }
   return (
     <>
       {isloading && <LoadingPage isVisible={true} />}
@@ -123,7 +161,7 @@ export default function FarmsPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {farms.map((farm) => (
+            {farms?.map((farm) => (
               <TableRow key={farm.id}>
                 <TableCell>{farm.name}</TableCell>
                 <TableCell>

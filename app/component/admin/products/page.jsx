@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Table from "@/app/component/Table/page";
-import addmodal from "@/app/component/admin/products/AddProduct/page";
+import Table from "@/app/component/Table/table";
+import addmodal from "@/app/component/admin/products/AddProduct/modal";
 import objects from "@/app/Texts/content.json";
 import Viewmodal from "@/app/component/admin/products/ViewProduct/page";
 import { fetchData } from "@/lib/FetchData/page"; // Adjust path if needed

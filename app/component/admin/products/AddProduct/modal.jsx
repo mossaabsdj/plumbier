@@ -7,11 +7,11 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons"; // optional icon
 import LoadingPage from "@/app/component/loading/page";
 
-const AddModal = ({ open, onClose, data }) => {
+const AddModal = ({ open, onClose, data = {} }) => {
   const [isloading, setloading] = useState(false);
 
-  const FirstFields = data.AddClient.FirstFields;
-  const Title = data.AddClient.Title;
+  const FirstFields = data?.AddClient?.FirstFields ?? [];
+  const Title = data?.AddClient?.Title ?? "";
   const labels = object.Labels;
   const [errorMessage, setErrorMessage] = useState("");
   const [Farms, setFarms] = useState([{}]);

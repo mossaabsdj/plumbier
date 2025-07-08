@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Table from "@/app/component/Table_Com/page";
+import Table from "@/app/component/Table_Com/table";
 import objects from "@/app/Texts/content.json";
-import addmodal from "@/app/component/admin/commandes/AddCommande/page";
+import addmodal from "@/app/component/admin/commandes/AddCommande/modal";
 import Viewmodal from "@/app/component/admin/commandes/ViewCommande/page";
 import { fetchData } from "@/lib/FetchData/page";
 import LoadingPage from "@/app/component/loading/page";

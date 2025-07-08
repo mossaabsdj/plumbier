@@ -6,6 +6,8 @@ import {
   Bar,
   XAxis,
   YAxis,
+  PieChart,
+  Pie,
   Tooltip,
   ResponsiveContainer,
   CartesianGrid,
@@ -56,7 +58,7 @@ export default function CommandeStats({
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 relative"
+          className="bg-white rounded-2xl shadow-xl w-full max-w-5xl p-6 relative"
         >
           {/* Close Button */}
           <button
@@ -90,36 +92,70 @@ export default function CommandeStats({
               </CardContent>
             </Card>
           </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Commandes par Produit */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <Card className="rounded-2xl shadow-md h-full">
+                <CardHeader>
+                  <CardTitle className="text-lg font-semibold text-gray-700">
+                    Commandes par Produit
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart data={commandesParProduit}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="productId" />
+                      <YAxis allowDecimals={false} />
+                      <Tooltip />
+                      <Bar
+                        dataKey="_count"
+                        fill="#3b82f6"
+                        radius={[4, 4, 0, 0]}
+                      />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-          {/* Commandes par Produit */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <Card className="rounded-2xl shadow-md">
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold text-gray-700">
-                  Commandes par Produit
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={200}>
-                  <BarChart data={commandesParProduit}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis allowDecimals={false} />
-                    <Tooltip />
-                    <Bar
-                      dataKey="commandes"
-                      fill="#3b82f6"
-                      radius={[4, 4, 0, 0]}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-          </motion.div>
+            {/* Commandes par Région */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <Card className="rounded-2xl shadow-md h-full ">
+                <CardHeader>
+                  <CardTitle className="text-lg font-semibold text-gray-700">
+                    Commandes par Région
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <PieChart>
+                      <Pie
+                        data={commandesParRegion}
+                        dataKey="_count"
+                        nameKey="region"
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={90}
+                        innerRadius={50} // Donut hole
+                        fill="#3b82f6"
+                        label={({ name, value }) => `${name}:${value}`} // ✅ Label inside or outside
+                      />
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
         </motion.div>
       </div>
     </>

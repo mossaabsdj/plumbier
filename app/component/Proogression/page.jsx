@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import logo from "@/public/images/Logo.png"; // ⬅️ Use your logo path
