@@ -9,6 +9,7 @@ import Commande from "@/app/component/Home/AddCommande/page";
 import FarmPage from "@/app/component/Home/Farm/page";
 import DashBoardPage from "@/app/Login/page";
 import objects from "@/app/Texts/content.json";
+import { motion } from "framer-motion";
 
 export default function Home() {
   const [selectedFarm, setSelectedFarm] = useState(null);
@@ -67,9 +68,17 @@ export default function Home() {
             <>
               <FirstPAge />
               <ProductList />
-              <div ref={refCommande} className="p-20">
-                <Commande data={objects.Commande} />
-              </div>
+              <motion.div
+                initial={{ opacity: 0, y: 100 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 100 }} // <-- add this line
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: false, amount: 0.3 }}
+              >
+                <div ref={refCommande} className="p-10">
+                  <Commande data={objects.Commande} />
+                </div>
+              </motion.div>
             </>
           )}
           <Footer />

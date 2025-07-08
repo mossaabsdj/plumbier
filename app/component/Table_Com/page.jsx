@@ -17,6 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import Statsmodel from "@/app/component/admin/CommandeStats/page";
 import { format } from "date-fns";
 import { CalendarIcon, ArrowDown, ArrowUp, Trash } from "lucide-react";
 import defaultdata from "@/app/Texts/content.json";
@@ -125,45 +126,58 @@ const Page = ({ objects, data, AddModel, ViewModel }) => {
   }, []);
 
   useEffect(() => {
-    const filteredData = object.filter((row) => {
+    const filteredData = object?.filter((row) => {
       const matchesSearch = Object.values(row)
         .join(" ")
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
+
       const rowDate = new Date(row.Date);
       const selected = selectedDate ? new Date(selectedDate) : null;
+
       if (selected) {
         selected.setHours(0, 0, 0, 0);
         rowDate.setHours(0, 0, 0, 0);
       }
+
       const matchesDate = !selected || rowDate.getTime() === selected.getTime();
       const matchesStatus =
         statusFilter === "all" || row.status === statusFilter;
+
       return matchesSearch && matchesDate && matchesStatus;
     });
 
-    setsortedData([...filteredData]);
+    let sorted = [...filteredData];
 
     if (sortConfig.key) {
-      sortedData.sort((a, b) => {
+      sorted.sort((a, b) => {
         const valA = a[sortConfig.key];
         const valB = b[sortConfig.key];
+
         if (sortConfig.key.toLowerCase().includes("date")) {
           return sortConfig.direction === "asc"
             ? new Date(valA) - new Date(valB)
             : new Date(valB) - new Date(valA);
         }
+
         if (valA < valB) return sortConfig.direction === "asc" ? -1 : 1;
         if (valA > valB) return sortConfig.direction === "asc" ? 1 : -1;
         return 0;
       });
     }
-  }, [object, statusFilter]);
+
+    setsortedData(sorted);
+  }, [object, selectedDate, sortConfig, searchTerm, statusFilter]);
 
   return (
     <>
       {isloading && <LoadingPage isVisible={true} />}
-
+      <Statsmodel
+        Display={openStatsModel}
+        onClose={() => {
+          setOpenStatsModel(false);
+        }}
+      />
       <div className="flex flex-col min-h-screen w-full bg-gray-50 items-center justify-center">
         <div className="w-full max-w-8xl flex flex-col h-[90vh] bg-white rounded-lg shadow border border-gray-200">
           <h1 className="text-2xl font-bold mb-4 text-center pt-6">

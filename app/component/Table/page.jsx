@@ -47,7 +47,7 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
   const [dialogType, setDialogType] = useState("success");
 
   const Labels = defaultdata.Labels;
-  const columns = data.table.columns;
+  const columns = data.table?.columns;
 
   const handleStats = () => {
     setOpenStatsModel(true);
@@ -131,36 +131,47 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
 
   useEffect(() => {
     setloading(true);
-    const filteredData = products.filter((row) => {
-      const matchesSearch = Object.values(row)
-        .join(" ")
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
 
-      const rowDate = new Date(row.Date);
-      const selected = selectedDate ? new Date(selectedDate) : null;
+    try {
+      const filteredData = (products || []).filter((row) => {
+        const matchesSearch = Object.values(row || {})
+          .join(" ")
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
 
-      if (selected) {
-        selected.setHours(0, 0, 0, 0);
-        rowDate.setHours(0, 0, 0, 0);
+        const rowDate = new Date(row?.Date);
+        const selected = selectedDate ? new Date(selectedDate) : null;
+
+        if (selected) {
+          selected.setHours(0, 0, 0, 0);
+          rowDate.setHours(0, 0, 0, 0);
+        }
+
+        const matchesDate =
+          !selected || rowDate.getTime() === selected.getTime();
+
+        return matchesSearch && matchesDate;
+      });
+
+      let sorted = [...filteredData];
+
+      if (sortConfig?.key) {
+        sorted.sort((a, b) => {
+          const valA = a?.[sortConfig.key];
+          const valB = b?.[sortConfig.key];
+
+          if (valA < valB) return sortConfig.direction === "asc" ? -1 : 1;
+          if (valA > valB) return sortConfig.direction === "asc" ? 1 : -1;
+          return 0;
+        });
       }
 
-      const matchesDate = !selected || rowDate.getTime() === selected.getTime();
-
-      return matchesSearch && matchesDate;
-    });
-
-    setsortedData([...filteredData]);
-    setloading(false);
-    if (sortConfig.key) {
-      filteredData.sort((a, b) => {
-        const valA = a[sortConfig.key];
-        const valB = b[sortConfig.key];
-
-        if (valA < valB) return sortConfig.direction === "asc" ? -1 : 1;
-        if (valA > valB) return sortConfig.direction === "asc" ? 1 : -1;
-        return 0;
-      });
+      setsortedData(sorted);
+    } catch (error) {
+      console.error("Erreur pendant le filtrage/tri :", error);
+      setsortedData([]);
+    } finally {
+      setloading(false);
     }
   }, [products, searchTerm, selectedDate, sortConfig]);
 
@@ -230,7 +241,7 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
                       <TableHead className="px-3 py-2 font-semibold text-gray-700">
                         ID
                       </TableHead>
-                      {columns.map((col) => (
+                      {columns?.map((col) => (
                         <TableHead
                           key={col.accessor}
                           onClick={() => handleSort(col)}
@@ -266,7 +277,7 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
                       >
                         <TableCell className="px-3 py-2">{row.id}</TableCell>
 
-                        {columns.map((col) => (
+                        {columns?.map((col) => (
                           <TableCell
                             key={col.accessor}
                             className="px-3 py-2 align-middle"

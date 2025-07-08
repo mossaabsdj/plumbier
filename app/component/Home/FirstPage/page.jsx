@@ -14,8 +14,8 @@ export default function TaxLawyerLandingPage() {
         <motion.div
           className="space-y-6"
           initial={{ opacity: 0, x: -60 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7 }}
           viewport={{ once: false, amount: 0.3 }}
         >
           <span className="uppercase tracking-widest text-sm text-gray-600">
@@ -53,9 +53,9 @@ export default function TaxLawyerLandingPage() {
         <motion.div
           className="rounded-3xl overflow-hidden shadow-lg bg-gray-50 p-6"
           initial={{ opacity: 0, x: 60 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
-          viewport={{ once: false }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          viewport={{ once: false, amount: 0.3 }}
         >
           <Image
             src={firstPage.image.src}

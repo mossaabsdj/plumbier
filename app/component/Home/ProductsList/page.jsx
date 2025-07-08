@@ -111,16 +111,26 @@ export default function HomePage() {
       <main
         className={`min-h-screen ${COLORS.background} flex flex-col items-center justify-center p-6`}
       >
-        <h1
+        <motion.h1
+          initial={{ opacity: 0, x: -80 }}
+          viewport={{ once: false, amount: 0.2 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
           className={`text-4xl font-bold mb-2 text-center ${COLORS.textPrimary}`}
         >
           {TEXT.title}
-        </h1>
-        <p
+        </motion.h1>
+
+        {/* 📝 Subtitle with Motion */}
+        <motion.p
+          initial={{ opacity: 0, x: 80 }}
+          viewport={{ once: false, amount: 0.2 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
           className={`text-lg ${COLORS.textSecondary} mb-8 text-center max-w-2xl`}
         >
           {TEXT.subtitle}
-        </p>
+        </motion.p>
         <div className="relative w-full max-w-6xl">
           {/* Left Arrow Skeleton */}
           <span
@@ -164,16 +174,26 @@ export default function HomePage() {
     <main
       className={`min-h-screen ${COLORS.background} flex flex-col items-center justify-center p-6 `}
     >
-      <h1
+      <motion.h1
+        initial={{ opacity: 0, x: -80 }}
+        viewport={{ once: false, amount: 0.2 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
         className={`text-4xl font-bold mb-2 text-center ${COLORS.textPrimary}`}
       >
         {TEXT.title}
-      </h1>
-      <p
+      </motion.h1>
+
+      {/* 📝 Subtitle with Motion */}
+      <motion.p
+        initial={{ opacity: 0, x: 80 }}
+        viewport={{ once: false, amount: 0.2 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
         className={`text-lg ${COLORS.textSecondary} mb-8 text-center max-w-2xl`}
       >
         {TEXT.subtitle}
-      </p>
+      </motion.p>
 
       <div className="relative w-full max-w-6xl">
         {/* Left Arrow */}
@@ -187,7 +207,7 @@ export default function HomePage() {
         {/* Product List */}
         <div
           ref={scrollRef}
-          className="flex space-x-4 overflow-x-hidden scroll-smooth px-4 sm:px-10"
+          className="flex space-x-4 overflow-x-hidden overflow-y-hidden scroll-smooth px-4 sm:px-10"
         >
           {products?.map((product, idx) => (
             <motion.div
