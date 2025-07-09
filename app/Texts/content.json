@@ -91,6 +91,76 @@
         }
       }
     },
+    "TraditionalCheese2": {
+      "hero": {
+        "title": "Traditional Cheese",
+        "description": "An edible mushroom farm is an agricultural production unit specialized in cultivating various types of fungi suitable for human consumption, such as button mushrooms (Agaricus bisporus), oyster mushrooms (Pleurotus spp), reishi mushrooms, and others. These farms rely on a controlled environment in terms of humidity, temperature, and ventilation, and mushrooms are typically grown on organic substrates such as straw or sterilized sawdust. The farm aims to produce high-quality mushrooms that meet health standards, whether for fresh consumption, drying, or marketing.",
+        "button": "Discover Our Products",
+        "image": {
+          "src": "/images/HeroCheese.jpg",
+          "alt": "Traditional Cheese",
+          "width": 340,
+          "height": 220
+        }
+      },
+      "products": [
+        {
+          "title": "Goat Cheese",
+          "description": "Soft, tangy, and perfect for salads or as a spread.",
+          "prix": "€8.50",
+          "image": {
+            "src": "/images/Cheese_1.png",
+            "alt": "Goat Cheese",
+            "width": 350,
+            "height": 220
+          }
+        },
+        {
+          "title": "Aged Tomme",
+          "description": "Firm and nutty, aged for a deep, complex flavor.",
+          "prix": "€12.00",
+          "image": {
+            "src": "/images/cheese_2.jpg",
+            "alt": "Aged Tomme",
+            "width": 350,
+            "height": 220
+          }
+        },
+        {
+          "title": "Fresh Ricotta",
+          "description": "Creamy and delicate, ideal for desserts and pastries.",
+          "prix": "€7.00",
+          "image": {
+            "src": "/images/fraise.jpg",
+            "alt": "Fresh Ricotta",
+            "width": 350,
+            "height": 220
+          }
+        }
+      ],
+      "catering": {
+        "title": "Catering Services",
+        "description": "It is a sector dedicated to preparing and serving food, and it gains a distinctive character when it relies on organic and natural products. In the context of a traditional cheese production farm, la restauration involves offering dishes made with high-quality fresh milk cheeses, enhanced with natural local herbs and oils. These organic products are used to prepare healthy recipes with a local flair, giving restaurants and hotels an authentic touch and increasing the appeal of the dishes served. This makes la restauration a key partner in promoting artisanal agriculture and natural products.",
+        "button": "Contact Catering",
+        "image": {
+          "src": "/images/cateringChesee.png",
+          "alt": "Catering",
+          "width": 500,
+          "height": 350
+        }
+      },
+      "bungalow": {
+        "title": "Stay in Our Bungalows",
+        "description": "A bungalow is a type of simple dwelling, often built from wood, consisting of a single floor with an outdoor porch. It is characterized by its practical and comfortable design and is typically used as temporary accommodation in tourist areas such as beaches or mountains. Bungalows offer a peaceful and natural environment for relaxation, making them a popular choice in campsites and summer resorts.",
+        "button": "Book a Bungalow",
+        "image": {
+          "src": "/images/bungalow.png",
+          "alt": "Bungalow",
+          "width": 500,
+          "height": 350
+        }
+      }
+    },
     "AnimalHusbandry": {
       "hero": {
         "title": "Animal Husbandry",
@@ -307,7 +377,7 @@
         "description": "An agricultural unit specialized in beekeeping, where bees are raised in carefully prepared hives with the aim of producing natural honey and its by-products such as beeswax, pollen, and propolis. This takes place in an environment rich in flowering plants that serve as the primary source of nectar for the bees. The farm is managed using scientific techniques that include monitoring bee health, preventing diseases, and improving bee strains to ensure high-quality production. The products are collected hygienically to preserve their natural properties, then packaged and marketed according to strict standards. These farms hold both environmental and economic importance, as bees contribute to plant pollination and increased crop yields, making them a pillar of sustainable development, especially in rural areas.",
         "button": "Discover Our Products",
         "image": {
-          "src": "/images/honeyproducingfarm.png",
+          "src": "/images/honeyproducingfarm.jpg",
           "alt": "honey-producing farm",
           "width": 340,
           "height": 220

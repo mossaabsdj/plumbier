@@ -10,7 +10,7 @@ import FarmPage from "@/app/component/Home/Farm/page";
 import DashBoardPage from "@/app/Login/page";
 import objects from "@/app/Texts/content.json";
 import { motion } from "framer-motion";
-
+import FarmsDiscover from "@/app/component/Home/newpage/page";
 export default function Home() {
   const [selectedFarm, setSelectedFarm] = useState(null);
   const [displayFarm, setdisplayFarm] = useState(false);
@@ -67,6 +67,7 @@ export default function Home() {
           ) : (
             <>
               <FirstPAge />
+              <FarmsDiscover setselectedfarm={setSelectedFarm} />
               <ProductList />
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
