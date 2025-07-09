@@ -5,22 +5,26 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: {},
-        password: {},
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // Fetch admin from DB
+        if (!credentials.username || !credentials.password) {
+          return null;
+        }
+
         const admin = await prisma.admin.findFirst({
           where: {
             User: credentials.username,
             Password: credentials.password,
           },
         });
+
         if (admin) {
           return { id: admin.id, name: admin.User, email: "" };
         }
@@ -32,6 +36,8 @@ const handler = NextAuth({
     signIn: "/Login",
   },
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
