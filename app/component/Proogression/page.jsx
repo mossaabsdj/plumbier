@@ -19,7 +19,7 @@ export default function PageTransition({ isVisible }) {
             className="w-24 h-24"
           >
             <Image
-              src="/images/Logo.png"
+              src="/images/logo.png"
               alt="Logo"
               width={86}
               height={86}
