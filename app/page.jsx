@@ -10,7 +10,7 @@ import FarmPage from "@/app/component/Home/Farm/page";
 import DashBoardPage from "@/app/Login/page";
 import objects from "@/app/Texts/content.json";
 import { motion } from "framer-motion";
-import FarmsDiscover from "@/app/component/Home/newpage/page";
+import FarmsDiscover from "@/app/component/Home/newpage/newpage";
 export default function Home() {
   const [selectedFarm, setSelectedFarm] = useState(null);
   const [displayFarm, setdisplayFarm] = useState(false);
@@ -48,6 +48,9 @@ export default function Home() {
       setdisplayFarm(true);
     } else if (farm === "honey farm") {
       setFarmData(objects.Farms.honeyproducingfarm);
+      setdisplayFarm(true);
+    } else if (farm === "edible mushroom farm") {
+      setFarmData(objects.Farms.ediblemushroomfarm);
       setdisplayFarm(true);
     } else if (farm === "admin") {
       setdisplayFarm(false);

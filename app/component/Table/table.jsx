@@ -18,6 +18,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+
 import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -174,7 +176,43 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
       setloading(false);
     }
   }, [products, searchTerm, selectedDate, sortConfig]);
-
+  if (!Array.isArray(object) || object.length === 0) {
+    return (
+      <>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>
+                {" "}
+                <Skeleton className="h-4 w-32" />
+              </TableHead>
+              <TableHead>
+                {" "}
+                <Skeleton className="h-4 w-32" />
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {Array.from({ length: 3 }).map((_, index) => (
+              <TableRow key={index}>
+                <TableCell>
+                  <Skeleton className="h-4 w-32" />
+                </TableCell>
+                <TableCell className="flex gap-2">
+                  <Skeleton className="h-8 w-16" />
+                  <Skeleton className="h-8 w-16" />
+                </TableCell>
+                <TableCell className="flex gap-2">
+                  <Skeleton className="h-8 w-16" />
+                  <Skeleton className="h-8 w-16" />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </>
+    );
+  }
   return (
     <>
       <>

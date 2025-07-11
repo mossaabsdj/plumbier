@@ -14,9 +14,27 @@ export async function GET() {
     _count: true,
   });
 
+  const productTitles = await prisma.product.findMany({
+    where: {
+      id: { in: commandesByProduct.map((c) => c.productId) },
+    },
+    select: {
+      id: true,
+      title: true,
+    },
+  });
+
+  const commandesWithTitles = commandesByProduct.map((item) => {
+    const product = productTitles.find((p) => p.id === item.productId);
+    return {
+      title: product.title || "Unknown",
+      count: item._count, // or item._count.productId
+    };
+  });
+
   return Response.json({
     totalCommandes: total,
     commandesByRegion,
-    commandesByProduct,
+    commandesWithTitles,
   });
 }

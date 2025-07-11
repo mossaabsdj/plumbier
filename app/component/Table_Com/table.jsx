@@ -1,4 +1,5 @@
 "use client";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import React, { useEffect, useState } from "react";
 import {
@@ -169,7 +170,41 @@ const Page = ({ objects, data, AddModel, ViewModel }) => {
     setsortedData(sorted);
   }, [object, selectedDate, sortConfig, searchTerm, statusFilter]);
   if (!Array.isArray(object) || object.length === 0) {
-    return;
+    return (
+      <>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>
+                {" "}
+                <Skeleton className="h-4 w-32" />
+              </TableHead>
+              <TableHead>
+                {" "}
+                <Skeleton className="h-4 w-32" />
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {Array.from({ length: 3 }).map((_, index) => (
+              <TableRow key={index}>
+                <TableCell>
+                  <Skeleton className="h-4 w-32" />
+                </TableCell>
+                <TableCell className="flex gap-2">
+                  <Skeleton className="h-8 w-16" />
+                  <Skeleton className="h-8 w-16" />
+                </TableCell>
+                <TableCell className="flex gap-2">
+                  <Skeleton className="h-8 w-16" />
+                  <Skeleton className="h-8 w-16" />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </>
+    );
   }
   return (
     <>
@@ -323,6 +358,8 @@ const Page = ({ objects, data, AddModel, ViewModel }) => {
                                 ? "rejeter"
                                 : "waiting"}
                             </span>
+                          ) : col.accessor === "productId" && row.product ? (
+                            row.product.title
                           ) : (
                             row[col.accessor]
                           )}

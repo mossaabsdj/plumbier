@@ -34,6 +34,7 @@ const TEXTS = {
     "aquaculture farm",
     "red fruit farm",
     "honey farm",
+    "edible mushroom farm",
     "order",
   ],
   login: "Login",

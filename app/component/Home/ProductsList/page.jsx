@@ -19,9 +19,9 @@ const COLORS = {
 };
 
 const TEXT = {
-  title: "🛍️ Nos Produits",
+  title: "🛍️ Our Products",
   subtitle:
-    "Découvrez notre sélection avec la meilleure qualité pour répondre à tous vos besoins. Parce que vous méritez l'excellence au quotidien.",
+    "Discover our selection with the highest quality to meet all your needs. Because you deserve excellence every day.",
 };
 
 const CARD_WIDTH = 300;
