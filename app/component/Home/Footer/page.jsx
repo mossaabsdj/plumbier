@@ -78,7 +78,7 @@ export default function Footer() {
           <ul className={`space-y-2 ${secondaryTextColor}`}>
             {companyLinks.map((link) => (
               <li key={link.name}>
-                <a href={link.href} className={`${linkHoverColor} transition`}>
+                <a href={""} className={`${linkHoverColor} transition`}>
                   {link.name}
                 </a>
               </li>
@@ -96,7 +96,7 @@ export default function Footer() {
           <ul className={`space-y-2 ${secondaryTextColor}`}>
             {supportLinks.map((link) => (
               <li key={link.name}>
-                <a href={link.href} className={`${linkHoverColor} transition`}>
+                <a href={""} className={`${linkHoverColor} transition`}>
                   {link.name}
                 </a>
               </li>

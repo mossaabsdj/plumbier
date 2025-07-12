@@ -94,7 +94,7 @@
     "AnimalHusbandry": {
       "hero": {
         "title": "Animal Husbandry",
-        "description": "Our catering service brings the authentic taste of the farm directly to your table. We create fresh, healthy dishes using our own farm-made cheeses, organic herbs, and local oils. Each recipe is inspired by traditional techniques and crafted to highlight natural flavors and seasonal ingredients. Whether you're hosting a rustic event, a countryside retreat, or a gourmet experience, our farm-to-table catering adds a distinctive, artisanal touch that reflects the values of sustainability, quality, and local tradition.",
+        "description": "An animal husbandry farm for meat production raises livestock like cattle, sheep, goats, chickens, and turkeys using scientific methods focused on nutrition, veterinary care, and welfare, offering fresh red and white meat served in a modern on-site restaurant with beautifully designed wooden facilities.",
         "button": "Discover Our Products",
         "image": {
           "src": "/images/AnimalsHero.png",
@@ -164,7 +164,7 @@
     "aquaculturefarm": {
       "hero": {
         "title": "aquaculture farm",
-        "description": "Our catering service brings the authentic taste of the farm directly to your table. We create fresh, healthy dishes using our own farm-made cheeses, organic herbs, and local oils. Each recipe is inspired by traditional techniques and crafted to highlight natural flavors and seasonal ingredients. Whether you're hosting a rustic event, a countryside retreat, or a gourmet experience, our farm-to-table catering adds a distinctive, artisanal touch that reflects the values of sustainability, quality, and local tradition.",
+        "description": "An aquaculture farm is a specialized facility for raising edible aquatic species like tilapia, salmon, and shrimp or ornamental fish like koi in controlled environments such as ponds, tanks, or cages, using precise techniques for water purification, feeding, and health monitoring to ensure quality, safety, and sustainability.",
         "button": "Discover Our Products",
         "image": {
           "src": "/images/aquacultureHero.png",
@@ -234,7 +234,7 @@
     "redfruitfarm": {
       "hero": {
         "title": "red fruit farm",
-        "description": "Our catering service brings the authentic taste of the farm directly to your table. We create fresh, healthy dishes using our own farm-made cheeses, organic herbs, and local oils. Each recipe is inspired by traditional techniques and crafted to highlight natural flavors and seasonal ingredients. Whether you're hosting a rustic event, a countryside retreat, or a gourmet experience, our farm-to-table catering adds a distinctive, artisanal touch that reflects the values of sustainability, quality, and local tradition.",
+        "description": "A red fruit farm specializes in cultivating strawberries, raspberries, blackberries, cherries, and prunes in climate-controlled greenhouses using modern techniques like drip irrigation and biological pest monitoring to produce high-quality, chemical-free organic fruits, along with natural derivatives like traditional organic jam, contributing to food security and the local economy.",
         "button": "Discover Our Products",
         "image": {
           "src": "/images/redfruitHero.jpg",
@@ -304,7 +304,7 @@
     "honeyproducingfarm": {
       "hero": {
         "title": "honey-producing farm",
-        "description": "Our catering service brings the authentic taste of the farm directly to your table. We create fresh, healthy dishes using our own farm-made cheeses, organic herbs, and local oils. Each recipe is inspired by traditional techniques and crafted to highlight natural flavors and seasonal ingredients. Whether you're hosting a rustic event, a countryside retreat, or a gourmet experience, our farm-to-table catering adds a distinctive, artisanal touch that reflects the values of sustainability, quality, and local tradition.",
+        "description": "A honey farm is an agricultural unit specialized in beekeeping, raising bees in managed hives to produce natural honey and by-products like beeswax, pollen, and propolis, using scientific methods to ensure quality and sustainability, while supporting pollination, crop yields, and rural development.",
         "button": "Discover Our Products",
         "image": {
           "src": "/images/honeyproducingfarm.jpg",
@@ -375,7 +375,7 @@
     "ediblemushroomfarm": {
       "hero": {
         "title": "edible mushroom farm",
-        "description": "Our catering service brings the authentic taste of the farm directly to your table. We create fresh, healthy dishes using our own farm-made cheeses, organic herbs, and local oils. Each recipe is inspired by traditional techniques and crafted to highlight natural flavors and seasonal ingredients. Whether you're hosting a rustic event, a countryside retreat, or a gourmet experience, our farm-to-table catering adds a distinctive, artisanal touch that reflects the values of sustainability, quality, and local tradition.",
+        "description": "An edible mushroom farm is an agricultural production unit specialized in cultivating fungi for human consumption—such as button (Agaricus bisporus), oyster (Pleurotus spp), and reishi mushrooms—in controlled environments with regulated humidity, temperature, and ventilation, using organic substrates like straw or sterilized sawdust to produce high-quality mushrooms for fresh use, drying, or commercial sale.",
         "button": "Discover Our Products",
         "image": {
           "src": "/images/Heromushroom.png",
