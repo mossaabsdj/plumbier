@@ -96,6 +96,9 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
       </div>
     );
   }
+  useEffect(() => {
+    setHeroImgLoaded(false);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center py-0 px-0  snap-y snap-mandatory">

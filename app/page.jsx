@@ -12,7 +12,7 @@ import objects from "@/app/Texts/content.json";
 import { motion } from "framer-motion";
 import FarmsDiscover from "@/app/component/Home/newpage/newpage";
 export default function Home() {
-  const [selectedFarm, setSelectedFarm] = useState(null);
+  const [selectedFarm, setSelectedFarm] = useState("Home");
   const [displayFarm, setdisplayFarm] = useState(false);
   const [FarmData, setFarmData] = useState([]);
   const [DashBoard, setDashBoard] = useState(false);
@@ -39,8 +39,9 @@ export default function Home() {
 
   const handleSelection = (farm) => {
     if (farm === "order") {
+      console.log("order");
       scrollOrder();
-      setSelectedFarm(null);
+      setSelectedFarm((prev) => prev);
     } else if (farm === "Home") {
       setdisplayFarm(false);
     } else if (farm === "traditional cheese") {
@@ -65,7 +66,9 @@ export default function Home() {
       setdisplayFarm(false);
       setDashBoard(true);
     }
-    scrollToTop();
+    if (farm != "order") {
+      scrollToTop();
+    }
   };
 
   return (

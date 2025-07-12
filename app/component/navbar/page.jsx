@@ -67,7 +67,9 @@ export default function AppNavbar({ select, selected_from_DescoverPage }) {
     });
   };
   React.useEffect(() => {
-    setselecteditem(selected_from_DescoverPage);
+    if (selected_from_DescoverPage != "order") {
+      setselecteditem(selected_from_DescoverPage);
+    }
   }, [selected_from_DescoverPage]);
   return (
     <>
@@ -94,15 +96,20 @@ export default function AppNavbar({ select, selected_from_DescoverPage }) {
                 <NavigationMenuItem key={item}>
                   <motion.button
                     onClick={() => {
-                      select(item);
-                      setselecteditem(item);
+                      if (item === "order") {
+                        select(item);
+                      } else {
+                        select(item);
+
+                        setselecteditem(item);
+                      }
                     }}
                     whileTap={{ scale: 0.95 }}
                     animate={
                       SelectedItem === item ? { scale: 1.08 } : { scale: 1 }
                     }
                     className={`text-sm font-medium transition ${
-                      SelectedItem === item && SelectedItem != "order"
+                      SelectedItem === item && SelectedItem !== "order"
                         ? "text-white bg-black font-bold rounded-2xl p-2 h-9"
                         : "text-black"
                     }`}
