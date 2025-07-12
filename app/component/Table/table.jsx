@@ -261,14 +261,6 @@ const Page = ({ object, data, AddModel, ViewModel }) => {
               >
                 + {Labels.Add}
               </Button>
-
-              <Button
-                onClick={handleStats}
-                variant="secondary"
-                className="w-full"
-              >
-                📊 {Labels.Stats}
-              </Button>
             </div>
 
             <div className="flex-1 overflow-y-auto px-8 pb-6">

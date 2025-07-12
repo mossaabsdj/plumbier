@@ -42,7 +42,7 @@ const TEXTS = {
   Admin: "admin",
 };
 
-export default function AppNavbar({ select }) {
+export default function AppNavbar({ select, selected_from_DescoverPage }) {
   const [open, setOpen] = React.useState(false);
   const { data: session, status } = useSession();
   const [SelectedItem, setselecteditem] = React.useState("Home");
@@ -66,7 +66,9 @@ export default function AppNavbar({ select }) {
       }
     });
   };
-
+  React.useEffect(() => {
+    setselecteditem(selected_from_DescoverPage);
+  }, [selected_from_DescoverPage]);
   return (
     <>
       {isLoading && <Progression isVisible={true} />}

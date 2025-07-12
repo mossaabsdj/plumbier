@@ -280,9 +280,6 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
               <p className="text-gray-700 text-lg mb-6 whitespace-pre-line">
                 {FarmData.catering.description}
               </p>
-              <Button className="bg-green-700 hover:bg-green-800 text-white">
-                {FarmData.catering.button}
-              </Button>
             </CardContent>
           </div>
           <div className="flex-1 order-1 md:order-2 flex justify-center items-center relative">
@@ -338,9 +335,6 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
               <p className="text-gray-700 text-lg mb-6 whitespace-pre-line">
                 {FarmData.bungalow.description}
               </p>
-              <Button className="bg-blue-700 hover:bg-blue-800 text-white">
-                {FarmData.bungalow.button}
-              </Button>
             </CardContent>
           </div>
         </Card>

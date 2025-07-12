@@ -6,7 +6,7 @@ import content from "@/app/Texts/content.json";
 
 const firstPage = content.FirstPage;
 
-export default function TaxLawyerLandingPage() {
+export default function TaxLawyerLandingPage({ scroleDiscover }) {
   return (
     <main className="min-h-screen flex items-center justify-center bg-white px-6 py-12">
       <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -31,12 +31,15 @@ export default function TaxLawyerLandingPage() {
               .reduce((prev, curr) => [prev, <br key={Math.random()} />, curr])}
           </h1>
           <p className="text-gray-500 max-w-md">{firstPage.description}</p>
-          <Link
-            href="#"
+          <button
+            onClick={() => {
+              scroleDiscover(); // Call the function
+            }}
             className="inline-block px-6 py-3 text-white bg-green-600 hover:bg-green-700 rounded-full font-medium transition"
           >
             {firstPage.button}
-          </Link>
+          </button>
+
           <div className="flex flex-wrap gap-3 mt-4">
             {firstPage.tags.map((label, idx) => (
               <span

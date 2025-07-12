@@ -28,7 +28,7 @@
         "button": "Discover Our Products",
         "image": {
           "src": "/images/HeroCheese.jpg",
-          "alt": "Traditional Cheese",
+          "alt": "traditional cheese",
           "width": 340,
           "height": 220
         }
@@ -98,7 +98,7 @@
         "button": "Discover Our Products",
         "image": {
           "src": "/images/AnimalsHero.png",
-          "alt": "Animal Husbandry",
+          "alt": "animal husbandry",
           "width": 340,
           "height": 220
         }
@@ -308,7 +308,7 @@
         "button": "Discover Our Products",
         "image": {
           "src": "/images/honeyproducingfarm.jpg",
-          "alt": "honey-producing farm",
+          "alt": "honey farm",
           "width": 340,
           "height": 220
         }

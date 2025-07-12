@@ -17,9 +17,18 @@ export default function Home() {
   const [FarmData, setFarmData] = useState([]);
   const [DashBoard, setDashBoard] = useState(false);
   const refCommande = useRef(null);
-
+  const refDiscoverPAge = useRef(null);
   const scrollOrder = () => {
     refCommande.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  const scrolDiscoverpage = () => {
+    refDiscoverPAge.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // or "auto"
+    });
   };
 
   useEffect(() => {
@@ -56,6 +65,7 @@ export default function Home() {
       setdisplayFarm(false);
       setDashBoard(true);
     }
+    scrollToTop();
   };
 
   return (
@@ -64,13 +74,18 @@ export default function Home() {
         <DashBoardPage />
       ) : (
         <>
-          <Header select={setSelectedFarm} />
+          <Header
+            select={setSelectedFarm}
+            selected_from_DescoverPage={selectedFarm}
+          />
           {displayFarm ? (
             <FarmPage FarmData={FarmData} ref={refCommande} />
           ) : (
             <>
-              <FirstPAge />
-              <FarmsDiscover setselectedfarm={setSelectedFarm} />
+              <FirstPAge scroleDiscover={scrolDiscoverpage} />
+              <div ref={refDiscoverPAge}>
+                <FarmsDiscover setselectedfarm={setSelectedFarm} />
+              </div>
               <ProductList />
               <motion.div
                 initial={{ opacity: 0, y: 100 }}

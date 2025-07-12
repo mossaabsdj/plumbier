@@ -93,7 +93,28 @@ const AddModal = ({ data = {} }) => {
 
   // Show loading until products are loaded
   if (!prods.length) {
-    return <div className="p-8 text-center text-gray-500">Chargement...</div>;
+    return (
+      <div className="bg-white rounded-3xl shadow-2xl border border-gray-200 w-full max-w-3xl min-h-[520px] p-4 sm:p-10 mx-auto animate-pulse">
+        {/* Title */}
+        <div className="h-6 w-2/3 bg-gray-200 rounded mb-6 mx-auto"></div>
+
+        {/* Form Fields */}
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="flex flex-col gap-2">
+              <div className="h-4 w-1/2 bg-gray-300 rounded" />
+              <div className="h-10 bg-gray-200 rounded" />
+            </div>
+          ))}
+        </div>
+
+        {/* Progress Bar */}
+        <div className="h-2 w-full bg-gray-200 rounded mt-6" />
+
+        {/* Submit Button */}
+        <div className="mt-8 h-12 w-full bg-gray-300 rounded-xl" />
+      </div>
+    );
   }
 
   return (

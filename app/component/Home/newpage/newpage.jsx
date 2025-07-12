@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import data from "@/app/Texts/content.json";
 import { useEffect, useState } from "react";
@@ -101,43 +101,45 @@ export default function SmoothiePage({ setselectedfarm }) {
               ))}
             </div>
           </motion.div>
-
           {/* Right Section */}
-          <motion.div
-            className="flex-1 flex justify-center items-center mt-8 md:mt-0 w-full"
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            viewport={{ once: false, amount: 0.3 }}
-          >
+          <AnimatePresence mode="popLayout">
             <motion.div
               key={currentIndex}
-              whileHover={{ scale: 1.08, rotate: 2 }}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ type: "spring", stiffness: 100, damping: 12 }}
-              viewport={{ once: false, amount: 0.3 }}
-              className="relative group rounded-full overflow-hidden shadow-2xl bg-white"
+              className="flex-1 flex justify-center items-center mt-8 md:mt-0 w-full"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.3, ease: "easeOut" }} // faster
             >
-              <Image
-                src={currentimage.src}
-                alt={currentimage.alt}
-                width={300}
-                height={300}
-                className="rounded-full w-[250px] h-[250px] md:w-[350px] md:h-[350px] border-4 border-amber-50 object-cover"
-              />
+              <motion.div
+                whileHover={{ scale: 1.08, rotate: 2 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 150, damping: 10 }} // snappier
+                className="relative group rounded-full overflow-hidden shadow-2xl bg-white"
+              >
+                <Image
+                  src={currentimage.src}
+                  alt={currentimage.alt}
+                  width={300}
+                  height={300}
+                  className="rounded-full w-[250px] h-[250px] md:w-[350px] md:h-[350px] border-4 border-amber-50 object-cover"
+                />
 
-              <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/10 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  className="bg-white text-black font-semibold px-5 py-2 rounded-full shadow-lg"
-                  onClick={() => setselectedfarm(currentimage.alt)}
-                >
-                  Discover
-                </motion.button>
-              </div>
+                {/* Hover Overlay */}
+                <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/10 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    className="bg-white text-black font-semibold px-5 py-2 rounded-full shadow-lg"
+                    onClick={() => setselectedfarm(currentimage.alt)}
+                  >
+                    Discover
+                  </motion.button>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </AnimatePresence>
         </div>
 
         <motion.p

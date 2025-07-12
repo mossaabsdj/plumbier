@@ -16,7 +16,7 @@ export const metadata = {
   title: "Ski agrotour luxe",
   description: "Business agro-touristique",
   icons: {
-    icon: "@/public/images/Logo.png",
+    icon: "/images/Logo.png",
   },
 };
 

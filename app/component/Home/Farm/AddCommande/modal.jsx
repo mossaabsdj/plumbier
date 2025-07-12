@@ -13,12 +13,14 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import { Progress } from "@/components/ui/progress";
+import LoadingPage from "@/app/component/Proogression/page";
 
 const AddModal = ({ data, FarmProduct }) => {
   const FirstFields = data.AddClient.FirstFields;
   const addbutton = data.AddClient.AddButton;
   const Title = data.AddClient.Title;
   const labels = object.Labels;
+  const [loding, setloading] = useState(false);
 
   const [prods, setProds] = useState([]);
   const [values, setValues] = useState({});
@@ -75,6 +77,8 @@ const AddModal = ({ data, FarmProduct }) => {
   };
 
   const onSubmit = async (values) => {
+    setloading(true);
+
     setProgress(30);
     const response = await fetchData({
       method: "POST",
@@ -82,6 +86,8 @@ const AddModal = ({ data, FarmProduct }) => {
       body: values,
     });
     setProgress(100);
+    setloading(false);
+
     setShowDialog(true);
     // Optionally reset form or show success
   };
@@ -92,76 +98,129 @@ const AddModal = ({ data, FarmProduct }) => {
   }
 
   return (
-    <div className="bg-white rounded-3xl shadow-2xl border border-gray-200 w-full max-w-3xl min-h-[520px] p-4 sm:p-10 mx-auto flex flex-col transition-all duration-300">
-      {/* Title */}
-      <h1 className="text-2xl sm:text-2xl font-bold mb-4 text-center">
-        {Title}
-      </h1>
+    <>
+      {loding && <LoadingPage isVisible={true} />}
 
-      {/* Form */}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          onSubmit(values);
-        }}
-        className="w-full flex flex-col flex-1"
-      >
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 gap-1 flex-1">
-          {FirstFields?.map((field) => {
-            if (field.accessor === "productId") {
-              return (
-                <div key={field.accessor}>
-                  <label
-                    htmlFor={field.accessor}
-                    className="block text-gray-700 font-medium mb-1"
-                  >
-                    {field.label}
-                  </label>
-                  <select
-                    id={field.accessor}
-                    name={field.accessor}
-                    value={values[field.accessor]}
-                    onChange={handleChange}
-                    required={field.required}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                  >
-                    {prods?.map((opt) => (
-                      <option key={opt.id} value={opt.id}>
-                        {opt.title}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              );
-            }
-            if (field.type === "select" && field.accessor === "region") {
-              return (
-                <div key={field.accessor}>
-                  <label
-                    htmlFor={field.accessor}
-                    className="block text-gray-700 font-medium mb-1"
-                  >
-                    {field.label}
-                  </label>
-                  <select
-                    id={field.accessor}
-                    name={field.accessor}
-                    value={values[field.accessor]}
-                    onChange={handleChange}
-                    required={field.required}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                  >
-                    {field.options?.map((opt) => (
-                      <option key={opt} value={opt}>
-                        {opt}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              );
-            }
+      <div className="bg-white rounded-3xl shadow-2xl border border-gray-200 w-full max-w-3xl min-h-[520px] p-4 sm:p-10 mx-auto flex flex-col transition-all duration-300">
+        {/* Title */}
+        <h1 className="text-2xl sm:text-2xl font-bold mb-4 text-center">
+          {Title}
+        </h1>
 
-            if (field.type === "image" || field.accessor === "image") {
+        {/* Form */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onSubmit(values);
+          }}
+          className="w-full flex flex-col flex-1"
+        >
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 gap-1 flex-1">
+            {FirstFields?.map((field) => {
+              if (field.accessor === "productId") {
+                return (
+                  <div key={field.accessor}>
+                    <label
+                      htmlFor={field.accessor}
+                      className="block text-gray-700 font-medium mb-1"
+                    >
+                      {field.label}
+                    </label>
+                    <select
+                      id={field.accessor}
+                      name={field.accessor}
+                      value={values[field.accessor]}
+                      onChange={handleChange}
+                      required={field.required}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                    >
+                      {prods?.map((opt) => (
+                        <option key={opt.id} value={opt.id}>
+                          {opt.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                );
+              }
+              if (field.type === "select" && field.accessor === "region") {
+                return (
+                  <div key={field.accessor}>
+                    <label
+                      htmlFor={field.accessor}
+                      className="block text-gray-700 font-medium mb-1"
+                    >
+                      {field.label}
+                    </label>
+                    <select
+                      id={field.accessor}
+                      name={field.accessor}
+                      value={values[field.accessor]}
+                      onChange={handleChange}
+                      required={field.required}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                    >
+                      {field.options?.map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                );
+              }
+
+              if (field.type === "image" || field.accessor === "image") {
+                return (
+                  <div key={field.accessor}>
+                    <label
+                      htmlFor={field.accessor}
+                      className="block text-gray-700 font-medium mb-1"
+                    >
+                      {field.label}
+                    </label>
+                    <input
+                      id={field.accessor}
+                      name={field.accessor}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleChange}
+                      required={field.required}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                    />
+                  </div>
+                );
+              }
+
+              // Add emballage select
+              if (field.accessor === "emballage") {
+                return (
+                  <div key={field.accessor}>
+                    <label
+                      htmlFor={field.accessor}
+                      className="block text-gray-700 font-medium mb-1"
+                    >
+                      Emballage
+                    </label>
+                    <select
+                      id={field.accessor}
+                      name={field.accessor}
+                      value={values[field.accessor] || ""}
+                      onChange={handleChange}
+                      required={field.required}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                      disabled={!values.productId}
+                    >
+                      <option value="">Select emballage</option>
+                      {emballages?.map((emb) => (
+                        <option key={emb.id} value={emb.name}>
+                          {emb.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                );
+              }
               return (
                 <div key={field.accessor}>
                   <label
@@ -173,98 +232,49 @@ const AddModal = ({ data, FarmProduct }) => {
                   <input
                     id={field.accessor}
                     name={field.accessor}
-                    type="file"
-                    accept="image/*"
+                    type={field.type}
+                    value={values[field.accessor]}
                     onChange={handleChange}
+                    placeholder={
+                      field.placeholder || `Enter ${field.label.toLowerCase()}`
+                    }
                     required={field.required}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
                   />
                 </div>
               );
-            }
+            })}
+          </div>
+          {/* Progress bar */}
+          {progress > 0 && progress < 100 && (
+            <Progress value={progress} className="" />
+          )}
+          <button
+            type="submit"
+            className="mt-8 w-full bg-black text-white py-3 px-6 rounded-xl shadow-lg hover:bg-white hover:text-black border border-black transition"
+          >
+            {addbutton}
+          </button>
+        </form>
 
-            // Add emballage select
-            if (field.accessor === "emballage") {
-              return (
-                <div key={field.accessor}>
-                  <label
-                    htmlFor={field.accessor}
-                    className="block text-gray-700 font-medium mb-1"
-                  >
-                    Emballage
-                  </label>
-                  <select
-                    id={field.accessor}
-                    name={field.accessor}
-                    value={values[field.accessor] || ""}
-                    onChange={handleChange}
-                    required={field.required}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                    disabled={!values.productId}
-                  >
-                    <option value="">Select emballage</option>
-                    {emballages?.map((emb) => (
-                      <option key={emb.id} value={emb.name}>
-                        {emb.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              );
-            }
-            return (
-              <div key={field.accessor}>
-                <label
-                  htmlFor={field.accessor}
-                  className="block text-gray-700 font-medium mb-1"
-                >
-                  {field.label}
-                </label>
-                <input
-                  id={field.accessor}
-                  name={field.accessor}
-                  type={field.type}
-                  value={values[field.accessor]}
-                  onChange={handleChange}
-                  placeholder={
-                    field.placeholder || `Enter ${field.label.toLowerCase()}`
-                  }
-                  required={field.required}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-                />
-              </div>
-            );
-          })}
-        </div>
-        {/* Progress bar */}
-        {progress > 0 && progress < 100 && (
-          <Progress value={progress} className="" />
-        )}
-        <button
-          type="submit"
-          className="mt-8 w-full bg-black text-white py-3 px-6 rounded-xl shadow-lg hover:bg-white hover:text-black border border-black transition"
-        >
-          {addbutton}
-        </button>
-      </form>
-
-      {/* Confirmation dialog */}
-      <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Commande confirmée !</AlertDialogTitle>
-            <AlertDialogDescription>
-              Votre commande a bien été enregistrée.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setShowDialog(false)}>
-              OK
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </div>
+        {/* Confirmation dialog */}
+        <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Commande confirmée !</AlertDialogTitle>
+              <AlertDialogDescription>
+                Votre commande a bien été enregistrée.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogAction onClick={() => setShowDialog(false)}>
+                OK
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
+    </>
   );
 };
 
