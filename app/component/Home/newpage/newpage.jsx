@@ -34,7 +34,7 @@ export default function SmoothiePage({ setselectedfarm }) {
   }, [farmImages.length]);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4 md:p-8">
+    <div className="min-h-screen overflow-x-hidden bg-gray-50 flex flex-col items-center justify-center p-4 md:p-8">
       <motion.div
         className="w-full max-w-8xl rounded-3xl bg-white shadow-2xl overflow-hidden"
         initial={{ opacity: 0, y: 50 }}

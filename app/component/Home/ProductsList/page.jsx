@@ -101,7 +101,7 @@ export default function HomePage() {
     <main
       className={`min-h-screen ${COLORS.background} flex items-center justify-center p-6`}
     >
-      <div className="w-full max-w-7xl bg-white rounded-3xl shadow-lg p-8">
+      <div className="w-full max-w-7xl overflow-x-hidden bg-white rounded-3xl shadow-lg p-8">
         <motion.h1
           initial={{ opacity: 0, x: -80 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -184,7 +184,7 @@ export default function HomePage() {
                       <img
                         src={product.image}
                         alt={product.title}
-                        className="w-full h-48 object-contain bg-white"
+                        className="w-full h-48 object-cover bg-white"
                       />
                       <div className="absolute bottom-0 w-full bg-white/80 text-black text-xs text-center p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         {product.desc}

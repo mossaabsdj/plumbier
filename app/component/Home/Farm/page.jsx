@@ -101,7 +101,7 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center py-0 px-0  snap-y snap-mandatory">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center py-0 px-0  overflow-x-hidden snap-y snap-mandatory">
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: 60 }}
@@ -229,8 +229,8 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
                           }))
                         }
                       />
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center px-4">
-                        <span className="text-white text-sm text-center">
+                      <div className="absolute inset-0 z-10 scale-110 bg-black/70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
+                        <span className="text-white text-sm text-center z-20">
                           {product.desc}
                         </span>
                       </div>
@@ -310,7 +310,7 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
         exit={{ opacity: 0, x: -80 }} // <-- add this line
         transition={{ duration: 0.8, delay: 0.2 }}
         viewport={{ once: false, amount: 0.3 }}
-        className="w-full max-w-5xl snap-end min-h-screen flex items-center justify-center"
+        className="w-full max-w-5xl snap-start min-h-screen flex items-center justify-center"
       >
         <Card className="shadow-lg min-h-[80vh] flex flex-col md:flex-row items-center bg-white p-10 w-full">
           <div className="flex-1 order-2 md:order-1 flex justify-center items-center relative">

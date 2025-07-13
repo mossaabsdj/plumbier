@@ -47,7 +47,7 @@ export default function Footer() {
     <footer
       className={`${bgColor} ${textColor} px-6 py-12 border-t ${borderColor}`}
     >
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 text-sm">
+      <div className="max-w-7xl mx-auto overflow-x-hidden grid grid-cols-1 md:grid-cols-4 gap-10 text-sm">
         {/* Company Info */}
         <div className="space-y-4">
           <h2 className="text-xl font-semibold">{companyName}</h2>

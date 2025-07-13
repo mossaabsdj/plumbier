@@ -8,7 +8,7 @@ const firstPage = content.FirstPage;
 
 export default function TaxLawyerLandingPage({ scroleDiscover }) {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-white px-6 py-12">
+    <main className="min-h-screen flex items-center overflow-x-hidden justify-center bg-white px-6 py-12">
       <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
         {/* Text Section */}
         <motion.div
