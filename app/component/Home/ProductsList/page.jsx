@@ -99,14 +99,14 @@ export default function HomePage() {
 
   return (
     <main
-      className={`min-h-screen ${COLORS.background} flex items-center justify-center p-6`}
+      className={`min-h-screen ${COLORS.background} flex items-center justify-center p-4 sm:p-6`}
     >
-      <div className="w-full max-w-7xl overflow-x-hidden bg-white rounded-3xl shadow-lg p-8">
+      <div className="w-full max-w-7xl overflow-x-hidden bg-white rounded-3xl shadow-lg p-4 sm:p-8">
         <motion.h1
           initial={{ opacity: 0, x: -80 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className={`text-4xl font-bold mb-2 text-center ${COLORS.textPrimary}`}
+          className={`text-3xl sm:text-4xl font-bold mb-2 text-center ${COLORS.textPrimary}`}
         >
           {TEXT.title}
         </motion.h1>
@@ -115,25 +115,24 @@ export default function HomePage() {
           initial={{ opacity: 0, x: 80 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className={`text-lg ${COLORS.textSecondary} mb-8 text-center max-w-2xl mx-auto`}
+          className={`text-base sm:text-lg ${COLORS.textSecondary} mb-6 sm:mb-8 text-center max-w-2xl mx-auto`}
         >
           {TEXT.subtitle}
         </motion.p>
 
-        {/* ======= If Loading or Empty ======= */}
         {!products || products.length === 0 ? (
-          <div className="relative w-full max-w-6xl">
+          <div className="relative w-full max-w-6xl mx-auto">
             <span
-              className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full shadow-md ${COLORS.button}`}
+              className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-3 rounded-full shadow-md ${COLORS.button}`}
             >
               <Skeleton className="w-5 h-5 rounded-full" />
             </span>
 
-            <div className="flex space-x-4 px-4 sm:px-10">
+            <div className="flex space-x-4 overflow-x-auto px-2 sm:px-6">
               {[1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className="flex-shrink-0 w-72 bg-white rounded-xl shadow-md overflow-hidden"
+                  className="flex-shrink-0 w-64 sm:w-72 bg-white rounded-xl shadow-md overflow-hidden"
                 >
                   <Skeleton className="w-full h-48 mb-0" />
                   <div className="p-4">
@@ -145,7 +144,7 @@ export default function HomePage() {
             </div>
 
             <span
-              className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full shadow-md ${COLORS.button}`}
+              className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-3 rounded-full shadow-md ${COLORS.button}`}
             >
               <Skeleton className="w-5 h-5 rounded-full" />
             </span>
@@ -158,23 +157,24 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-            {/* ======= Product Carousel ======= */}
             <div className="relative w-full max-w-6xl mx-auto">
+              {/* Left Arrow */}
               <button
                 onClick={scrollLeft}
-                className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full shadow-md transition duration-200 ${COLORS.button}`}
+                className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-3 rounded-full shadow-md transition duration-200 ${COLORS.button}`}
               >
                 <ChevronLeftIcon className="w-5 h-5" />
               </button>
 
+              {/* Carousel */}
               <div
                 ref={scrollRef}
-                className="flex space-x-4 overflow-x-hidden overflow-y-hidden scroll-smooth px-4 sm:px-10"
+                className="flex space-x-4 overflow-x-auto scroll-smooth overflow-y-hidden px-2 sm:px-6"
               >
                 {products.map((product, idx) => (
                   <motion.div
                     key={idx}
-                    className="flex-shrink-0 w-72 bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                    className="flex-shrink-0 w-64 sm:w-72 bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: idx * 0.1 }}
@@ -200,15 +200,16 @@ export default function HomePage() {
                 ))}
               </div>
 
+              {/* Right Arrow */}
               <button
                 onClick={scrollRight}
-                className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full shadow-md transition duration-200 ${COLORS.button}`}
+                className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-3 rounded-full shadow-md transition duration-200 ${COLORS.button}`}
               >
                 <ChevronRightIcon className="w-5 h-5" />
               </button>
             </div>
 
-            {/* ======= Pagination Dots ======= */}
+            {/* Pagination Dots */}
             <div className="mt-4 flex gap-2 justify-center">
               {Array.from({ length: totalPages }).map((_, index) => (
                 <button

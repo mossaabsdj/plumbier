@@ -101,7 +101,7 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center py-0 px-0  overflow-x-hidden snap-y snap-mandatory">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center py-0 px-0   overflow-hidden snap-y snap-mandatory">
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: 60 }}
@@ -159,16 +159,17 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
         exit={{ opacity: 0, y: 60 }}
         transition={{ duration: 0.8, delay: 0.2 }}
         viewport={{ once: false, amount: 0.3 }}
-        className="w-full max-w-6xl snap-start min-h-screen p-10 flex flex-col items-center justify-center"
+        className="w-full max-w-6xl snap-start min-h-screen p-4 sm:p-10 flex flex-col items-center justify-center"
       >
-        <Card className="w-full shadow-lg min-h-[80vh] flex flex-col items-center bg-white p-10">
+        <Card className="w-full shadow-lg min-h-[80vh] flex flex-col items-center bg-white p-4 sm:p-10">
           <CardHeader>
-            <CardTitle className="text-4xl font-bold text-center">
+            <CardTitle className="text-3xl sm:text-4xl font-bold text-center">
               Cheese Varieties
             </CardTitle>
           </CardHeader>
+
           <div className="relative w-full">
-            {/* Scroll Arrows */}
+            {/* Left Scroll Button (desktop only) */}
             <button
               onClick={() => scrollByCard(-1)}
               className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white border border-gray-200 rounded-full shadow p-2 hidden md:block"
@@ -178,16 +179,17 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
               </svg>
             </button>
 
+            {/* Scrollable Product Cards */}
             <div
               ref={scrollerRef}
-              className="flex overflow-x-auto gap-8 w-full pb-4 snap-x snap-mandatory scrollbar-hide"
+              className="flex overflow-x-auto gap-4 sm:gap-6 md:gap-8 w-full pb-4 snap-x snap-mandatory px-1 sm:px-2"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               {loading ? (
                 [1, 2, 3].map((i) => (
                   <div
                     key={i}
-                    className="product-card group snap-center min-w-[300px] max-w-[350px] bg-gray-50 rounded-xl shadow-md flex flex-col items-center overflow-hidden"
+                    className="product-card group snap-center min-w-[260px] sm:min-w-[300px] max-w-[350px] bg-gray-50 rounded-xl shadow-md flex flex-col items-center overflow-hidden"
                   >
                     <div className="w-full h-[220px] relative">
                       <Skeleton className="w-full h-full" />
@@ -206,7 +208,7 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
                 products.map((product) => (
                   <div
                     key={product.title}
-                    className="product-card group snap-center min-w-[300px] max-w-[350px] bg-gray-50 rounded-xl shadow-md flex flex-col items-center overflow-hidden"
+                    className="product-card group snap-center min-w-[260px] sm:min-w-[300px] max-w-[350px] bg-gray-50 rounded-xl shadow-md flex flex-col items-center overflow-hidden"
                   >
                     <div className="w-full h-[220px] relative">
                       {!imgLoadedMap[product.title] && (
@@ -248,6 +250,7 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
               )}
             </div>
 
+            {/* Right Scroll Button (desktop only) */}
             <button
               onClick={() => scrollByCard(1)}
               className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white border border-gray-200 rounded-full shadow p-2 hidden md:block"
@@ -257,8 +260,10 @@ const CheesePage = forwardRef(({ FarmData }, refCommande) => {
               </svg>
             </button>
           </div>
-          <div className="mt-4 text-gray-400 text-sm">
-            ← Scroll for more products →
+
+          {/* Scroll Hint (only on mobile) */}
+          <div className="mt-4 text-gray-400 text-sm block md:hidden text-center">
+            ← Swipe for more products →
           </div>
         </Card>
       </motion.div>
