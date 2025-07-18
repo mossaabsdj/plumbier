@@ -6,38 +6,36 @@ import Swal from "sweetalert2";
 import { signIn } from "next-auth/react";
 import Progression from "@/app/component/Proogression/page";
 
-//import Header from "@/app/component/navbar/page";
-//import Footer from "@/app/component/Home/Footer/page";
-// === Text Constants ===
+// === نصوص باللغة العربية ===
 const TEXTS = {
-  loginTitle: "Log In",
-  socialLoginText: "I have an account",
-  usernamePlaceholder: "Username",
-  passwordPlaceholder: "Password",
-  buttonText: "Log In",
-  welcomeTitle: "Welcome to our site!",
-  welcomeSubtitle: "Please log in to continue.",
+  loginTitle: "تسجيل الدخول",
+  socialLoginText: "أمتلك حسابًا",
+  usernamePlaceholder: "اسم المستخدم",
+  passwordPlaceholder: "كلمة المرور",
+  buttonText: "دخول",
+  welcomeTitle: "مرحباً بك  !",
+  welcomeSubtitle: "يرجى تسجيل الدخول للمتابعة.",
   alerts: {
-    requiredTitle: "Required Fields",
-    requiredMessage: "Please fill in all fields.",
-    successTitle: "Login Successful",
-    successMessage: "Welcome to the dashboard!",
-    errorTitle: "Login Failed",
-    errorMessage: "Incorrect username or password.",
+    requiredTitle: "الحقول مطلوبة",
+    requiredMessage: "يرجى ملء جميع الحقول.",
+    successTitle: "تم تسجيل الدخول بنجاح",
+    successMessage: "مرحبًا بك في لوحة التحكم!",
+    errorTitle: "فشل تسجيل الدخول",
+    errorMessage: "اسم المستخدم أو كلمة المرور غير صحيحة.",
   },
 };
 
-// === Color/Style Constants ===
+// === ألوان وتصاميم ===
 const COLORS = {
-  warning: "#F59E0B",
-  success: "#10B981",
-  error: "#EF4444",
-  formRing: "ring-green-500",
-  buttonBg: "bg-emerald-500",
-  buttonHover: "hover:bg-emerald-600",
-  socialBg: "bg-green-200",
-  socialText: "text-blue-600",
-  rightPaneBg: "bg-green-200",
+  warning: "#F59E0B", // برتقالي
+  success: "#10B981", // أخضر
+  error: "#EF4444", // أحمر
+  formRing: "ring-orange-500",
+  buttonBg: "bg-orange-500",
+  buttonHover: "hover:bg-orange-600",
+  socialBg: "bg-orange-100",
+  socialText: "text-orange-700",
+  rightPaneBg: "bg-orange-100",
 };
 
 export default function LoginPage() {
@@ -46,24 +44,25 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const handleSubmit = async (e) => {
-    setIsLoading(true);
     e.preventDefault();
+    setIsLoading(true);
+
     const res = await signIn("credentials", {
       username,
       password,
       redirect: false,
       callbackUrl: "/DashBoard",
     });
+
     setIsLoading(false);
 
     if (res?.ok) {
-      // ✅ Success - redirect manually
       Swal.fire({
         icon: "success",
-        title: "Login Successful",
+        title: TEXTS.alerts.successTitle,
         showConfirmButton: false,
         customClass: {
-          popup: "shadow-lg rounded-lg", // optional for soft edges and shadow
+          popup: "shadow-lg rounded-lg",
         },
         timer: 1500,
       }).then(() => {
@@ -71,14 +70,13 @@ export default function LoginPage() {
         window.location.href = res.url;
       });
     } else {
-      // ❌ Error - show alert
       Swal.fire({
         icon: "error",
-        title: "Login Failed",
-        text: "Invalid username or password.",
-        confirmButtonColor: "#d32f2f", // red confirm button
+        title: TEXTS.alerts.errorTitle,
+        text: TEXTS.alerts.errorMessage,
+        confirmButtonColor: COLORS.error,
         customClass: {
-          popup: "shadow-lg rounded-lg", // optional for soft edges and shadow
+          popup: "shadow-lg rounded-lg",
         },
       });
     }
@@ -91,7 +89,7 @@ export default function LoginPage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
         <div className="flex flex-col md:flex-row rounded-xl shadow-2xl overflow-hidden w-full max-w-4xl h-[540px]">
           {/* Left: Login form */}
-          <div className="w-full md:w-1/2 bg-white p-10 flex flex-col items-center justify-center">
+          <div className="w-full md:w-1/2 bg-white p-10 flex flex-col items-center justify-center text-right">
             <h2 className="text-3xl font-bold mb-4">{TEXTS.loginTitle}</h2>
 
             <div className="flex gap-4 mb-6">
@@ -122,7 +120,7 @@ export default function LoginPage() {
               placeholder={TEXTS.passwordPlaceholder}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className={`w-full max-w-xs h-14 mb-5 px-4 rounded-lg bg-white ring-2 ${COLORS.formRing} text-gray-800 text-base outline-none focus:ring-2 focus:${COLORS.formRing} transition`}
+              className={`w-full max-w-xs h-14 mb-5 px-4 rounded-lg bg-white ring-2 ${COLORS.formRing} text-gray-800 text-base outline-none focus:ring-2 transition`}
             />
 
             <button
@@ -133,16 +131,16 @@ export default function LoginPage() {
             </button>
           </div>
 
-          {/* Right: Welcome Text (hidden on small screens) */}
+          {/* Right Pane */}
           <div
-            className={`hidden md:flex w-full md:w-1/2 ${COLORS.rightPaneBg} p-10 flex-col justify-center items-center text-center`}
+            className={` bg-orange-200 hidden md:flex w-full md:w-1/2 ${COLORS.rightPaneBg} p-10 flex-col justify-center items-center text-center`}
           >
             <Image
               src="/images/logo.png"
               alt="Logo"
-              width={150}
-              height={200}
-              className="mb-4 bg-black rounded-4xl shadow-2xl shadow-black"
+              width={270}
+              height={220}
+              className="mb-4 rounded-4xl "
             />
             <h2 className="text-3xl font-bold text-slate-900 mb-2">
               {TEXTS.welcomeTitle}

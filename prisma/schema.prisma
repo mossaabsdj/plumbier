@@ -7,45 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Product {
-  id         Int         @id @default(autoincrement())
-  title      String      @default("")
-  desc       String      @default("")
-  prix       Float       @default(0)
-  emballage  String      @default("")
-  farmId     Int?        // Optional if some products are not linked to a farm
-  farm       Farm?       @relation(fields: [farmId], references: [id])
-  image      String      @default("") // ✅ New field for the image path or URL
 
-  commandes  Commande[]  // 👈 relation
-  Date  DateTime    @default(now())
-  emballages Emballage[] // 1 Product → many Emballages
-}
 model Commande {
-  id         Int      @id @default(autoincrement())
-  emballage  String
-  nom        String
-  prenom     String
-  region     String
-  adresse    String
-  mail       String
-  num        Float
-  quantite   Int
-  product    Product  @relation(fields: [productId], references: [id])
-  productId  Int
-status Boolean? 
-  Date  DateTime @default(now())
+  id       Int      @id @default(autoincrement())
+  name     String
+  phone    String
+  email    String?
+  service  String
+  message  String?
+  address  String    // For "skikda"
+  date     DateTime?
+  time     String?
+  createdAt DateTime @default(now())
 }
 
-model Farm {
-  id          Int           @id @default(autoincrement())
-  name        String
-  createdAt   DateTime      @default(now())
 
-  Product Product[]
-
-
-}
 
 model Admin {
   id       Int    @id @default(autoincrement())
@@ -54,11 +30,6 @@ model Admin {
 
 }
 
-model Emballage {
-  id        Int      @id @default(autoincrement())
-  name      String
-   productId Int   // FK to Product
-  product   Product  @relation(fields: [productId], references: [id]) // Many Emballages → 1 Product
-}
+
 
 

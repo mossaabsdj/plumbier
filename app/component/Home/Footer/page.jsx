@@ -1,172 +1,64 @@
-import {
-  Facebook,
-  Twitter,
-  Instagram,
-  MapPin,
-  Phone,
-  Mail,
-} from "lucide-react";
-import Image from "next/image";
+"use client";
 
-// === Text Variables ===
-const companyName = "Ski agrotour luxe";
-const companyDescription = "Business Agro touristique.";
-const address = "----,--------------";
-const phoneNumber = "+1 (555) 123-4567";
-const email = "Skiagrotourdeluxe10@gmail.com";
-
-const companyLinks = [
-  { name: "About Us", href: "#" },
-  { name: "Careers", href: "#" },
-  { name: "Blog", href: "#" },
-  { name: "Press", href: "#" },
-];
-
-const supportLinks = [
-  { name: "Help Center", href: "#" },
-  { name: "Contact Us", href: "#" },
-  { name: "Privacy Policy", href: "#" },
-  { name: "Terms & Conditions", href: "#" },
-];
-
-const footerNote = `© ${new Date().getFullYear()} ${companyName}. All rights reserved.`;
-
-// === Color Variables (Tailwind utility class names) ===
-const bgColor = "bg-black";
-const textColor = "text-white";
-const secondaryTextColor = "text-gray-400";
-const sectionTitleColor = "text-white";
-const borderColor = "border-gray-800";
-const underlineBorderColor = "border-gray-700";
-const linkHoverColor = "hover:text-white";
-const iconColor = "text-gray-400";
-const iconHoverColor = "hover:text-white";
+import Link from "next/link";
+import { Facebook, Instagram, Twitter, Mail, Phone } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer
-      className={`${bgColor} ${textColor} px-6 py-12 border-t ${borderColor}`}
-    >
-      <div className="max-w-7xl mx-auto overflow-x-hidden grid grid-cols-1 md:grid-cols-4 gap-10 text-sm">
-        {/* Company Info */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold">{companyName}</h2>
-          <p className={`${secondaryTextColor}`}>{companyDescription}</p>
-          <div className={`space-y-2 ${secondaryTextColor}`}>
-            <div className="flex items-center">
-              <MapPin className={`w-4 h-4 mr-2 ${textColor}`} />
-              {address}
-            </div>
-            <div className="flex items-center">
-              <Phone className={`w-4 h-4 mr-2 ${textColor}`} />
-              {phoneNumber}
-            </div>
-            <div className="flex items-center">
-              <Mail className={`w-4 h-4 mr-2 ${textColor}`} />
-              {email}
-            </div>
-          </div>
+    <footer className="bg-orange-600 text-white py-10 mt-16">
+      <div className="container mx-auto px-6 md:px-10 flex flex-col md:flex-row justify-between items-center md:items-start gap-10">
+        {/* 👨‍🔧 Brand Description */}
+        <div className="text-center md:text-right md:w-1/3 space-y-2">
+          <h3 className="text-2xl font-bold">السباك العصري</h3>
+          <p className="text-sm text-orange-100 leading-relaxed">
+            نقدم خدمات سباكة موثوقة وسريعة على مدار الساعة بجودة عالية.
+          </p>
         </div>
 
-        {/* Company Links */}
-        <div className="space-y-3">
-          <h3
-            className={`text-lg font-medium ${sectionTitleColor} border-b ${underlineBorderColor} pb-1`}
-          >
-            Company
-          </h3>
-          <ul className={`space-y-2 ${secondaryTextColor}`}>
-            {companyLinks.map((link) => (
-              <li key={link.name}>
-                <a href={""} className={`${linkHoverColor} transition`}>
-                  {link.name}
-                </a>
-              </li>
-            ))}
-          </ul>
+        {/* 🌐 Navigation Links */}
+        <div className="flex flex-col md:w-1/3 items-center md:items-center gap-2 text-sm">
+          <Link href="/services" className="hover:underline">
+            الخدمات
+          </Link>
+          <Link href="/contact" className="hover:underline">
+            اتصل بنا
+          </Link>
+          <Link href="/about" className="hover:underline">
+            من نحن
+          </Link>
         </div>
 
-        {/* Support Links */}
-        <div className="space-y-3">
-          <h3
-            className={`text-lg font-medium ${sectionTitleColor} border-b ${underlineBorderColor} pb-1`}
+        {/* 📱 Social & Contact Icons */}
+        <div className="flex md:w-1/3 justify-center md:justify-end items-center gap-5">
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            className="hover:text-orange-200"
           >
-            Support
-          </h3>
-          <ul className={`space-y-2 ${secondaryTextColor}`}>
-            {supportLinks.map((link) => (
-              <li key={link.name}>
-                <a href={""} className={`${linkHoverColor} transition`}>
-                  {link.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Social Media */}
-        <div className="space-y-4 text-center md:text-left">
-          <h3
-            className={`text-lg font-medium ${sectionTitleColor} border-b ${underlineBorderColor} pb-1`}
+            <Facebook className="w-5 h-5 sm:w-6 sm:h-6" />
+          </a>
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            className="hover:text-orange-200"
           >
-            Follow Us
-          </h3>
-          <div className="flex justify-center md:justify-start space-x-4">
-            <a
-              href="https://www.facebook.com/share/1DhZw9n36S/"
-              aria-label="Facebook"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Facebook className={`w-5 h-5 ${iconColor} ${iconHoverColor}`} />
-            </a>
-            <a
-              href="https://www.instagram.com/ski_agrotour_luxe?igsh=MTJtNjdmbDViZDBobA=="
-              aria-label="Instagram"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Instagram className={`w-5 h-5 ${iconColor} ${iconHoverColor}`} />
-            </a>
-            <a
-              href="https://wa.me/qr/OBSZF5M4XZ3PB1"
-              aria-label="WhatsApp"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                src={"/images/whatsapp.png"}
-                alt="WhatsApp"
-                width={24}
-                height={24}
-                className={`w-6 h-6 ${iconColor} ${iconHoverColor}`}
-              />{" "}
-              {/* Use Phone as fallback */}
-            </a>
-            <a
-              href="https://t.me/your_telegram_username"
-              aria-label="Telegram"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                src={"/images/telegramme.png"}
-                alt="Telegram"
-                width={24}
-                height={24}
-                className={`w-6 h-6 text-white ${iconColor} ${iconHoverColor}`}
-              />{" "}
-              {/* Use Mail as fallback */}
-            </a>
-          </div>
+            <Instagram className="w-5 h-5 sm:w-6 sm:h-6" />
+          </a>
+          <a
+            href="mailto:plumber@example.com"
+            className="hover:text-orange-200"
+          >
+            <Mail className="w-5 h-5 sm:w-6 sm:h-6" />
+          </a>
+          <a href="tel:+213123456789" className="hover:text-orange-200">
+            <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
+          </a>
         </div>
       </div>
 
-      {/* Footer Bottom */}
-      <div
-        className={`mt-10 border-t ${borderColor} pt-6 text-center text-xs text-gray-500`}
-      >
-        {footerNote}
+      {/* 🧾 Copyright */}
+      <div className="text-center mt-6 text-orange-100 text-xs px-4">
+        &copy; {new Date().getFullYear()} جميع الحقوق محفوظة - السباك العصري
       </div>
     </footer>
   );

@@ -1,75 +1,132 @@
 "use client";
+
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
-import content from "@/app/Texts/content.json";
 
-const firstPage = content.FirstPage;
+export default function PlumberLandingPage() {
+  const title = "خدمات سباكة موثوقة وسريعة";
+  const description =
+    "نحن نقدم حلول سباكة احترافية تشمل إصلاح التسربات، تركيب الأدوات الصحية، وخدمات الطوارئ 24/7. فريقنا مؤهل وجاهز لخدمتك بكل احترافية.";
 
-export default function TaxLawyerLandingPage({ scroleDiscover }) {
+  const services = [
+    "تركيب الغاز",
+    "تركيب المياه",
+    "إصلاح التسربات",
+    "تسليك المجاري",
+  ];
+
+  const features = [
+    { icon: "✅", label: "جودة عالية" },
+    { icon: "⚡", label: "استجابة سريعة" },
+    { icon: "👷‍♂️", label: "خبرة عالية" },
+    { icon: "🕐", label: "خدمة في الوقت" },
+  ];
+
   return (
-    <main className="min-h-screen flex items-center overflow-x-hidden justify-center bg-white px-6 py-12">
-      <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-        {/* Text Section */}
+    <main
+      dir="rtl"
+      className="min-h-screen bg-white px-6 py-12 overflow-x-hidden"
+    >
+      {/* قسم البطل */}
+      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
+        {/* ✅ النصوص + الأزرار */}
         <motion.div
-          className="space-y-6"
-          initial={{ opacity: 0, x: -60 }}
+          initial={{ opacity: 0, x: 60 }}
           whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="w-full md:w-1/2 text-right space-y-6 flex flex-col justify-center"
         >
-          <span className="uppercase tracking-widest text-sm text-gray-600">
-            {firstPage.badge}
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
-            {/* Render HTML for colored span */}
-            {firstPage.title
-              .split("\n")
-              .map((line, i) => (
-                <span key={i} dangerouslySetInnerHTML={{ __html: line }} />
-              ))
-              .reduce((prev, curr) => [prev, <br key={Math.random()} />, curr])}
+          <h1 className="text-3xl md:text-4xl font-bold text-orange-600">
+            {title}
           </h1>
-          <p className="text-gray-500 max-w-md">{firstPage.description}</p>
-          <button
-            onClick={() => {
-              scroleDiscover(); // Call the function
-            }}
-            className="inline-block px-6 py-3 text-white bg-green-600 hover:bg-green-700 rounded-full font-medium transition"
-          >
-            {firstPage.button}
-          </button>
+          <p className="text-gray-700 text-lg leading-relaxed">{description}</p>
 
-          <div className="flex flex-wrap gap-3 mt-4">
-            {firstPage.tags.map((label, idx) => (
-              <span
+          <a
+            href="#form"
+            className="inline-block bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition w-fit self-start"
+          >
+            احجز الخدمة الآن
+          </a>
+
+          {/* أزرار الخدمات */}
+          <div className="mt-9 flex flex-wrap gap-4 justify-center">
+            {services.map((field, idx) => (
+              <button
                 key={idx}
-                className="px-4 py-2 border border-gray-300 rounded-full text-sm text-gray-600"
+                disabled
+                className="px-4 py-2 bg-gray-300 text-gray-600 rounded-md cursor-not-allowed text-sm"
               >
-                {label}
-              </span>
+                {field}
+              </button>
             ))}
           </div>
         </motion.div>
 
-        {/* Image Section */}
+        {/* ✅ صورة السباك واللوجو المتحرك خلفها */}
         <motion.div
-          className="rounded-3xl overflow-hidden shadow-lg bg-gray-50 p-6"
-          initial={{ opacity: 0, x: 60 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          viewport={{ once: false, amount: 0.3 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="relative w-full md:w-1/2 flex justify-center items-center min-h-[500px]"
         >
+          {/* 🔁 Logo Behind with Infinite Animation */}
+          <motion.div
+            animate={{ y: [0, -20, 0] }} // 👈 Up and down animation
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute z-5000 top-[20%] right-[15%]  sm:top-[20%] sm:left-[10%]"
+          >
+            <Image
+              src="/images/logo.png"
+              alt="Logo Behind"
+              width={150}
+              height={150}
+              className="opacity-100"
+            />
+          </motion.div>
+
+          {/* زخرفة SVG خلفية */}
+          <svg
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[620px] h-[620px] z-0"
+            viewBox="0 0 700 700"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill="#FFE0B2"
+              d="M482,369Q453,488,336.5,470.5Q220,453,169.5,364Q119,275,180.5,194.5Q242,114,343.5,111Q445,108,478,179Q511,250,482,369Z"
+            />
+          </svg>
+
+          {/* صورة السباك */}
           <Image
-            src={firstPage.image.src}
-            alt={firstPage.image.alt}
-            width={firstPage.image.width}
-            height={firstPage.image.height}
-            className="rounded-3xl object-cover w-full h-auto"
+            src="/plumber.png"
+            alt="سباك محترف"
+            width={480}
+            height={480}
+            className="relative z-10"
             priority
           />
         </motion.div>
       </div>
+
+      {/* ✅ شريط المزايا في الأسفل */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.6 }}
+        viewport={{ once: true }}
+        className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-6 text-center"
+      >
+        {features.map((item, idx) => (
+          <div key={idx} className="flex flex-col items-center gap-2">
+            <span className="text-3xl">{item.icon}</span>
+            <span className="text-sm text-gray-700 font-medium">
+              {item.label}
+            </span>
+          </div>
+        ))}
+      </motion.div>
     </main>
   );
 }

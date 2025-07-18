@@ -9,19 +9,17 @@ export async function GET() {
 }
 
 export async function POST(req) {
-  const body = await req.json();
+  const data = await req.json();
   const commande = await prisma.commande.create({
     data: {
-      adresse: body.adresse,
-      emballage: body.emballage,
-      num: parseFloat(body.num), // ✅ convert string to float
-      mail: body.mail,
-      nom: body.nom,
-      quantite: parseFloat(body.quantite),
-      prenom: body.prenom,
-      region: body.region,
-
-      productId: parseFloat(body.productId),
+      name: data.name,
+      phone: data.phone,
+      email: data.email || null,
+      service: data.service,
+      message: data.message || null,
+      address: data.address,
+      date: data.date ? new Date(data.date) : null,
+      time: data.time || null,
     },
   });
   return Response.json(commande);

@@ -1,10 +1,12 @@
 "use client";
-
-import * as React from "react";
 import Image from "next/image";
+
 import Link from "next/link";
-import Swal from "sweetalert2";
-import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
+import { User, LogOut } from "lucide-react"; // Icons
+import { useSession, signOut, signIn } from "next-auth/react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -12,46 +14,52 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import Swal from "sweetalert2";
 
-import { User, LogOut } from "lucide-react"; // Icons
 import Progression from "@/app/component/Proogression/page";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-import { useSession, signOut, signIn } from "next-auth/react";
-import { set } from "date-fns";
 
-const TEXTS = {
-  brandName: "Ski agrotour luxe",
-  navItems: [
-    "Home",
-    "traditional cheese",
-    "animal husbandry",
-    "aquaculture farm",
-    "red fruit farm",
-    "honey farm",
-    "edible mushroom farm",
-    "order",
-  ],
-  login: "Login",
-  logout: "Logout",
-  Admin: "admin",
-};
-
-export default function AppNavbar({ select, selected_from_DescoverPage }) {
-  const [open, setOpen] = React.useState(false);
+export default function Header() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { data: session, status } = useSession();
-  const [SelectedItem, setselecteditem] = React.useState("Home");
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const siteTitle = "السباك العصري";
+
+  const navLinks = [
+    { label: "الرئيسية", href: "/ar", highlight: true },
+    { label: "الخدمات", href: "/services" },
+    { label: "اتصل بنا", href: "/contact" },
+  ];
+
+  const adminButton = {
+    label: "لوحة الإدارة",
+    href: "/admin",
+  };
+  const loginButton = {
+    label: "تسجيل الدخول",
+    href: "/Login",
+  };
+  const logoutButton = {
+    label: "تسجيل االخروج",
+    href: "/",
+  };
+  const DashBoardButton = { label: "لوحة التحكم", href: "/DashBoard" };
+  const colors = {
+    background: "bg-orange-600",
+    text: "text-white",
+    highlight: "bg-white text-orange-600",
+    button: "bg-white text-orange-600 hover:bg-orange-100",
+  };
+
+  // Prevent scroll when sidebar is open
+  useEffect(() => {
+    document.body.style.overflow = isSidebarOpen ? "hidden" : "auto";
+  }, [isSidebarOpen]);
   const handleLogout = () => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You will be logged out.",
+      title: "هل أنت متأكد؟",
+      text: "سيتم تسجيل خروجك.",
+
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
@@ -66,71 +74,49 @@ export default function AppNavbar({ select, selected_from_DescoverPage }) {
       }
     });
   };
-  React.useEffect(() => {
-    if (selected_from_DescoverPage != "order") {
-      setselecteditem(selected_from_DescoverPage);
-    }
-  }, [selected_from_DescoverPage]);
   return (
     <>
       {isLoading && <Progression isVisible={true} />}
 
-      <header className="bg-white text-black shadow-sm px-6 py-4 z-50 ">
-        <div className="flex items-center justify-between">
-          {/* Logo and Brand */}
-          <div className="flex items-center gap-3">
+      <header
+        className={`overflow-x-hidden ${colors.background} ${colors.text} py-4 px-4 md:px-6 shadow-md`}
+      >
+        <div className="container mx-auto flex items-center justify-between">
+          {/* 🧱 Site Logo */}
+          <div className="flex">
+            <h1 className="text-2xl font-bold tracking-wide">{siteTitle}</h1>
             <Image
               src="/images/logo.png"
-              alt="ACME Logo"
-              width={42}
-              height={42}
-              className="bg-black rounded-lg shadow-md"
+              alt="Logo"
+              width={60}
+              height={40}
+              className=" rounded-4xl mr-2 lg:scale-140"
             />
-            <span className="text-lg font-bold">{TEXTS.brandName}</span>
           </div>
 
-          {/* Desktop Nav */}
-          <NavigationMenu className="hidden sm:flex">
-            <NavigationMenuList className="flex gap-6">
-              {TEXTS.navItems.map((item) => (
-                <NavigationMenuItem key={item}>
-                  <motion.button
-                    onClick={() => {
-                      if (item === "order") {
-                        select(item);
-                      } else {
-                        select(item);
+          {/* 🧭 Navigation - Desktop Only */}
+          <nav className="hidden lg:flex items-center gap-6">
+            {navLinks.map((link, i) => (
+              <Link key={i} href={link.href}>
+                <span
+                  className={`p-2 rounded-3xl font-semibold transition ${
+                    link.highlight ? colors.highlight : "hover:scale-110"
+                  }`}
+                >
+                  {link.label}
+                </span>
+              </Link>
+            ))}
+          </nav>
 
-                        setselecteditem(item);
-                      }
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    animate={
-                      SelectedItem === item ? { scale: 1.08 } : { scale: 1 }
-                    }
-                    className={`text-sm font-medium transition ${
-                      SelectedItem === item && SelectedItem !== "order"
-                        ? "text-white bg-black font-bold rounded-2xl p-2 h-9"
-                        : "text-black"
-                    }`}
-                  >
-                    {item}
-                  </motion.button>
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
-
-          {/* Desktop Login */}
-          <div className="hidden sm:flex flex-col gap-2 items-end">
-            {status === "loading" ? (
-              <div className="w-24 h-8 bg-gray-200 rounded animate-pulse" />
-            ) : session ? (
+          {/* 🧮 Admin Button - Desktop */}
+          <div>
+            {session ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="outline"
-                    className="font-semibold bg-black text-white hover:bg-gray-700 transition"
+                    className="font-semibold bg-white text-orange-600 border-0 hover:bg-orange-400 hover:text-white transition"
                   >
                     {"Admin"}
                   </Button>
@@ -143,14 +129,11 @@ export default function AppNavbar({ select, selected_from_DescoverPage }) {
                   <DropdownMenuItem
                     onClick={() => {
                       setIsLoading(true); // Start loading
-
-                      select("admin");
-                      setselecteditem("admin");
                     }}
                     className="flex items-center gap-2 text-black font-medium hover:bg-gray-100 px-3 py-2 rounded-lg cursor-pointer"
                   >
                     <User className="w-4 h-4 text-black" />
-                    <span>{TEXTS.Admin}</span>
+                    <span>{DashBoardButton.label}</span>
                   </DropdownMenuItem>
 
                   <DropdownMenuSeparator />
@@ -160,107 +143,94 @@ export default function AppNavbar({ select, selected_from_DescoverPage }) {
                     className="flex items-center gap-2 text-red-600 font-semibold hover:bg-red-100 px-3 py-2 rounded-lg cursor-pointer"
                   >
                     <LogOut className="w-4 h-4 text-red-600" />
-                    <span>{TEXTS.logout}</span>
+                    <span>{logoutButton.مشلاثم}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button
-                asChild
-                variant="default"
-                className="bg-black hover:bg-gray-700"
-              >
-                <Link
-                  onClick={() => {
-                    setIsLoading(true);
-                  }}
-                  href="/Login"
+              <Link href={loginButton.href}>
+                <Button
+                  className={`${colors.button} font-semibold hidden lg:inline-flex`}
                 >
-                  {TEXTS.login}
-                </Link>
-              </Button>
+                  {loginButton.label}
+                </Button>
+              </Link>
             )}
           </div>
 
-          {/* Mobile Menu Trigger */}
-          <div className="sm:hidden">
-            <Sheet open={open} onOpenChange={setOpen}>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  {open ? "✕" : "≡"}
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-[70%] p-6">
-                <div className="space-y-4">
-                  {TEXTS.navItems.map((item) => (
-                    <motion.button
-                      key={item}
-                      onClick={() => {
-                        setOpen(false);
-                        select(item);
-
-                        setselecteditem(item);
-                      }}
-                      whileTap={{ scale: 0.97 }}
-                      animate={
-                        SelectedItem === item ? { scale: 1.05 } : { scale: 1 }
-                      }
-                      className={`block w-full text-left px-3 py-2 rounded-md text-sm font-medium transition ${
-                        SelectedItem === item && SelectedItem != "order"
-                          ? "text-white bg-black font-bold"
-                          : "text-black bg-transparent"
-                      }`}
-                    >
-                      {item}
-                    </motion.button>
-                  ))}
-
-                  {status === "loading" ? (
-                    <div className="w-24 h-8 bg-gray-200 rounded animate-pulse" />
-                  ) : session ? (
-                    <>
-                      <Button
-                        onClick={() => {
-                          setIsLoading(true); // Start loading
-
-                          select("admin");
-                          setselecteditem("admin");
-                        }}
-                        className="w-full px-4 py-2 bg-black text-white rounded hover:bg-gray-700 mt-2"
-                      >
-                        {TEXTS.Admin}
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          setOpen(false);
-                          handleLogout();
-                        }}
-                        className="w-full px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 mt-2"
-                      >
-                        {TEXTS.logout}
-                      </Button>
-                    </>
-                  ) : (
-                    <Button
-                      asChild
-                      variant="default"
-                      className="w-full bg-black hover:bg-gray-700 mt-2"
-                      onClick={() => setOpen(false)}
-                    >
-                      <Link
-                        onClick={() => {
-                          setIsLoading(true);
-                        }}
-                        href="/Login"
-                      >
-                        {TEXTS.login}
-                      </Link>
-                    </Button>
-                  )}
-                </div>
-              </SheetContent>
-            </Sheet>
+          {/* 📱 Mobile Menu Icon */}
+          <div className="lg:hidden">
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              aria-label="Open menu"
+            >
+              <Menu size={28} />
+            </button>
           </div>
+        </div>
+
+        {/* 🌒 Backdrop overlay */}
+        {isSidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+
+        {/* 📋 Sidebar */}
+        <div
+          className={`fixed top-0 right-0 h-full w-64 bg-white z-50 shadow-lg transform transition-transform duration-300 ${
+            isSidebarOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+          dir="rtl"
+        >
+          <div className="flex items-center justify-between p-4 border-b">
+            <h2 className="text-orange-600 font-bold text-lg">القائمة</h2>
+            <button
+              onClick={() => setIsSidebarOpen(false)}
+              aria-label="Close menu"
+            >
+              <X size={24} className="text-orange-600" />
+            </button>
+          </div>
+          <nav className="flex flex-col gap-4 p-4">
+            {navLinks.map((link, i) => (
+              <Link
+                key={i}
+                href={link.href}
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                <span
+                  className={`block w-full text-right p-2 rounded-xl font-semibold ${
+                    link.highlight
+                      ? "bg-orange-600 text-white"
+                      : "text-orange-600 hover:bg-orange-100"
+                  }`}
+                >
+                  {link.label}
+                </span>
+              </Link>
+            ))}
+            {session ? (
+              <Link
+                href={adminButton.href}
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                <Button className="w-full bg-orange-600 text-white hover:bg-orange-700 font-semibold">
+                  {adminButton.label}
+                </Button>
+              </Link>
+            ) : (
+              <Link
+                href={loginButton.href}
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                <Button className="w-full bg-orange-600 text-white hover:bg-orange-700 font-semibold">
+                  {loginButton.label}
+                </Button>
+              </Link>
+            )}
+          </nav>
         </div>
       </header>
     </>

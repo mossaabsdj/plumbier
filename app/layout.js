@@ -1,31 +1,22 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { Cairo } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const cairo = Cairo({
+  subsets: ["arabic"],
+  weight: ["400", "700"],
+  variable: "--font-cairo",
 });
 
 export const metadata = {
-  title: "Ski agrotour luxe",
-  description: "Business agro-touristique",
-  icons: {
-    icon: "/images/Logo.png",
-  },
+  title: "موقع السباكة",
+  description: "أفضل خدمات سباكة في الجزائر.",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
-      >
+    <html lang="ar" dir="rtl">
+      <body className={cairo.className}>
         <Providers> {children} </Providers>{" "}
       </body>{" "}
     </html>
