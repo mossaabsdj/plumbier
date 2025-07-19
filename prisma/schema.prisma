@@ -18,6 +18,8 @@ model Commande {
   address  String    // For "skikda"
   date     DateTime?
   time     String?
+  status Boolean? 
+
   createdAt DateTime @default(now())
 }
 

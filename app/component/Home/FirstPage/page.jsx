@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { select } from "@heroui/theme";
 
-export default function PlumberLandingPage() {
+export default function PlumberLandingPage({ Select }) {
   const title = "خدمات سباكة موثوقة وسريعة";
   const description =
     "نحن نقدم حلول سباكة احترافية تشمل إصلاح التسربات، تركيب الأدوات الصحية، وخدمات الطوارئ 24/7. فريقنا مؤهل وجاهز لخدمتك بكل احترافية.";
@@ -42,12 +43,14 @@ export default function PlumberLandingPage() {
           </h1>
           <p className="text-gray-700 text-lg leading-relaxed">{description}</p>
 
-          <a
-            href="#form"
+          <button
+            onClick={() => {
+              Select("Form");
+            }}
             className="inline-block bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition w-fit self-start"
           >
             احجز الخدمة الآن
-          </a>
+          </button>
 
           {/* أزرار الخدمات */}
           <div className="mt-9 flex flex-wrap gap-4 justify-center">
@@ -75,7 +78,7 @@ export default function PlumberLandingPage() {
           <motion.div
             animate={{ y: [0, -20, 0] }} // 👈 Up and down animation
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute z-5000 top-[20%] right-[15%]  sm:top-[20%] sm:left-[10%]"
+            className="absolute z-5 top-[20%] right-[15%]  sm:top-[20%] sm:left-[10%]"
           >
             <Image
               src="/images/logo.png"

@@ -20,840 +20,144 @@
       "height": 600
     }
   },
-  "Farms": {
-    "TraditionalCheese": {
-      "hero": {
-        "title": "Traditional Cheese",
-        "description": "A traditional cheese production farm (fromage artisanal) that uses high-quality local products, herbs, and oils. The project is based on producing fresh milk from a herd of high-quality dairy cows, which is then transformed into various types of cheese using traditional or semi-industrial methods, such as fresh or aged cheeses. The cheese is made using milking equipment, a pasteurization and curdling unit, and temperature- and humidity-controlled aging rooms. The project focuses on quality, hygiene, and the local character of the product, giving it added value in high-end markets. The cheese is marketed directly at the farm, as well as through shops, hotels, and specialty markets. Regarding sanitary conditions, all health regulations must be respected. This farm specializes in producing natural and artisanal local products using local herbs and oils.",
-        "button": "Discover Our Products",
-        "image": {
-          "src": "/images/HeroCheese.jpg",
-          "alt": "traditional cheese",
-          "width": 340,
-          "height": 220
-        }
-      },
-      "products": [
-        {
-          "title": "Goat Cheese",
-          "description": "Soft, tangy, and perfect for salads or as a spread.",
-          "prix": "€8.50",
-          "image": {
-            "src": "/images/Cheese_1.png",
-            "alt": "Goat Cheese",
-            "width": 350,
-            "height": 220
-          }
-        },
-        {
-          "title": "Aged Tomme",
-          "description": "Firm and nutty, aged for a deep, complex flavor.",
-          "prix": "€12.00",
-          "image": {
-            "src": "/images/cheese_2.jpg",
-            "alt": "Aged Tomme",
-            "width": 350,
-            "height": 220
-          }
-        },
-        {
-          "title": "Fresh Ricotta",
-          "description": "Creamy and delicate, ideal for desserts and pastries.",
-          "prix": "€7.00",
-          "image": {
-            "src": "/images/fraise.jpg",
-            "alt": "Fresh Ricotta",
-            "width": 350,
-            "height": 220
-          }
-        }
-      ],
-      "catering": {
-        "title": "Catering Services",
-        "description": "Our catering service brings the authentic taste of the farm directly to your table. We create fresh, healthy dishes using our own farm-made cheeses, organic herbs, and local oils. Each recipe is inspired by traditional techniques and crafted to highlight natural flavors and seasonal ingredients. Whether you're hosting a rustic event, a countryside retreat, or a gourmet experience, our farm-to-table catering adds a distinctive, artisanal touch that reflects the values of sustainability, quality, and local tradition.",
-        "button": "Contact Catering",
-        "image": {
-          "src": "/images/cateringChesee.png",
-          "alt": "Catering",
-          "width": 500,
-          "height": 350
-        }
-      },
-      "bungalow": {
-        "title": "Stay in Our Bungalows",
-        "description": "A bungalow is a type of simple dwelling, often built from wood, consisting of a single floor with an outdoor porch. It is characterized by its practical and comfortable design and is typically used as temporary accommodation in tourist areas such as beaches or mountains. Bungalows offer a peaceful and natural environment for relaxation, making them a popular choice in campsites and summer resorts.",
-        "button": "Book a Bungalow",
-        "image": {
-          "src": "/images/bungalow.png",
-          "alt": "Bungalow",
-          "width": 500,
-          "height": 350
-        }
-      }
-    },
-    "AnimalHusbandry": {
-      "hero": {
-        "title": "Animal Husbandry",
-        "description": "An animal husbandry farm for meat production raises livestock like cattle, sheep, goats, chickens, and turkeys using scientific methods focused on nutrition, veterinary care, and welfare, offering fresh red and white meat served in a modern on-site restaurant with beautifully designed wooden facilities.",
-        "button": "Discover Our Products",
-        "image": {
-          "src": "/images/AnimalsHero.png",
-          "alt": "animal husbandry",
-          "width": 340,
-          "height": 220
-        }
-      },
-      "products": [
-        {
-          "title": "Fresh Milk",
-          "description": "Pure, fresh milk from grass-fed cows and goats.",
-          "prix": "€2.00/L",
-          "image": {
-            "src": "/images/fresh-milk.jpg",
-            "alt": "Fresh Milk",
-            "width": 350,
-            "height": 220
-          }
-        },
-        {
-          "title": "Organic Eggs",
-          "description": "Farm-fresh organic eggs, rich in nutrients.",
-          "prix": "€3.50/dozen",
-          "image": {
-            "src": "/images/organic-eggs.jpg",
-            "alt": "Organic Eggs",
-            "width": 350,
-            "height": 220
-          }
-        },
-        {
-          "title": "Free-range Chicken",
-          "description": "Tender and flavorful free-range chicken.",
-          "prix": "€10.00/kg",
-          "image": {
-            "src": "/images/free-range-chicken.jpg",
-            "alt": "Free-range Chicken",
-            "width": 350,
-            "height": 220
-          }
-        }
-      ],
-      "catering": {
-        "title": "Catering Services",
-        "description": "It is a sector dedicated to preparing and serving food, and it gains a distinctive character when it relies on organic and natural products. In the context of a traditional cheese production farm, la restauration involves offering dishes made with high-quality fresh milk cheeses, enhanced with natural local herbs and oils. These organic products are used to prepare healthy recipes with a local flair, giving restaurants and hotels an authentic touch and increasing the appeal of the dishes served. This makes la restauration a key partner in promoting artisanal agriculture and natural products.",
-        "button": "Contact Catering",
-        "image": {
-          "src": "/images/animalcatering.jpg",
-          "alt": "Catering",
-          "width": 500,
-          "height": 350
-        }
-      },
-      "bungalow": {
-        "title": "Stay in Our Bungalows",
-        "description": "A bungalow is a type of simple dwelling, often built from wood, consisting of a single floor with an outdoor porch. It is characterized by its practical and comfortable design and is typically used as temporary accommodation in tourist areas such as beaches or mountains. Bungalows offer a peaceful and natural environment for relaxation, making them a popular choice in campsites and summer resorts.",
-        "button": "Book a Bungalow",
-        "image": {
-          "src": "/images/bungalow.png",
-          "alt": "Bungalow",
-          "width": 500,
-          "height": 350
-        }
-      }
-    },
-    "aquaculturefarm": {
-      "hero": {
-        "title": "aquaculture farm",
-        "description": "An aquaculture farm is a specialized facility for raising edible aquatic species like tilapia, salmon, and shrimp or ornamental fish like koi in controlled environments such as ponds, tanks, or cages, using precise techniques for water purification, feeding, and health monitoring to ensure quality, safety, and sustainability.",
-        "button": "Discover Our Products",
-        "image": {
-          "src": "/images/aquacultureHero.png",
-          "alt": "aquaculture farm",
-          "width": 340,
-          "height": 220
-        }
-      },
-      "products": [
-        {
-          "title": "Fresh Milk",
-          "description": "Pure, fresh milk from grass-fed cows and goats.",
-          "prix": "€2.00/L",
-          "image": {
-            "src": "/images/fresh-milk.jpg",
-            "alt": "Fresh Milk",
-            "width": 350,
-            "height": 220
-          }
-        },
-        {
-          "title": "Organic Eggs",
-          "description": "Farm-fresh organic eggs, rich in nutrients.",
-          "prix": "€3.50/dozen",
-          "image": {
-            "src": "/images/organic-eggs.jpg",
-            "alt": "Organic Eggs",
-            "width": 350,
-            "height": 220
-          }
-        },
-        {
-          "title": "Free-range Chicken",
-          "description": "Tender and flavorful free-range chicken.",
-          "prix": "€10.00/kg",
-          "image": {
-            "src": "/images/free-range-chicken.jpg",
-            "alt": "Free-range Chicken",
-            "width": 350,
-            "height": 220
-          }
-        }
-      ],
-      "catering": {
-        "title": "Catering Services",
-        "description": "It is a sector dedicated to preparing and serving food, and it gains a distinctive character when it relies on organic and natural products. In the context of a traditional cheese production farm, la restauration involves offering dishes made with high-quality fresh milk cheeses, enhanced with natural local herbs and oils. These organic products are used to prepare healthy recipes with a local flair, giving restaurants and hotels an authentic touch and increasing the appeal of the dishes served. This makes la restauration a key partner in promoting artisanal agriculture and natural products.",
-        "button": "Contact Catering",
-        "image": {
-          "src": "/images/fishcatering.jpg",
-          "alt": "Catering",
-          "width": 500,
-          "height": 350
-        }
-      },
-      "bungalow": {
-        "title": "Stay in Our Bungalows",
-        "description": "A bungalow is a type of simple dwelling, often built from wood, consisting of a single floor with an outdoor porch. It is characterized by its practical and comfortable design and is typically used as temporary accommodation in tourist areas such as beaches or mountains. Bungalows offer a peaceful and natural environment for relaxation, making them a popular choice in campsites and summer resorts.",
-        "button": "Book a Bungalow",
-        "image": {
-          "src": "/images/bungalow.png",
-          "alt": "Bungalow",
-          "width": 500,
-          "height": 350
-        }
-      }
-    },
-    "redfruitfarm": {
-      "hero": {
-        "title": "red fruit farm",
-        "description": "A red fruit farm specializes in cultivating strawberries, raspberries, blackberries, cherries, and prunes in climate-controlled greenhouses using modern techniques like drip irrigation and biological pest monitoring to produce high-quality, chemical-free organic fruits, along with natural derivatives like traditional organic jam, contributing to food security and the local economy.",
-        "button": "Discover Our Products",
-        "image": {
-          "src": "/images/redfruitHero.jpg",
-          "alt": "red fruit farm",
-          "width": 340,
-          "height": 220
-        }
-      },
-      "products": [
-        {
-          "title": "Fresh Milk",
-          "description": "Pure, fresh milk from grass-fed cows and goats.",
-          "prix": "€2.00/L",
-          "image": {
-            "src": "/images/fresh-milk.jpg",
-            "alt": "Fresh Milk",
-            "width": 350,
-            "height": 220
-          }
-        },
-        {
-          "title": "Organic Eggs",
-          "description": "Farm-fresh organic eggs, rich in nutrients.",
-          "prix": "€3.50/dozen",
-          "image": {
-            "src": "/images/organic-eggs.jpg",
-            "alt": "Organic Eggs",
-            "width": 350,
-            "height": 220
-          }
-        },
-        {
-          "title": "Free-range Chicken",
-          "description": "Tender and flavorful free-range chicken.",
-          "prix": "€10.00/kg",
-          "image": {
-            "src": "/images/free-range-chicken.jpg",
-            "alt": "Free-range Chicken",
-            "width": 350,
-            "height": 220
-          }
-        }
-      ],
-      "catering": {
-        "title": "Catering Services",
-        "description": "It is a sector dedicated to preparing and serving food, and it gains a distinctive character when it relies on organic and natural products. In the context of a traditional cheese production farm, la restauration involves offering dishes made with high-quality fresh milk cheeses, enhanced with natural local herbs and oils. These organic products are used to prepare healthy recipes with a local flair, giving restaurants and hotels an authentic touch and increasing the appeal of the dishes served. This makes la restauration a key partner in promoting artisanal agriculture and natural products.",
-        "button": "Contact Catering",
-        "image": {
-          "src": "/images/redfruitcatering.jpg",
-          "alt": "Catering",
-          "width": 500,
-          "height": 350
-        }
-      },
-      "bungalow": {
-        "title": "Stay in Our Bungalows",
-        "description": "A bungalow is a type of simple dwelling, often built from wood, consisting of a single floor with an outdoor porch. It is characterized by its practical and comfortable design and is typically used as temporary accommodation in tourist areas such as beaches or mountains. Bungalows offer a peaceful and natural environment for relaxation, making them a popular choice in campsites and summer resorts.",
-        "button": "Book a Bungalow",
-        "image": {
-          "src": "/images/bungalow.png",
-          "alt": "Bungalow",
-          "width": 500,
-          "height": 350
-        }
-      }
-    },
-    "honeyproducingfarm": {
-      "hero": {
-        "title": "honey-producing farm",
-        "description": "A honey farm is an agricultural unit specialized in beekeeping, raising bees in managed hives to produce natural honey and by-products like beeswax, pollen, and propolis, using scientific methods to ensure quality and sustainability, while supporting pollination, crop yields, and rural development.",
-        "button": "Discover Our Products",
-        "image": {
-          "src": "/images/honeyproducingfarm.jpg",
-          "alt": "honey farm",
-          "width": 340,
-          "height": 220
-        }
-      },
-      "products": [
-        {
-          "title": "Fresh Milk",
-          "description": "Pure, fresh milk from grass-fed cows and goats.",
-          "prix": "€2.00/L",
-          "image": {
-            "src": "/images/fresh-milk.jpg",
-            "alt": "Fresh Milk",
-            "width": 350,
-            "height": 220
-          }
-        },
-        {
-          "title": "Organic Eggs",
-          "description": "Farm-fresh organic eggs, rich in nutrients.",
-          "prix": "€3.50/dozen",
-          "image": {
-            "src": "/images/organic-eggs.jpg",
-            "alt": "Organic Eggs",
-            "width": 350,
-            "height": 220
-          }
-        },
-        {
-          "title": "Free-range Chicken",
-          "description": "Tender and flavorful free-range chicken.",
-          "prix": "€10.00/kg",
-          "image": {
-            "src": "/images/free-range-chicken.jpg",
-            "alt": "Free-range Chicken",
-            "width": 350,
-            "height": 220
-          }
-        }
-      ],
-      "catering": {
-        "title": "Catering Services",
-        "description": "It is a sector dedicated to preparing and serving food, and it gains a distinctive character when it relies on organic and natural products. In the context of a traditional cheese production farm, la restauration involves offering dishes made with high-quality fresh milk cheeses, enhanced with natural local herbs and oils. These organic products are used to prepare healthy recipes with a local flair, giving restaurants and hotels an authentic touch and increasing the appeal of the dishes served. This makes la restauration a key partner in promoting artisanal agriculture and natural products.",
-        "button": "Contact Catering",
-        "image": {
-          "src": "/images/honeycatering.jpg",
-          "alt": "Catering",
-          "width": 500,
-          "height": 350
-        }
-      },
-      "bungalow": {
-        "title": "Stay in Our Bungalows",
-        "description": "A bungalow is a type of simple dwelling, often built from wood, consisting of a single floor with an outdoor porch. It is characterized by its practical and comfortable design and is typically used as temporary accommodation in tourist areas such as beaches or mountains. Bungalows offer a peaceful and natural environment for relaxation, making them a popular choice in campsites and summer resorts.",
-        "button": "Book a Bungalow",
-        "image": {
-          "src": "/images/bungalow.png",
-          "alt": "Bungalow",
-          "width": 500,
-          "height": 350
-        }
-      }
-    },
-
-    "ediblemushroomfarm": {
-      "hero": {
-        "title": "edible mushroom farm",
-        "description": "An edible mushroom farm is an agricultural production unit specialized in cultivating fungi for human consumption—such as button (Agaricus bisporus), oyster (Pleurotus spp), and reishi mushrooms—in controlled environments with regulated humidity, temperature, and ventilation, using organic substrates like straw or sterilized sawdust to produce high-quality mushrooms for fresh use, drying, or commercial sale.",
-        "button": "Discover Our Products",
-        "image": {
-          "src": "/images/Heromushroom.png",
-          "alt": "edible mushroom farm",
-          "width": 340,
-          "height": 220
-        }
-      },
-      "products": [
-        {
-          "title": "Goat Cheese",
-          "description": "Soft, tangy, and perfect for salads or as a spread.",
-          "prix": "€8.50",
-          "image": {
-            "src": "/images/Cheese_1.png",
-            "alt": "Goat Cheese",
-            "width": 350,
-            "height": 220
-          }
-        },
-        {
-          "title": "Aged Tomme",
-          "description": "Firm and nutty, aged for a deep, complex flavor.",
-          "prix": "€12.00",
-          "image": {
-            "src": "/images/cheese_2.jpg",
-            "alt": "Aged Tomme",
-            "width": 350,
-            "height": 220
-          }
-        },
-        {
-          "title": "Fresh Ricotta",
-          "description": "Creamy and delicate, ideal for desserts and pastries.",
-          "prix": "€7.00",
-          "image": {
-            "src": "/images/fraise.jpg",
-            "alt": "Fresh Ricotta",
-            "width": 350,
-            "height": 220
-          }
-        }
-      ],
-      "catering": {
-        "title": "Catering Services",
-        "description": "It is a sector dedicated to preparing and serving food, and it gains a distinctive character when it relies on organic and natural products. In the context of a traditional cheese production farm, la restauration involves offering dishes made with high-quality fresh milk cheeses, enhanced with natural local herbs and oils. These organic products are used to prepare healthy recipes with a local flair, giving restaurants and hotels an authentic touch and increasing the appeal of the dishes served. This makes la restauration a key partner in promoting artisanal agriculture and natural products.",
-        "button": "Contact Catering",
-        "image": {
-          "src": "/images/mushromcatering.png",
-          "alt": "Catering",
-          "width": 500,
-          "height": 350
-        }
-      },
-      "bungalow": {
-        "title": "Stay in Our Bungalows",
-        "description": "A bungalow is a type of simple dwelling, often built from wood, consisting of a single floor with an outdoor porch. It is characterized by its practical and comfortable design and is typically used as temporary accommodation in tourist areas such as beaches or mountains. Bungalows offer a peaceful and natural environment for relaxation, making them a popular choice in campsites and summer resorts.",
-        "button": "Book a Bungalow",
-        "image": {
-          "src": "/images/bungalow.png",
-          "alt": "Bungalow",
-          "width": 500,
-          "height": 350
-        }
-      }
-    }
-  },
-  "Product": {
-    "title": "Products",
-    "table": {
-      "columns": [
-        { "accessor": "title", "label": "Name", "sortable": true },
-        { "accessor": "desc", "label": "desc", "sortable": false },
-        { "accessor": "prix", "label": "Prix", "sortable": true },
-        { "accessor": "emballage", "label": "embalage", "sortable": false },
-        { "accessor": "farm", "label": "Farm", "sortable": true },
-
-        { "accessor": "Date", "label": "createdAt", "sortable": true },
-        { "accessor": "image", "label": "image", "sortable": false }
-      ],
-
-      "SearchPlaceHolder": "Search Product..."
-    },
-    "AddClient": {
-      "FirstFields": [
-        {
-          "accessor": "title",
-          "label": "Name",
-          "type": "text",
-          "required": true
-        },
-        {
-          "accessor": "desc",
-          "label": "desc",
-          "type": "text",
-          "required": true
-        },
-        {
-          "accessor": "prix",
-          "label": "Prix",
-          "type": "number",
-          "required": true
-        },
-        {
-          "accessor": "emballage",
-          "label": "embalage",
-          "type": "text",
-          "required": true
-        },
-        {
-          "accessor": "farm",
-          "label": "Farm",
-          "type": "select",
-          "required": true,
-          "options": ["agro", "ana", "cult"]
-        },
-        {
-          "accessor": "image",
-          "label": "image",
-          "type": "image",
-          "required": true
-        }
-      ],
-      "AddButton": "Add Product",
-      "Title": "Add Product"
-    },
-    "ViewModel": {
-      "title": "View Product",
-      "DontDisplayField": "farmId"
-    },
-    "StatsModel": {
-      "title": "Stats",
-      "totalClientsTitle": "Total Clients",
-
-      "plan": {
-        "title": "Nouveaux Clients par Mois"
-      }
-    }
-  },
 
   "Commande": {
-    "title": "Commandes",
+    "title": "الطلبيات",
     "table": {
       "columns": [
-        { "accessor": "nom", "label": "Nom", "sortable": true },
-        { "accessor": "prenom", "label": "Prénom", "sortable": true },
-        { "accessor": "region", "label": "Country", "sortable": true },
-        { "accessor": "adresse", "label": "Adresse", "sortable": false },
-        { "accessor": "mail", "label": "Email", "sortable": false },
-        { "accessor": "num", "label": "Téléphone", "sortable": false },
-        { "accessor": "productId", "label": "Produit", "sortable": true },
+        { "accessor": "name", "label": "الاسم", "sortable": true },
+        { "accessor": "phone", "label": "رقم الهاتف", "sortable": false },
+        {
+          "accessor": "email",
+          "label": "البريد الإلكتروني",
+          "sortable": false
+        },
+        { "accessor": "service", "label": "الخدمة", "sortable": true },
+        { "accessor": "message", "label": "الرسالة", "sortable": false },
+        { "accessor": "address", "label": "العنوان", "sortable": false },
+        { "accessor": "date", "label": "تاريخ الحجز", "sortable": true },
+        { "accessor": "time", "label": "الوقت", "sortable": false },
+        { "accessor": "status", "label": "الحالة", "sortable": false },
 
-        { "accessor": "emballage", "label": "Emballage", "sortable": false },
-        { "accessor": "quantite", "label": "quantite", "sortable": false },
-
-        { "accessor": "Date", "label": "Date de Commande", "sortable": true },
-        { "accessor": "status", "label": "status", "sortable": true }
+        { "accessor": "createdAt", "label": "تاريخ الإنشاء", "sortable": true }
       ],
-      "SearchPlaceHolder": "Rechercher une commande..."
+      "SearchPlaceHolder": "ابحث عن طلب..."
     },
     "AddClient": {
       "FirstFields": [
         {
-          "accessor": "nom",
-          "label": "Nom",
+          "accessor": "name",
+          "label": "الاسم",
           "type": "text",
           "required": true
         },
         {
-          "accessor": "prenom",
-          "label": "Prénom",
+          "accessor": "phone",
+          "label": "رقم الهاتف",
           "type": "text",
           "required": true
         },
         {
-          "accessor": "region",
-          "label": "Country",
-          "type": "select",
-          "required": true,
-          "options": [
-            "Afghanistan",
-            "Albania",
-            "Algeria",
-            "Andorra",
-            "Angola",
-            "Antigua and Barbuda",
-            "Argentina",
-            "Armenia",
-            "Australia",
-            "Austria",
-            "Azerbaijan",
-            "Bahamas",
-            "Bahrain",
-            "Bangladesh",
-            "Barbados",
-            "Belarus",
-            "Belgium",
-            "Belize",
-            "Benin",
-            "Bhutan",
-            "Bolivia",
-            "Bosnia and Herzegovina",
-            "Botswana",
-            "Brazil",
-            "Brunei",
-            "Bulgaria",
-            "Burkina Faso",
-            "Burundi",
-            "Cabo Verde",
-            "Cambodia",
-            "Cameroon",
-            "Canada",
-            "Central African Republic",
-            "Chad",
-            "Chile",
-            "China",
-            "Colombia",
-            "Comoros",
-            "Congo (Congo-Brazzaville)",
-            "Costa Rica",
-            "Croatia",
-            "Cuba",
-            "Cyprus",
-            "Czech Republic (Czechia)",
-            "Democratic Republic of the Congo",
-            "Denmark",
-            "Djibouti",
-            "Dominica",
-            "Dominican Republic",
-            "Ecuador",
-            "Egypt",
-            "El Salvador",
-            "Equatorial Guinea",
-            "Eritrea",
-            "Estonia",
-            "Eswatini",
-            "Ethiopia",
-            "Fiji",
-            "Finland",
-            "France",
-            "Gabon",
-            "Gambia",
-            "Georgia",
-            "Germany",
-            "Ghana",
-            "Greece",
-            "Grenada",
-            "Guatemala",
-            "Guinea",
-            "Guinea-Bissau",
-            "Guyana",
-            "Haiti",
-            "Honduras",
-            "Hungary",
-            "Iceland",
-            "India",
-            "Indonesia",
-            "Iran",
-            "Iraq",
-            "Ireland",
-            "Israel",
-            "Italy",
-            "Ivory Coast",
-            "Jamaica",
-            "Japan",
-            "Jordan",
-            "Kazakhstan",
-            "Kenya",
-            "Kiribati",
-            "Kuwait",
-            "Kyrgyzstan",
-            "Laos",
-            "Latvia",
-            "Lebanon",
-            "Lesotho",
-            "Liberia",
-            "Libya",
-            "Liechtenstein",
-            "Lithuania",
-            "Luxembourg",
-            "Madagascar",
-            "Malawi",
-            "Malaysia",
-            "Maldives",
-            "Mali",
-            "Malta",
-            "Marshall Islands",
-            "Mauritania",
-            "Mauritius",
-            "Mexico",
-            "Micronesia",
-            "Moldova",
-            "Monaco",
-            "Mongolia",
-            "Montenegro",
-            "Morocco",
-            "Mozambique",
-            "Myanmar (Burma)",
-            "Namibia",
-            "Nauru",
-            "Nepal",
-            "Netherlands",
-            "New Zealand",
-            "Nicaragua",
-            "Niger",
-            "Nigeria",
-            "North Korea",
-            "North Macedonia",
-            "Norway",
-            "Oman",
-            "Pakistan",
-            "Palau",
-            "Palestine State",
-            "Panama",
-            "Papua New Guinea",
-            "Paraguay",
-            "Peru",
-            "Philippines",
-            "Poland",
-            "Portugal",
-            "Qatar",
-            "Romania",
-            "Russia",
-            "Rwanda",
-            "Saint Kitts and Nevis",
-            "Saint Lucia",
-            "Saint Vincent and the Grenadines",
-            "Samoa",
-            "San Marino",
-            "Sao Tome and Principe",
-            "Saudi Arabia",
-            "Senegal",
-            "Serbia",
-            "Seychelles",
-            "Sierra Leone",
-            "Singapore",
-            "Slovakia",
-            "Slovenia",
-            "Solomon Islands",
-            "Somalia",
-            "South Africa",
-            "South Korea",
-            "South Sudan",
-            "Spain",
-            "Sri Lanka",
-            "Sudan",
-            "Suriname",
-            "Sweden",
-            "Switzerland",
-            "Syria",
-            "Tajikistan",
-            "Tanzania",
-            "Thailand",
-            "Timor-Leste",
-            "Togo",
-            "Tonga",
-            "Trinidad and Tobago",
-            "Tunisia",
-            "Turkey",
-            "Turkmenistan",
-            "Tuvalu",
-            "Uganda",
-            "Ukraine",
-            "United Arab Emirates",
-            "United Kingdom",
-            "United States of America",
-            "Uruguay",
-            "Uzbekistan",
-            "Vanuatu",
-            "Vatican City",
-            "Venezuela",
-            "Vietnam",
-            "Yemen",
-            "Zambia",
-            "Zimbabwe"
-          ]
-        },
-        {
-          "accessor": "adresse",
-          "label": "Adresse",
-          "type": "text",
-          "required": true
-        },
-        {
-          "accessor": "mail",
-          "label": "Email",
+          "accessor": "email",
+          "label": "البريد الإلكتروني",
           "type": "email",
+          "required": false
+        },
+        {
+          "accessor": "service",
+          "label": "الخدمة",
+          "type": "text",
           "required": true
         },
         {
-          "accessor": "num",
-          "label": "Téléphone",
-          "type": "number",
+          "accessor": "message",
+          "label": "الرسالة",
+          "type": "text",
+          "required": false
+        },
+        {
+          "accessor": "address",
+          "label": "العنوان",
+          "type": "text",
           "required": true
         },
         {
-          "accessor": "productId",
-          "label": "Produit",
-          "type": "select",
-          "required": true,
-          "options": []
+          "accessor": "date",
+          "label": "تاريخ الحجز",
+          "type": "date",
+          "required": false
         },
         {
-          "accessor": "emballage",
-          "label": "Emballage",
-          "type": "select",
-          "required": true
-        },
-        {
-          "accessor": "quantite",
-          "label": "quantite",
-          "type": "number",
-          "required": true
+          "accessor": "time",
+          "label": "الوقت",
+          "type": "text",
+          "required": false
         }
       ],
-      "AddButton": "Confirm",
-      "Title": "Order Now"
+      "AddButton": "تأكيد",
+      "Title": "أرسل طلبك"
     },
     "ViewModel": {
-      "title": "Détails de la Commande",
+      "title": "تفاصيل الطلب",
       "DontDisplayField": ""
     },
     "StatsModel": {
-      "title": "Statistiques des Commandes",
-      "totalClientsTitle": "Total des Commandes",
+      "title": "إحصائيات الطلبيات",
+      "totalClientsTitle": "مجموع الطلبيات",
       "plan": {
-        "title": "Commandes par Mois"
+        "title": "الطلبيات حسب الشهر"
       }
     }
   },
 
   "Labels": {
-    "Add": "Add",
-    "Update": "Update",
-    "Delete": "Delete",
-    "View": "View",
-    "Edit": "Edit",
-    "Save": "Save",
-    "Valider": "Valider",
-    "rejeter": "rejeter ",
-    "Cancel": "Cancel",
-    "Close": "Close",
-    "Stats": "Stats",
-    "Export": "Export",
-    "Import": "Import",
-    "Refresh": "Refresh",
-    "Print": "Print",
-    "Submit": "Submit",
-    "Reset": "Reset",
-    "Filter": "Filter",
-    "Search": "Search",
-    "Download": "Download",
-    "pickdata": "Pick date",
-    "CodeBar": "Barcode",
-    "Generate": " Generate",
-    "Next": "Next",
-    "View": "View",
-    "Actions": "Actions",
-    "ClickToPrint": "Click to print",
-    "MAD": "DA",
-    "Re_vérifier": "Re_vérifier",
-    "Waiting": "wating..",
-    "Verified": "Validés",
-    "Tous": "Tous",
-    "logout": "logout",
+    "Add": "إضافة",
+    "Update": "تحديث",
+    "Delete": "حذف",
+    "View": "عرض",
+    "Edit": "تعديل",
+    "Save": "حفظ",
+    "Valider": "تأكيد",
+    "rejeter": "رفض",
+    "Cancel": "إلغاء",
+    "Close": "إغلاق",
+    "Stats": "إحصائيات",
+    "Export": "تصدير",
+    "Import": "استيراد",
+    "Refresh": "تحديث",
+    "Print": "طباعة",
+    "Submit": "إرسال",
+    "Reset": "إعادة تعيين",
+    "Filter": "تصفية",
+    "Search": "بحث",
+    "Download": "تنزيل",
+    "pickdata": "اختر التاريخ",
+    "CodeBar": "رمز شريطي",
+    "Generate": "توليد",
+    "Next": "التالي",
+    "View": "عرض",
+    "Actions": "إجراءات",
+    "ClickToPrint": "اضغط للطباعة",
+    "MAD": "د.ج",
+    "Re_vérifier": "إعادة التحقق",
+    "Waiting": "بانتظار..",
+    "Rejected": "مرفوض",
+    "Verified": "تم التحقق",
+    "Tous": "الكل",
+    "logout": "تسجيل الخروج",
     "mounts": [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
+      "جانفي",
+      "فيفري",
+      "مارس",
+      "أفريل",
+      "ماي",
+      "جوان",
+      "جويلية",
+      "أوت",
+      "سبتمبر",
+      "أكتوبر",
+      "نوفمبر",
+      "ديسمبر"
     ]
   }
 }

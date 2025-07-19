@@ -18,22 +18,22 @@ import Swal from "sweetalert2";
 
 import Progression from "@/app/component/Proogression/page";
 
-export default function Header() {
+export default function Header({ select }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(false);
-
+  const [selectPage, setPage] = useState("الرئيسية");
   const siteTitle = "السباك العصري";
 
   const navLinks = [
-    { label: "الرئيسية", href: "/ar", highlight: true },
-    { label: "الخدمات", href: "/services" },
-    { label: "اتصل بنا", href: "/contact" },
+    { label: "الرئيسية", href: "" },
+    { label: "الخدمات", href: "" },
+    { label: "اتصل بنا", href: "" },
   ];
 
   const adminButton = {
     label: "لوحة الإدارة",
-    href: "/admin",
+    href: "/DashBoard",
   };
   const loginButton = {
     label: "تسجيل الدخول",
@@ -79,7 +79,7 @@ export default function Header() {
       {isLoading && <Progression isVisible={true} />}
 
       <header
-        className={`overflow-x-hidden ${colors.background} ${colors.text} py-4 px-4 md:px-6 shadow-md`}
+        className={` overflow-x-hidden ${colors.background} ${colors.text} py-4 px-4 md:px-6 shadow-md`}
       >
         <div className="container mx-auto flex items-center justify-between">
           {/* 🧱 Site Logo */}
@@ -97,20 +97,27 @@ export default function Header() {
           {/* 🧭 Navigation - Desktop Only */}
           <nav className="hidden lg:flex items-center gap-6">
             {navLinks.map((link, i) => (
-              <Link key={i} href={link.href}>
+              <button
+                key={i}
+                onClick={() => {
+                  select(link.label);
+                }}
+              >
                 <span
                   className={`p-2 rounded-3xl font-semibold transition ${
-                    link.highlight ? colors.highlight : "hover:scale-110"
+                    link.label === selectPage
+                      ? colors.highlight
+                      : "hover:scale-110"
                   }`}
                 >
                   {link.label}
                 </span>
-              </Link>
+              </button>
             ))}
           </nav>
 
           {/* 🧮 Admin Button - Desktop */}
-          <div>
+          <div className="hidden lg:block">
             {session ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -148,7 +155,12 @@ export default function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link href={loginButton.href}>
+              <Link
+                onClick={() => {
+                  setIsLoading(true);
+                }}
+                href={loginButton.href}
+              >
                 <Button
                   className={`${colors.button} font-semibold hidden lg:inline-flex`}
                 >

@@ -1,52 +1,41 @@
 "use client";
 
-import * as React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Swal from "sweetalert2";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-import { useSession, signOut, signIn } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import Progression from "@/app/component/Proogression/page";
 
-const TEXTS = {
-  brandName: "Ski agrotour luxe",
-  navItems: [
-    { label: "Products", href: "/admin/products" },
-    { label: "Commandes", href: "/admin/commande" },
-    { label: "Farms", href: "/admin/farms" },
-    { label: "Paramètre", href: "/admin/parametre" },
-  ],
-  login: "Login",
-  logout: "Logout",
-};
-
-export default function AppNavbar({ onNavChange, currentPage }) {
-  const [open, setOpen] = React.useState(false);
+export default function NavbarAdmin({ onNavChange, currentPage }) {
+  const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { data: session, status } = useSession();
-  const [isLoading, setIsLoading] = React.useState(false);
-
   const router = useRouter();
+  const siteTitle = "السباك العصري";
+
+  const navItems = [
+    { label: "الطلبيات", value: "Commandes" },
+    { label: "الخدمات", value: "Products" },
+    { label: "العملاء", value: "Clients" },
+    { label: "الإعدادات", value: "Paramètre" },
+  ];
 
   const handleLogout = () => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You will be logged out.",
+      title: "هل تريد تسجيل الخروج؟",
       icon: "warning",
       showCancelButton: true,
+      confirmButtonText: "نعم",
+      cancelButtonText: "إلغاء",
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, logout",
     }).then((result) => {
       if (result.isConfirmed) {
         setIsLoading(true);
-
         signOut({ callbackUrl: "/" });
       }
     });
@@ -55,77 +44,53 @@ export default function AppNavbar({ onNavChange, currentPage }) {
   return (
     <>
       {isLoading && <Progression isVisible={true} />}
-      <header className="bg-white text-black shadow-sm px-6 py-4 z-50 ">
-        <div className="flex items-center justify-between">
-          {/* Logo and Brand */}
+      <header className="bg-orange-600 shadow px-6 py-4 text-white">
+        <div className="flex justify-between items-center">
+          {/* Logo + Brand */}
           <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-bold tracking-wide">{siteTitle}</h1>
             <Image
               src="/images/logo.png"
-              alt="ACME Logo"
-              width={42}
-              height={42}
-              className="bg-black rounded-lg shadow-md"
+              alt="Logo"
+              width={60}
+              height={40}
+              className=" rounded-4xl mr-2 lg:scale-140"
             />
-            <span className="text-lg font-bold">{TEXTS.brandName}</span>
           </div>
 
           {/* Desktop Nav */}
-          <NavigationMenu className="hidden sm:flex">
-            <NavigationMenuList className="flex gap-4">
-              <button
-                key="HOME"
-                type="button"
-                onClick={() => {
-                  setIsLoading(true);
-                  router.push("/"); // 👉 Smooth Next.js navigation to racine
-                }}
-                className={
-                  "text-sm font-medium transition text-black bg-transparent"
-                }
-              >
-                Home
-              </button>
-              {TEXTS.navItems.map((item) => (
-                <NavigationMenuItem key={item.label}>
-                  <button
-                    type="button"
-                    onClick={() => onNavChange(item.label)}
-                    className={`text-sm font-medium ${
-                      currentPage === item.label
-                        ? "text-white bg-black font-bold  rounded-2xl w-24 h-9"
-                        : "text-black"
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
-
-          {/* Desktop Login/Logout */}
-          <div className="hidden sm:block">
-            {status === "loading" ? (
-              <div className="w-24 h-8 bg-gray-200 rounded animate-pulse" />
-            ) : session ? (
+          <nav className="hidden sm:flex items-center gap-4">
+            {navItems.map((item) => (
               <Button
-                onClick={handleLogout}
-                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                key={item.value}
+                variant={currentPage === item.value ? "default" : "ghost"}
+                onClick={() => onNavChange(item.value)}
+                className={`rounded-full ${
+                  currentPage === item.value
+                    ? "bg-white text-orange-600 font-bold"
+                    : "text-white hover:bg-orange-700"
+                }`}
               >
-                {TEXTS.logout}
+                {item.label}
               </Button>
+            ))}
+          </nav>
+          <div>
+            {status === "loading" ? (
+              <div className="w-24 h-8 bg-orange-300 animate-pulse rounded" />
             ) : (
               <Button
-                asChild
-                variant="default"
-                className="bg-black hover:bg-gray-700"
+                variant="destructive"
+                onClick={handleLogout}
+                className="ml-4 bg-white text-red-600 hover:bg-red-100"
               >
-                <Link href="/Login">{TEXTS.login}</Link>
+                تسجيل الخروج
               </Button>
             )}
           </div>
+          {/* Mobile Menu... remains unchanged */}
 
-          {/* Mobile Menu Trigger */}
+          {/* Mobile Menu */}
           <div className="sm:hidden">
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
@@ -134,56 +99,38 @@ export default function AppNavbar({ onNavChange, currentPage }) {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-[70%] p-6">
-                <div className="flex flex-col gap-6">
-                  <button
-                    key="HOME"
-                    type="button"
-                    onClick={() => {
-                      setIsLoading(true);
-                      router.push("/"); // 👉 Smooth Next.js navigation to racine
-                    }}
-                    className={
-                      "text-sm font-medium transition text-black bg-transparent"
-                    }
-                  >
-                    Home
-                  </button>
-                  {TEXTS.navItems.map((item) => (
-                    <button
-                      key={item.label}
-                      type="button"
+                <div className="flex flex-col gap-4">
+                  {navItems.map((item) => (
+                    <Button
+                      key={item.value}
+                      variant={currentPage === item.value ? "default" : "ghost"}
                       onClick={() => {
-                        onNavChange(item.label);
+                        onNavChange(item.value);
                         setOpen(false);
                       }}
-                      className={`text-sm font-medium transition ${
-                        currentPage === item.label
-                          ? "text-white bg-black font-bold rounded-2xl p-2 h-9"
-                          : "text-black bg-transparent"
-                      }`}
                     >
                       {item.label}
-                    </button>
+                    </Button>
                   ))}
+
                   {session ? (
                     <Button
+                      variant="destructive"
                       onClick={() => {
-                        setIsLoading(true);
-
                         setOpen(false);
                         handleLogout();
                       }}
-                      className="w-full bg-red-600 hover:bg-red-700 mt-4 text-white"
+                      className="mt-4"
                     >
-                      {TEXTS.logout}
+                      تسجيل الخروج
                     </Button>
                   ) : (
                     <Button
                       asChild
-                      className="w-full bg-black hover:bg-gray-700 mt-4"
                       onClick={() => setOpen(false)}
+                      className="bg-orange-600 text-white mt-4"
                     >
-                      <Link href="/Login">{TEXTS.login}</Link>
+                      <Link href="/Login">تسجيل الدخول</Link>
                     </Button>
                   )}
                 </div>

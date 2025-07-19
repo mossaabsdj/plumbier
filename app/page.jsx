@@ -10,19 +10,23 @@ import ServicesPage from "./component/Home/services/page";
 import { motion } from "framer-motion";
 
 export default function Home() {
-  const [selectedFarm, setSelectedFarm] = useState("Home");
+  const [selectedPage, setselectedPage] = useState("Home");
   const [displayFarm, setDisplayFarm] = useState(false);
   const [dashBoard, setDashBoard] = useState(false);
 
   const refCommande = useRef(null);
-  const refDiscoverPage = useRef(null);
+  const refFooter = useRef(null);
+  const refServicespage = useRef(null);
 
-  const scrollOrder = () => {
+  const scrollCommande = () => {
     refCommande.current?.scrollIntoView({ behavior: "smooth" });
   };
+  const scrollFooter = () => {
+    refFooter.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
-  const scrollDiscoverPage = () => {
-    refDiscoverPage.current?.scrollIntoView({ behavior: "smooth" });
+  const scrolServicesPage = () => {
+    refServicespage.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const scrollToTop = () => {
@@ -30,51 +34,47 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (selectedFarm) {
-      handleSelection(selectedFarm);
+    if (selectedPage === "الخدمات") {
+      scrolServicesPage();
+      setselectedPage("الرئيسية");
+    } else if (selectedPage === "اتصل بنا") {
+      scrollFooter();
+      setselectedPage("الرئيسية");
+    } else if (selectedPage === "Form") {
+      scrollCommande();
+      setselectedPage("الرئيسية");
     }
-  }, [selectedFarm]);
-
-  const handleSelection = (farm) => {
-    if (farm === "order") {
-      scrollOrder();
-    } else {
-      scrollToTop();
-    }
-  };
+  }, [selectedPage]);
 
   return (
     <>
       {!dashBoard && (
         <>
-          <Header
-            select={setSelectedFarm}
-            selected_from_DescoverPage={selectedFarm}
-          />
+          <Header select={setselectedPage} />
 
-          {!displayFarm && (
-            <>
-              <FirstPage scroleDiscover={scrollDiscoverPage} />
+          <>
+            <FirstPage Select={setselectedPage} />
 
-              <div ref={refDiscoverPage}>
-                <ServicesPage />
+            <div ref={refServicespage}>
+              <ServicesPage />
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 100 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 100 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: false, amount: 0.3 }}
+            >
+              <div ref={refCommande} className="p-10">
+                <Commande />
               </div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 100 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 100 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: false, amount: 0.3 }}
-              >
-                <div ref={refCommande} className="p-10">
-                  <Commande data={objects.Commande} />
-                </div>
-              </motion.div>
-            </>
-          )}
-
-          <Footer />
+            </motion.div>
+          </>
+          <div ref={refFooter}>
+            {" "}
+            <Footer />
+          </div>
         </>
       )}
     </>

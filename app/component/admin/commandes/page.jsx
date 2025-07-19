@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Table from "@/app/component/Table_Com/table";
 import objects from "@/app/Texts/content.json";
 import addmodal from "@/app/component/admin/commandes/AddCommande/modal";
-import Viewmodal from "@/app/component/admin/commandes/ViewCommande/page";
 import { fetchData } from "@/lib/FetchData/page";
 import LoadingPage from "@/app/component/loading/page";
 
@@ -31,12 +30,7 @@ export default function ProductTable() {
     <>
       {isloading && <LoadingPage isVisible={true} />}
 
-      <Table
-        objects={object}
-        data={data}
-        ViewModel={Viewmodal}
-        AddModel={addmodal}
-      />
+      <Table objects={object} data={data} AddModel={addmodal} />
     </>
   );
 }

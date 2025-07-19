@@ -5,7 +5,7 @@ import Loadingpage from "@/app/component/Proogression/page";
 
 export default function PlumberServiceForm() {
   const formTexts = {
-    title: "نموذج طلب خدمة سباكة",
+    title: "طلب خدمة سباكة",
     submitButton: "إرسال الطلب",
     fields: {
       name: { label: "الاسم الكامل", placeholder: "مثال: محمد أحمد" },
@@ -108,7 +108,7 @@ export default function PlumberServiceForm() {
   return (
     <>
       <Loadingpage isVisible={loading} />
-      <div dir="rtl" className="min-h-screen bg-white py-10 px-4">
+      <div dir="rtl" className="min-h-screen bg-white py-25 px-4">
         <h2 className="text-4xl font-bold text-orange-600 mb-10 text-center">
           {formTexts.title}
         </h2>
