@@ -5,7 +5,7 @@ import { Facebook, Instagram, Twitter, Mail, Phone } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-orange-600 text-white py-10 mt-16">
+    <footer className="bg-orange-600 text-white py-10 mt-1">
       <div className="container mx-auto px-6 md:px-10 flex flex-col md:flex-row justify-between items-center md:items-start gap-10">
         {/* 👨‍🔧 Brand Description */}
         <div className="text-center md:text-right md:w-1/3 space-y-2">

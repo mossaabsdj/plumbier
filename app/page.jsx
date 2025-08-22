@@ -7,7 +7,9 @@ import FirstPage from "@/app/component/Home/FirstPage/page";
 import Commande from "@/app/component/Home/AddCommande/modal";
 import objects from "@/app/Texts/content.json";
 import ServicesPage from "./component/Home/services/page";
+import ApkPage from "@/app/component/apk/page";
 import { motion } from "framer-motion";
+import CheckOrder from "@/app/component/CheckOrder/page";
 import ChatPage from "./component/Home/Chat/page";
 export default function Home() {
   const [selectedPage, setselectedPage] = useState("Home");
@@ -53,6 +55,7 @@ export default function Home() {
           <Header select={setselectedPage} />
 
           <>
+            <ApkPage />
             <FirstPage Select={setselectedPage} />
 
             <div ref={refServicespage}>
@@ -72,8 +75,8 @@ export default function Home() {
               </div>
             </motion.div>
           </>
+          <CheckOrder />
           <div ref={refFooter}>
-            {" "}
             <Footer />
           </div>
         </>
