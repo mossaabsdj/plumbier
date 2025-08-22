@@ -4,8 +4,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import AppMobile from "@/public/images/mobile.jpg"; // Mobile screenshot
 import AppTablet from "@/public/images/mobile.jpg"; // Tablet screenshot
-import GooglePlayBadge from "@/public/images/Logo.png"; // Example badge
-import AppStoreBadge from "@/public/images/Logo.png"; // Example badge
 
 export default function PlumberLanding() {
   return (
