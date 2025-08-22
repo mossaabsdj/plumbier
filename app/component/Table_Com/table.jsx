@@ -47,7 +47,7 @@ const Page = ({ objects, data, AddModel }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDate, setSelectedDate] = useState();
   const [sortConfig, setSortConfig] = useState({
-    key: "Date",
+    key: "createdAt",
     direction: "desc",
   });
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -340,8 +340,14 @@ const Page = ({ objects, data, AddModel }) => {
                           key={col.accessor}
                           className="px-3 py-2 align-middle"
                         >
-                          {col.accessor.toLowerCase().includes("date") ? (
-                            format(new Date(row[col.accessor]), "yyyy-MM-dd")
+                          {col.accessor.toLowerCase().includes("date") ||
+                          col.accessor === "createdAt" ? (
+                            row[col.accessor] &&
+                            row[col.accessor].trim() !== "" ? (
+                              format(new Date(row[col.accessor]), "yyyy-MM-dd")
+                            ) : (
+                              "-"
+                            )
                           ) : col.accessor === "status" ? (
                             <span
                               className={`font-semibold ${

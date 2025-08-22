@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation"; // at the top
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,8 @@ export default function Header({ select }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
   const [selectPage, setPage] = useState("الرئيسية");
   const siteTitle = "السباك العصري";
 
@@ -135,7 +138,10 @@ export default function Header({ select }) {
                 >
                   <DropdownMenuItem
                     onClick={() => {
-                      setIsLoading(true); // Start loading
+                      setIsLoading(true);
+                      router.push("/DashBoard"); // navigate to dashboard
+
+                      // Start loading
                     }}
                     className="flex items-center gap-2 text-black font-medium hover:bg-gray-100 px-3 py-2 rounded-lg cursor-pointer"
                   >

@@ -16,7 +16,7 @@ export async function POST(req) {
       service: data.service,
       message: data.message || null,
       address: data.address,
-      date: data.date ? new Date(data.date) : null,
+      date: data.date && data.date.trim() !== "" ? new Date(data.date) : null,
       time: data.time || null,
     },
   });

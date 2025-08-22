@@ -78,7 +78,7 @@ export default function PlumberLandingPage({ Select }) {
           <motion.div
             animate={{ y: [0, -20, 0] }} // 👈 Up and down animation
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute z-5 top-[20%] right-[15%]  sm:top-[20%] sm:left-[10%]"
+            className="absolute z-5 top-[20%] right-[0%]  sm:top-[20%] sm:right-[18%]"
           >
             <Image
               src="/images/logo.png"

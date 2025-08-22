@@ -8,7 +8,7 @@ import Commande from "@/app/component/Home/AddCommande/modal";
 import objects from "@/app/Texts/content.json";
 import ServicesPage from "./component/Home/services/page";
 import { motion } from "framer-motion";
-
+import ChatPage from "./component/Home/Chat/page";
 export default function Home() {
   const [selectedPage, setselectedPage] = useState("Home");
   const [displayFarm, setDisplayFarm] = useState(false);
@@ -59,6 +59,7 @@ export default function Home() {
               <ServicesPage />
             </div>
 
+            <div>{/*<ChatPage />*/}</div>
             <motion.div
               initial={{ opacity: 0, y: 100 }}
               whileInView={{ opacity: 1, y: 0 }}
