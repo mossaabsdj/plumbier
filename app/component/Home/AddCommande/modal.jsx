@@ -201,44 +201,55 @@ export default function PlumberServiceForm() {
             onChange={handleChange}
             required
           />
-          <FormInput
-            {...formTexts.fields.date}
-            name="date"
-            type="date"
-            value={form.date}
-            onChange={handleChange}
-          />
-          <FormInput
-            {...formTexts.fields.time}
-            name="time"
-            type="time"
-            value={form.time}
-            onChange={handleChange}
-          />
 
           <FormSelect
             name="service"
             label={formTexts.fields.service.label}
             options={[
               { value: "", label: "اختر نوع الخدمة" },
+
+              // 🔹 خدمات التركيب
               {
-                value: "leak-detection",
-                label: "كشف تسربات المياه بدون تكسير",
+                value: "تركيب-انابيب-المياه",
+                label: "تركيب وتمديد أنابيب المياه",
               },
               {
-                value: "heater-installation",
-                label: "تركيب سخانات مياه (كهربائية أو غازية)",
+                value: "تركيب-انابيب-الغاز-النحاسية",
+                label: "تركيب أنابيب الغاز النحاسية للمنازل",
               },
               {
-                value: "pipe-repair",
-                label: "إصلاح الأنابيب المتضررة أو المسدودة",
+                value: "تركيب-التدفئة-المركزية",
+                label: "تركيب أنظمة التدفئة المركزية",
+              },
+              {
+                value: "تركيب-سخانات-المياه",
+                label: "تركيب سخانات المياه (كهربائية أو غازية)",
               },
 
+              { value: "تركيب-مضخات-المياه", label: "تركيب مضخات المياه" },
+              { value: "تركيب-فلاتر-المياه", label: "تركيب فلاتر المياه" },
+              { value: "تركيب-خزانات-المياه", label: "تركيب خزانات المياه" },
+              { value: "تركيب-المطبخ", label: "تركيب أجهزة المطبخ والحنفيات" },
+              { value: "تركيب-الدش", label: "تركيب الدش" },
               {
-                value: "kitchen-installation",
-                label: "تركيب أجهزة المطبخ والصنابير",
+                value: "تركيب-مغاسل-واحواض",
+                label: "تركيب مغاسل وأحواض الاستحمام",
               },
-              { value: "general-maintenance", label: "صيانة دورية للسباكة" },
+
+              // 🔹 خدمات الإصلاح والصيانة
+              {
+                value: "إصلاح-الأنابيب",
+                label: "إصلاح الأنابيب المتضررة أو المسدودة",
+              },
+              { value: "إصلاح-الحنفيات", label: "إصلاح أو تغيير الحنفيات" },
+
+              {
+                value: "كشف-تسربات-المياه",
+                label: "كشف تسربات المياه",
+              },
+              { value: "تنظيف-الخزانات", label: "تنظيف وصيانة خزانات المياه" },
+              { value: "صيانة-دورية", label: "صيانة دورية للسباكة" },
+              { value: "خدمات-طارئة", label: "خدمات سباكة طارئة" },
             ]}
             value={form.service}
             onChange={handleChange}
@@ -252,6 +263,20 @@ export default function PlumberServiceForm() {
             value={form.message}
             onChange={handleChange}
             className="md:col-span-2"
+          />
+          <FormInput
+            {...formTexts.fields.date}
+            name="date"
+            type="date"
+            value={form.date}
+            onChange={handleChange}
+          />
+          <FormInput
+            {...formTexts.fields.time}
+            name="time"
+            type="time"
+            value={form.time}
+            onChange={handleChange}
           />
 
           {/* Progress Indicator */}
