@@ -3,24 +3,24 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 const services = [
   {
-    title: "كشف التسربات",
-    description: "نقوم بالكشف عن تسربات المياه باستخدام أجهزة دقيقة دون تكسير.",
+    title: " كشف تسربات انابيب الغاز",
+    description: "نقوم بالكشف عن تسربات الفاز.",
     image: "/service01.jpg",
   },
   {
-    title: "كشف التسربات",
+    title: "كشف تسربات انابيب الماء",
     description: "نقوم بالكشف عن تسربات المياه باستخدام أجهزة دقيقة دون تكسير.",
-    image: "/service01.jpg",
+    image: "/service02.jpg",
   },
   {
     title: "تركيب سخانات المياه",
     description: "تركيب جميع أنواع السخانات بكفاءة وأمان، مع ضمان الأداء.",
-    image: "/service01.jpg",
+    image: "/service03.jpg",
   },
   {
-    title: "تنظيف المجاري",
-    description: "نقوم بتنظيف المجاري والصرف الصحي باستخدام معدات حديثة.",
-    image: "/service01.jpg",
+    title: "تركيب أنابيب الغاز المنزلية بالنحاس",
+    description: "تركيب أنابيب الغاز المنزلية بالنحاس",
+    image: "/service04.jpg",
   },
 ];
 

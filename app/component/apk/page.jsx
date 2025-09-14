@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import AppMobile from "@/public/images/mobile.jpg"; // Mobile screenshot
-import AppTablet from "@/public/images/mobile.jpg"; // Tablet screenshot
+import AppMobile from "@/public/images/mobile.PNG"; // Mobile screenshot
+import AppTablet from "@/public/images/mobile.PNG"; // Tablet screenshot
 
 export default function PlumberLanding() {
   return (
@@ -39,8 +39,8 @@ export default function PlumberLanding() {
           <ul className="text-white list-disc list-inside space-y-1 drop-shadow-md">
             <li>طلب خدمة سباكة في دقائق</li>
             <li>تتبع حالة الطلب مباشرة</li>
-            <li>دفع إلكتروني آمن</li>
             <li>حل مشاكل السباكة فوراً</li>
+            <li>متوفر على جميع أجهزة الأندرويد</li>
           </ul>
 
           {/* Download badges */}
@@ -68,9 +68,9 @@ export default function PlumberLanding() {
             <Image
               src={AppMobile}
               alt="تطبيق السباك - موبايل"
-              width={200}
+              width={400}
               height={400}
-              className="rounded-xl shadow-2xl"
+              className="rounded-xl "
             />
           </div>
           {/* Tablet/Desktop */}
@@ -78,9 +78,9 @@ export default function PlumberLanding() {
             <Image
               src={AppTablet}
               alt="تطبيق السباك - تابلت"
-              width={300}
+              width={400}
               height={600}
-              className="rounded-xl shadow-2xl"
+              className="rounded-xl l"
             />
           </div>
         </motion.div>

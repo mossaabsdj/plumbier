@@ -233,16 +233,12 @@ export default function PlumberServiceForm() {
                 value: "pipe-repair",
                 label: "إصلاح الأنابيب المتضررة أو المسدودة",
               },
-              {
-                value: "bathroom-installation",
-                label: "تركيب الحمامات والمراحيض",
-              },
+
               {
                 value: "kitchen-installation",
                 label: "تركيب أجهزة المطبخ والصنابير",
               },
               { value: "general-maintenance", label: "صيانة دورية للسباكة" },
-              { value: "emergency", label: "تدخل طارئ (انفجار، تسرب كبير)" },
             ]}
             value={form.service}
             onChange={handleChange}

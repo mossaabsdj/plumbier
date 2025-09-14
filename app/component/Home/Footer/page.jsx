@@ -31,7 +31,7 @@ export default function Footer() {
         {/* 📱 Social & Contact Icons */}
         <div className="flex md:w-1/3 justify-center md:justify-end items-center gap-5">
           <a
-            href="https://facebook.com"
+            href="https://web.facebook.com/yacine.saad.djaballh.2025"
             target="_blank"
             className="hover:text-orange-200"
           >
@@ -44,13 +44,10 @@ export default function Footer() {
           >
             <Instagram className="w-5 h-5 sm:w-6 sm:h-6" />
           </a>
-          <a
-            href="mailto:plumber@example.com"
-            className="hover:text-orange-200"
-          >
+          <a href="mailto:plumber@gmail.com" className="hover:text-orange-200">
             <Mail className="w-5 h-5 sm:w-6 sm:h-6" />
           </a>
-          <a href="tel:+213123456789" className="hover:text-orange-200">
+          <a href="tel:+213542924995" className="hover:text-orange-200">
             <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
           </a>
         </div>
